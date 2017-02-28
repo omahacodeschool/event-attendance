@@ -12,8 +12,9 @@ get ("/eventlist") {
 	return event.all.to_json
 }
 
-
 get "/event" do
+	event = Event.new
+	@info = event.eventById(params["id"]).to_h
 	erb :event
 end
 

@@ -8,4 +8,9 @@ class Event
     database.all("events")
   end
 
+  def eventById(id)
+  	database = Database.new
+  	database.getRowById("events", id)
+  end
+
 end

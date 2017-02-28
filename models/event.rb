@@ -1,6 +1,6 @@
 class Event
   def getEventInfoList
     database = Database.new
-    database.all_events
+    database.all("events")
   end
 end

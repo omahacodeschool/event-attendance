@@ -1,10 +1,10 @@
 class Database
-  def all_events
-    eventList = []
-    CSV.foreach("events.csv", {headers: true, return_headers: false}) do |row|
-      eventList.push(row.to_hash)
+  def all(table)
+    list = []
+    CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
+      list.push(row.to_hash)
     end
-    jsonEventList = eventList.to_json
-    return jsonEventList
+    jsonList = list.to_json
+    return jsonList
   end
 end

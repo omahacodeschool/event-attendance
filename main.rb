@@ -5,10 +5,20 @@ require 'json'
 require_relative "functions.rb"
 
 
+
 get ("/eventlist") {
 	jsonEventList = getEventInfoList()
 	return jsonEventList
 }
-get ("/") {
+
+
+get "/event" do
+	erb :event
+end
+
+
+get "/"  do 
 	erb :index
-}
+end
+
+

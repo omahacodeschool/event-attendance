@@ -1,5 +1,4 @@
 window.addEventListener("load", function (){
-
 	var ourRequest = new XMLHttpRequest();
 	ourRequest.open('GET', "/eventlist", true);
 	ourRequest.onload = addEvents;
@@ -10,30 +9,35 @@ window.addEventListener("load", function (){
 		data = JSON.parse(result);
 		createHTML(data);		
 	};
-	function determineWeekday(date) {
-		var d = new Date();
-		dateArray = date.split("-");
-		d.setFullYear(dateArray[0], dateArray[1], dateArray[2]);
-		// var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-		return d.getDay();
-	};
-	
-	weekday = determineWeekday(date);
 
 	function createHTML(data){
 		htmlToInsert = "";
-		for (var i=0;i<data.length;i++) {
-			time = data[i]['time'];
-			groupName = data[i]['group'];
-			eventName = data[i]['title'];
-			htmlToInsert += "<p>"+time;
-			htmlToInsert += " - " + groupName;
-			htmlToInsert += " <a href='#'>"+eventName+"</a></p>";
-		}
-		document.getElementsByTagName("body")[0].innerHTML = htmlToInsert;
+		weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+		createHTMLForEachWeekday(data);
+		document.getElementsByClassName("events")[0].insertAdjacentHTML('beforeend',htmlToInsert);
 	}
 
+	function createHTMLForEachWeekday(data) {
+		for (var i=0;i<weekdays.length;i++) {
+			if (data[weekdays[i]]){
+				htmlToInsert += "<div class='event-item'>";
+				htmlToInsert += "<h2>" + weekdays[i] + "</h2><ul>";
+				createHTMLForEachEvent(data[weekdays[i]])
+				htmlToInsert += "</ul></div>";
+			}
+		}
+	}
 
+	function createHTMLForEachEvent(daysEvents) {
+		for (var j=0; j<daysEvents.length;j++) {
+			htmlToInsert += "<li>";
+			htmlToInsert += daysEvents[j]["time"] + " - ";
+			htmlToInsert += daysEvents[j]["group"] + " - ";
+			htmlToInsert += "<a href='/event?id=" + daysEvents[j]["id"] + "'>"
+			htmlToInsert += daysEvents[j]["title"]
+			htmlToInsert += "</a></li>";
+		}
+	}
 
 
 });

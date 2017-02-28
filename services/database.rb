@@ -13,6 +13,13 @@ class Database
     return list
   end
 
+
+  # Get one week of events.
+  # 
+  # table - Table name String.
+  # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
+  # 
+  # Returns Array of row Hashes in the week of interest
   def week(table,mondayDate)
     list = []
     CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|

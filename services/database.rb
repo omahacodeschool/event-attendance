@@ -19,7 +19,7 @@ class Database
         return row
       end
     end
-    return "not found"
+    return {"title" => "not found"}
   end
 
 end

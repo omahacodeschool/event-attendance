@@ -2,13 +2,11 @@ window.addEventListener("load", function (){
 
 	var ourRequest = new XMLHttpRequest();
 	ourRequest.open('GET', "/eventlist", true);
-	ourRequest.onload = function() {
-		var result = ourRequest.responseText;
-		addEvents(result);
-	};
+	ourRequest.onload = addEvents;
 	ourRequest.send();
 
-	function addEvents(result) {
+	function addEvents(event) {
+		var result = event.target.responseText;
 		data = JSON.parse(result);
 		createHTML(data);		
 	}

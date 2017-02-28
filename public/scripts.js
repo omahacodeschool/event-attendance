@@ -9,7 +9,16 @@ window.addEventListener("load", function (){
 		var result = event.target.responseText;
 		data = JSON.parse(result);
 		createHTML(data);		
-	}
+	};
+	function determineWeekday(date) {
+		var d = new Date();
+		dateArray = date.split("-");
+		d.setFullYear(dateArray[0], dateArray[1], dateArray[2]);
+		// var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+		return d.getDay();
+	};
+	
+	weekday = determineWeekday(date);
 
 	function createHTML(data){
 		htmlToInsert = "";
@@ -23,4 +32,8 @@ window.addEventListener("load", function (){
 		}
 		document.getElementsByTagName("body")[0].innerHTML = htmlToInsert;
 	}
+
+
+
+
 });

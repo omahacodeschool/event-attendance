@@ -1,6 +1,6 @@
 class Database
 
-  # Get al rows from a table.
+  # Get all rows from a table.
   # 
   # table - Table name String.
   # 
@@ -10,7 +10,21 @@ class Database
     CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
       list.push(row.to_hash)
     end
-
     return list
   end
+
+  def week(table,mondayDate)
+    list = []
+    CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
+        date = Date.parse(row["date"])
+        beginningDate = Date.parse(mondayDate)
+        endingDate = Date.parse(mondayDate) + 7
+        if date >= beginningDate && date < endingDate
+          list.push(row.to_hash)
+        end
+    end
+    return list
+  end
+
+
 end

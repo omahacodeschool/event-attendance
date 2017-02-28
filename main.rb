@@ -9,7 +9,8 @@ require_relative "models/event.rb"
 
 get ("/eventlist") {
   event = Event.new
-	return event.all.to_json
+  event.week("2017-02-27")
+  return 
 }
 
 

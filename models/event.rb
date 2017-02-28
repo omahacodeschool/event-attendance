@@ -8,26 +8,21 @@ class Event
     database.all("events")
   end
 
+
   def week(mondayDate)
   	database = Database.new
-    weekData = database.week("events",mondayDate)
-    weekData.sortByWeekday
-
-    end
-  end
-
-  def sortByWeekday
+    weekdata = database.week("events",mondayDate)
   	sortedEvents = {}
-  	weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-  	weekData.each do |row|
+  	weekdata.each do |row|
   		date = Date.parse(row["date"])
   		weekday = date.strftime("%A")
-  		if 
+  		if sortedEvents[weekday]
   			sortedEvents[weekday].push(row)
   		else
   			sortedEvents[weekday] = [row]
   		end
-
+  	end
+ 	return sortedEvents
   end
 
 end

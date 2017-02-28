@@ -25,7 +25,9 @@ window.addEventListener("load", function (){
 	}
 });
 
-// This code will run if on an event page
+// Gets the first and last names of each RSVP by event
+// 
+// Returns a JSON object with list of rsvps
 if (body.hasClass("event_page")) {
 	  window.addEventListener("load", function (){
 
@@ -44,6 +46,11 @@ if (body.hasClass("event_page")) {
 		}
 	});
 
+	// Creates HMTL string
+	// 
+	// data - json object of rsvps
+	// 
+	// inserts said string
 	function createHTML(data){
 		htmlToInsert = "";
 		for (var i=0;i<data.length;i++) {

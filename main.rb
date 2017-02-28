@@ -6,8 +6,6 @@ require_relative "services/database.rb"
 require_relative "models/event.rb"
 require_relative "models/users.rb"
 
-
-
 get ("/eventlist") {
   event = Event.new
 	return event.all.to_json
@@ -20,7 +18,7 @@ get ("/userslist") {
 
 get "/event" do
 
-	erb :event
+	erb :even
 end
 
 

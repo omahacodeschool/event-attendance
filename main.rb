@@ -15,9 +15,7 @@ get ("/eventlist") {
 
 get ("/userslist") {
 	userList = AttendList.new
-	return userList.byId(1).to_json
-
-	erb :event
+	return userList.byId(params["id"]).to_json
 }
 
 get "/event" do

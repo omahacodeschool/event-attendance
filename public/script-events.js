@@ -1,10 +1,10 @@
 window.addEventListener("load", function (){
 
-	// var params = "eventId" = eventId
+	var params = "id" + eventId;
 	var ourRequest = new XMLHttpRequest();
 	ourRequest.open('GET', "/userslist", true);
 	ourRequest.onload = addRsvps;
-	ourRequest.send();
+	ourRequest.send(params);
 
 	function addRsvps(event) {
 		var result = event.target.responseText;

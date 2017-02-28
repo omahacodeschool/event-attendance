@@ -1,4 +1,3 @@
-
 .event_page h2 {
 	display: inline;
 }
@@ -7,6 +6,7 @@
 	justify-content: space-around;
 }
 .modal{
+	display: none;
 	position: fixed;
 	top: 0px;
 	left: 0px;

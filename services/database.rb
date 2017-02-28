@@ -10,7 +10,16 @@ class Database
     CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
       list.push(row.to_hash)
     end
-
     return list
   end
+
+  def getRowById(table, id)
+    CSV.foreach("#{table}.csv", {headers: true, return_headers:false}) do |row|
+      if row["id"] == id
+        return row
+      end
+    end
+    return "not found"
+  end
+
 end

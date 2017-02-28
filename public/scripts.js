@@ -51,5 +51,4 @@ window.addEventListener("load", function (){
 		}
 	}
 
-
 });

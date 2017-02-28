@@ -8,11 +8,22 @@ class Event
     database.all("events")
   end
 
+  def getDate(params)
+  	if params == true
+  	else
+  		# d = Date.now
+  		mondayDate = "2017-02-27"
+  	end
+  	binding.pry
+  	return mondayDate
+  end
+
   # Get one weeks events.
   # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
   # Returns the data as a hash of weekdays -> array of events
-  def week(mondayDate)
+  def week(params)
   	database = Database.new
+  	mondayDate = getDate(params)
     weekdata = database.week("events",mondayDate)
     sortEvents(weekdata)
   end

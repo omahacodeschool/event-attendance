@@ -2,6 +2,7 @@ require 'sinatra'
 require 'pry'
 require 'csv'
 require 'json'
+require_relative "services/database.rb"
 require_relative "models/event.rb"
 
 

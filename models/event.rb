@@ -1,5 +1,5 @@
 class Event
-  def getEventInfoList
+  def all
     database = Database.new
     database.all("events")
   end

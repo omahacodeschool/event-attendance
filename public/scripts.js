@@ -4,11 +4,11 @@ window.addEventListener("load", function (){
 	ourRequest.open('GET', "/eventlist", true);
 	ourRequest.onload = function() {
 		var result = ourRequest.responseText;
-		onloadfunction(result);
+		addEvents(result);
 	};
 	ourRequest.send();
 
-	function onloadfunction(result) {
+	function addEvents(result) {
 		data = JSON.parse(result);
 		createHTML(data);		
 	}

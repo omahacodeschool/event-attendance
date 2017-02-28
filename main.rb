@@ -9,3 +9,6 @@ get ("/eventlist") {
 	jsonEventList = getEventInfoList()
 	return jsonEventList
 }
+get ("/") {
+	erb :index
+}

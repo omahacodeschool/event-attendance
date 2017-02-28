@@ -9,8 +9,7 @@ require_relative "models/event.rb"
 
 get ("/eventlist") {
   event = Event.new
-	jsonEventList = event.all
-	return jsonEventList
+	return event.all.to_json
 }
 
 

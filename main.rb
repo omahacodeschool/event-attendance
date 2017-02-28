@@ -2,12 +2,13 @@ require 'sinatra'
 require 'pry'
 require 'csv'
 require 'json'
-require_relative "functions.rb"
+require_relative "models/event.rb"
 
 
 
 get ("/eventlist") {
-	jsonEventList = getEventInfoList()
+  event = Event.new
+	jsonEventList = event.getEventInfoList
 	return jsonEventList
 }
 

@@ -1,6 +1,6 @@
 class Database
 
-  # Get al rows from a table.
+  # Get all rows from a table.
   # 
   # table - Table name String.
   # 
@@ -13,6 +13,11 @@ class Database
     return list
   end
 
+  # Gets a single row from a table with an id.
+  #
+  # table - Table name string.
+  #
+  # Returns a csv::row or an error hash.
   def getRowById(table, id)
     CSV.foreach("#{table}.csv", {headers: true, return_headers:false}) do |row|
       if row["id"] == id

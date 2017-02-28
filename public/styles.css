@@ -1,0 +1,53 @@
+
+.page_body h2 {
+    display: inline;
+}
+.page_body{
+	display: flex;
+	justify-content: space-around;
+}
+.modal{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.42);
+}
+.modal_body{
+	background-color: white;
+	width: 50%;
+	margin: 150px auto;
+	text-align: center;
+	padding: 26px;
+}
+.exit{
+	position: absolute;
+}
+
+body {
+
+	font-family: 'Roboto', sans-serif;
+}
+
+.container {
+
+	display: flex;
+	justify-content: space-around;
+
+}
+
+.events-list {
+
+}
+
+h1 {
+
+	border-bottom: solid 1px ;
+	border-bottom-color: #EEEEEE;
+}
+h2 {
+
+	border-bottom: solid 1px ;
+	border-bottom-color: #EEEEEE;
+}

@@ -5,3 +5,21 @@
 	display: flex;
 	justify-content: space-around;
 }
+.modal{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.42);
+}
+.modal_body{
+	background-color: white;
+	width: 50%;
+	margin: 150px auto;
+	text-align: center;
+	padding: 26px;
+}
+.exit{
+	position: absolute;
+}

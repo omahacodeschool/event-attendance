@@ -61,5 +61,23 @@ class Database
     return list
   end
   
+ # array = ["1","Spencer",Gerdes]
+
+  def newRow(array)
+    
+    CSV.open("users.csv", "a") do |csv|
+      csv << ["1", "Allen", "Wipf"]
+    end
+  end
+
+
+
+
+
+
+
+
+
+
 end
 

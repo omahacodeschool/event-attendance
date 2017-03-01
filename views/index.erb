@@ -11,26 +11,26 @@
 <div class="page_body">	
 
 	<% if session[:validate] == true %>
-	<form class="loginForm" action="/logout" method="post">
-		<p class="welcome"> Welcome: <%= session["username"] %>
-		<button type="Submit" name="logout">Log Out</button></p>
-	</form>
+		<form class="loginForm" action="/logout" method="post">
+			<p class="welcome"> Welcome: <%= session["username"] %>
+			<button type="Submit" name="logout">Log Out</button></p>
+		</form>
 
-	<form class="admin-add-event loginForm">
-		<h2>Add Event</h2>
-			<input type="text" placeholder="group" name="group"><br>
-			<input type="text" placeholder="title" name="title"><br>
-			<input type="text" placeholder="date" name="date"><br>
-			<input type="text" placeholder="time" name="time"><br>
-			<input type="text" placeholder="location" name="location"><br>
-			<input type="text" placeholder="address" name="address"><br>
-			<input type="text" placeholder="link" name="link"><br>
+		<form class="admin-add-event loginForm">
+			<h2>Add Event</h2>
+				<input type="text" placeholder="group" name="group"><br>
+				<input type="text" placeholder="title" name="title"><br>
+				<input type="text" placeholder="date" name="date"><br>
+				<input type="text" placeholder="time" name="time"><br>
+				<input type="text" placeholder="location" name="location"><br>
+				<input type="text" placeholder="address" name="address"><br>
+				<input type="text" placeholder="link" name="link"><br>
 
-		<input type="submit">
-	</form>
+			<input type="submit">
+		</form>
 
 	<% else %>
-       <form class="loginForm" action="/login" method="post">
+		<form class="loginForm" action="/login" method="post">
 			<input class="username" type="text" placeholder="username" name="user">
 			<input class="password" type="password" placeholder="password" name="pass">
 			<input class="admin-submit" type='submit'>

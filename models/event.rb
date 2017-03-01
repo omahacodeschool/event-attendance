@@ -8,13 +8,19 @@ class Event
     database.all("events")
   end
 
+  # Find the date for Monday of the week of interest
+  # params are a key value pair with a date of interest
+  # if there are no params, the current week will be used
+  # returns the date of the monday for  the week as a string yyyy-mm-dd
   def getDate(params)
   	if params == true
   	else
-  		# d = Date.now
-  		mondayDate = "2017-02-27"
+  	  d = Date.today
+      difference = d.wday
+      if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
+      monday = d - difference + 1
+      mondayDate = monday.strftime("%Y-%m-%d")
   	end
-  	binding.pry
   	return mondayDate
   end
 

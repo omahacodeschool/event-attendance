@@ -34,3 +34,8 @@ post ("/login") do
 
 	redirect("/")
 end
+
+post ("/addEvent") do
+	Database.newEvent(params.values)
+	redirect("/")
+end

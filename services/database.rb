@@ -51,7 +51,11 @@ class Database
   def getUsers(id)
     list = []
 
-
+    # Loops through users.csv and gets all with specific id
+    #
+    # id = string
+    #
+    # returns a hash of users
     CSV.foreach("users.csv", {headers: true, return_headers: false}) do |row|
      
       if  row["eventId"] == id
@@ -60,6 +64,19 @@ class Database
     end
     return list
   end
+
+  # Appends a new line to events.csv file
+  #
+  # info - hash of new event strings
+  def Database.newEvent(info)
+    csv = File.open("events.csv", "a+")
+    uniqId = csv.readlines.size
+
+    info.insert(0, uniqId)
+    info = info.join(",")
   
+    csv.puts info
+    csv.close
+  end 
 end
 

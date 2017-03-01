@@ -23,8 +23,7 @@ get ("/userslist") {
 get "/event" do
 	event = Event.new
 	@info = event.eventById(params["id"]).to_h
-	userList = AttendList.new
-	@rsvpList =  userList.byId(params["id"].to_i)
+	@rsvpList = event.attendees(params["id"].to_i)
 
 	erb :event
 end

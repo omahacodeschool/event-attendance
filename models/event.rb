@@ -67,8 +67,12 @@ class Event
   #
   # Returns a Hash of the event's info (or an error).
   def info
-  	database = Database.new
-  	database.getRowById("events", @id)
+    if @info.nil?
+      database = Database.new
+      @info = database.getRowById("events", @id)
+    else
+      @info
+    end
   end
 
 end

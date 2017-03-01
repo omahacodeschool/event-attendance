@@ -15,11 +15,8 @@ get ("/eventlist") {
 }
 
 get "/event" do
-	event = Event.new(params["id"])
-
-	@info = event.info
-	@rsvpList = event.attendees
-
+	@event = Event.new(params["id"])
+	
 	erb :event
 end
 

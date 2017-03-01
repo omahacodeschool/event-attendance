@@ -10,15 +10,15 @@
 
 <div class="page_body event_page">
 	<div class="event">	
-		<h2><%= @info['title'] %> (<%= @info['date'] %>)</h2>
+		<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 		<hr>
 		<div class="event_details">
 			<ul>
-				<li><%= @info['group'] %></li>
-				<li><%= @info['time'] %></li>
-				<li><%= @info['location'] %> @ <%= @info['address'] %></li>
+				<li><%= @event.info['group'] %></li>
+				<li><%= @event.info['time'] %></li>
+				<li><%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
 				<li>
-					<a href = <%= @info['link'].to_s %>>
+					<a href = <%= @event.info['link'].to_s %>>
 						Original Page.
 					</a>
 				</li>
@@ -33,7 +33,7 @@
 		<hr>
 		<div class="attendies">
 			<ul>
-				<% @rsvpList.each do |name| %>
+				<% @event.attendees.each do |name| %>
 				<%= "<li>" + name["first_name"] + " " + name["last_name"] + "<br>" + "</li>"%> 
 				<% end %> 
 			</ul>

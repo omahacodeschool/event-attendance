@@ -24,17 +24,19 @@ class Event
   # params are a key value pair with a date of interest
   # if there are no params, the current week will be used
   # returns the date of the monday for  the week as a string yyyy-mm-dd
-  def Event.getDate(params)
-    # binding.pry
-  	if params == true
-      # binding.pry
-  	else
-  	  d = Date.today
-      difference = d.wday
-      if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
-      monday = d - difference + 1
-      mondayDate = monday.strftime("%Y-%m-%d")
-  	end
+  def Event.getDate(params, mondayDate = nil)
+    if mondayDate == nil
+    	if params == true
+        mondayDate = params["date"]
+    	else
+    	  d = Date.today
+        difference = d.wday
+        if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
+        monday = d - difference + 1
+        mondayDate = monday.strftime("%Y-%m-%d")
+    	end
+    end
+    binding.pry
   	return mondayDate
   end
 
@@ -42,13 +44,12 @@ class Event
   # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
   # Returns the data as a hash of weekdays -> array of events
   def Event.week(params)
-  	database = Database.new  	
+  	database = Database.new 
 
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
       binding.pry
-      mondayDate = getDate(params)
-
+      mondayDate = getDate(params, mondayDate)
       beginningDate = Date.parse(mondayDate)
       endingDate = Date.parse(mondayDate) + 7
 

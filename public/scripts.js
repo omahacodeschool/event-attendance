@@ -1,7 +1,9 @@
 window.addEventListener("load", function (){
-	displayEventsHomepage();
+	// displayHeaderOnHomepage("2017-03-06");
+	displayHeaderOnHomepage();
+	displayEventsOnHomepage();
 
-	function displayEventsHomepage(date = null) {
+	function displayEventsOnHomepage(date = null) {
 		var ourRequest = new XMLHttpRequest();
 		if (date) {
 			ourRequest.open('GET', "/eventlist?date=" + date, true);
@@ -10,6 +12,25 @@ window.addEventListener("load", function (){
 		}
 		ourRequest.onload = addEvents;
 		ourRequest.send();
+	}
+
+	function displayHeaderOnHomepage(date=null) {
+		if (date) {
+			var monday = new Date();
+			monday.setTime(Date.parse(date) + 100000000)
+		} else {
+			monday = getCurrentDate();
+		}
+		var month = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		m1 = month[monday.getMonth()];
+		d1 = monday.getDate();
+		y = monday.getFullYear();
+		var sunday = monday;
+		sunday.setDate(sunday.getDate() + 6);
+		m2 = month[sunday.getMonth()];
+		d2 = sunday.getDate();
+		dateString = m1 + " " + d1 + " - " + m2 + " " + d2 + ", " + y;
+		document.getElementsByClassName("events-date")[0].firstElementChild.textContent = dateString;
 	}
 
 	// Add all events to the homepage.
@@ -70,7 +91,8 @@ window.addEventListener("load", function (){
 		var prevMonday = currentMonday;
 		prevMonday.setDate(currentMonday.getDate() - 7);
 		mondayDate = prevMonday.toISOString().substr(0,10);
-		displayEventsHomepage(mondayDate);
+		displayHeaderOnHomepage(mondayDate);
+		displayEventsOnHomepage(mondayDate);
 	}
 
 	function showNextWeek() {
@@ -78,7 +100,8 @@ window.addEventListener("load", function (){
 		var nextMonday = currentMonday;
 		nextMonday.setDate(currentMonday.getDate() + 7);
 		mondayDate = nextMonday.toISOString().substr(0,10);
-		displayEventsHomepage(mondayDate);
+		displayHeaderOnHomepage(mondayDate);
+		displayEventsOnHomepage(mondayDate);
 	}
 
 	function getCurrentDate() {

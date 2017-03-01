@@ -23,7 +23,6 @@ class Database
     all_rows = all(table)
 
     filtered_rows = []
-
     all_rows.each do |row|
       if filter.call(row)
         filtered_rows.push(row.to_h)

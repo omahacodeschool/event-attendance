@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+	<script src="scripts.js"></script>
 	<title>This event</title>
 	<link rel="stylesheet" type="text/css" href="/styles.css?i=lol">
 </head>
 
-<body>
+<body class="event_page">
 
-<div class="page_body event_page">
+<div class="page_body">
 	<div class="event">	
 		<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 		<hr>
@@ -45,7 +45,7 @@
 
 	<div class="modal_body">
 		<div class="exit">X</div>
-		<h3>Wordpress Omaha Planning Meeting</h3>
+		<h3>Add yourself to the list.</h3>
 		<p>Are you going? RSVP below.</p>
 		<form action="">
 			<input type="text" placeholder="Enter your name" name="newAttendeeName">

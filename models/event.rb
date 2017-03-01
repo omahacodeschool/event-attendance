@@ -63,10 +63,10 @@ class Event
  	  return sortedEvents
   end
 
-  # Gets the event associated with the id
+  # Gets event info.
   #
-  # Returns a csv::row or an error hash.
-  def eventById
+  # Returns a Hash of the event's info (or an error).
+  def info
   	database = Database.new
   	database.getRowById("events", @id)
   end

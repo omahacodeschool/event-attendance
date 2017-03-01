@@ -41,7 +41,7 @@ class Database
   def getRowById(table, id)
     CSV.foreach("#{table}.csv", {headers: true, return_headers:false}) do |row|
       if row["id"] == id
-        return row
+        return row.to_h
       end
     end
     return {"title" => "not found"}

@@ -1,12 +1,15 @@
-
-.page_body h2 {
+.event_page h2 {
 	display: inline;
 }
 .page_body{
-	display: flex;
-	justify-content: space-around;
+	max-width: 800px;
+	margin: 0 auto;
+	/*display: flex;*/
+	/*justify-content: space-around;*/
 }
+
 .modal{
+	display: none;
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -44,3 +47,16 @@ h2 {
 	border-bottom: solid 1px ;
 	border-bottom-color: #EEEEEE;
 }
+
+.admin-add-event {
+
+ display: block;
+}
+
+.loginForm{
+
+	text-align: center;
+}
+
+
+

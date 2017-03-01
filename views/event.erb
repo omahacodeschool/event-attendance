@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script type="text/javascript" src="/scripts.js"></script>
 	<title>This event</title>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css?i=lol">
 </head>
 
 <body>
 
-<div class="page_body">
+<div class="page_body event_page">
 	<div class="event">	
-		<h2>Wordpress Omaha Planning Meeting (Feb 28, 2017)</h2>
+		<h2><%= @info['title'] %> (<%= @info['date'] %>)</h2>
 		<hr>
 		<div class="event_details">
 			<ul>
-				<li>Wordpress Omaha</li>
-				<li>7:00pm</li>
-				<li>Do Space @ 7205 Dodge St, Omaha, NE</li>
+				<li><%= @info['group'] %></li>
+				<li><%= @info['time'] %></li>
+				<li><%= @info['location'] %> @ <%= @info['address'] %></li>
 				<li>
-					<a href ="https://www.meetup.com/WP-Omaha/events/237872303/">
+					<a href = <%= @info['link'].to_s %>>
 						Original Page.
 					</a>
 				</li>
@@ -32,9 +33,9 @@
 		<hr>
 		<div class="attendies">
 			<ul>
-				<li>Susan</li>
-				<li>Wilbur</li>
-				<li>Stevie</li>
+				<% @rsvpList.each do |name| %>
+				<%= "<li>" + name["first_name"] + " " + name["last_name"] + "<br>" + "</li>"%> 
+				<% end %> 
 			</ul>
 		</div>
 	</div>
@@ -55,6 +56,3 @@
 
 </body>
 </html>
-
-<!-- groupname, time, where, link to page,
-attendies, rsvp button, list of people, modal signup window. -->

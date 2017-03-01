@@ -1,5 +1,5 @@
 class Event
-
+	
   # Get all events.
   # 
   # Returns Array of Event Hashes.
@@ -48,7 +48,17 @@ class Event
   			sortedEvents[weekday] = [row]
   		end
   	end
- 	return sortedEvents
+ 	  return sortedEvents
+  end
+
+  # Gets the event associated with the id
+  #
+  # id - String of a number.
+  #
+  # Returns a csv::row or an error hash.
+  def eventById(id)
+  	database = Database.new
+  	database.getRowById("events", id)
   end
 
 end

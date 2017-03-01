@@ -3,6 +3,7 @@ require 'pry'
 require 'csv'
 require 'json'
 require_relative "services/database.rb"
+require_relative "services/login.rb"
 require_relative "models/event.rb"
 require 'date'
 enable :sessions

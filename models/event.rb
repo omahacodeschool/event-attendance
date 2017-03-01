@@ -18,10 +18,6 @@ class Event
     database.getUsers(id)
   end
 
-  def first_event_for_attendee
-    attendee.
-  end
-
   # Find the date for Monday of the week of interest
   # params are a key value pair with a date of interest
   # if there are no params, the current week will be used

@@ -7,7 +7,7 @@ class Event
   # Get all events.
   # 
   # Returns Array of Event Hashes.
-  def all
+  def Event.all
     database = Database.new
     database.all("events")
   end
@@ -24,7 +24,7 @@ class Event
   # params are a key value pair with a date of interest
   # if there are no params, the current week will be used
   # returns the date of the monday for  the week as a string yyyy-mm-dd
-  def getDate(params)
+  def Event.getDate(params)
   	if params == true
   	else
   	  d = Date.today
@@ -39,7 +39,7 @@ class Event
   # Get one weeks events.
   # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
   # Returns the data as a hash of weekdays -> array of events
-  def week(params)
+  def Event.week(params)
   	database = Database.new
   	mondayDate = getDate(params)
     weekdata = database.week("events",mondayDate)
@@ -49,7 +49,7 @@ class Event
   # Sort the events by weekday
   # weekdata - an array of events
   # Returns the data as a hash of weekdays -> array of events
-  def sortEvents(weekdata)
+  def Event.sortEvents(weekdata)
   	sortedEvents = {}
   	weekdata.each do |row|
   		date = Date.parse(row["date"])

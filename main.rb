@@ -11,8 +11,7 @@ enable :sessions
 logins = {"admin" => "password", "allen" => "duck"}
 
 get ("/eventlist") {
-  event = Event.new
-  event.week(params).to_json
+  event = Event.week(params).to_json
 }
 
 get ("/userslist") {

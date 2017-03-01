@@ -5,7 +5,6 @@ require 'json'
 require_relative "services/database.rb"
 require_relative "models/event.rb"
 require 'date'
-require_relative "models/users.rb"
 enable :sessions
 
 get ("/eventlist") {

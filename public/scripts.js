@@ -1,8 +1,16 @@
 window.addEventListener("load", function (){
-	var ourRequest = new XMLHttpRequest();
-	ourRequest.open('GET', "/eventlist", true);
-	ourRequest.onload = addEvents;
-	ourRequest.send();
+	displayEventsHomepage();
+
+	function displayEventsHomepage(date = null) {
+		var ourRequest = new XMLHttpRequest();
+		if (date) {
+			ourRequest.open('GET', "/eventlist?date=" + date, true);
+		} else {
+			ourRequest.open('GET', "/eventlist", true);
+		}
+		ourRequest.onload = addEvents;
+		ourRequest.send();
+	}
 
 	// Add all events to the homepage.
 	// event - get request for events.
@@ -18,7 +26,6 @@ window.addEventListener("load", function (){
 	// html added to index.erb.
 	function createHTML(data){
 		htmlToInsert = "";
-		weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 		createHTMLForEachWeekday(data);
 		document.getElementsByClassName("events")[0].insertAdjacentHTML('beforeend',htmlToInsert);
 	}
@@ -27,6 +34,7 @@ window.addEventListener("load", function (){
 	// data - json data as a hash organized as weekday -> array of events.
 	// html created as a string for all weekdays.
 	function createHTMLForEachWeekday(data) {
+		weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 		for (var i=0;i<weekdays.length;i++) {
 			if (data[weekdays[i]]){
 				htmlToInsert += "<div class='event-item'>";
@@ -50,6 +58,37 @@ window.addEventListener("load", function (){
 			htmlToInsert += "</a></li>";
 		}
 	}
+
+	var prevWeekButton = document.getElementsByClassName("prevWeek")[0];
+	var nextWeekButton = document.getElementsByClassName("nextWeek")[0];
+
+	prevWeekButton.addEventListener("click",showPrevWeek);
+	nextWeekButton.addEventListener("click",showNextWeek);
+
+	function showPrevWeek() {
+		var currentMonday = getCurrentDate();
+		var prevMonday = currentMonday;
+		prevMonday.setDate(currentMonday.getDate() - 7);
+		mondayDate = prevMonday.toISOString().substr(0,10);
+		displayEventsHomepage(mondayDate);
+	}
+
+	function showNextWeek() {
+		var currentMonday = getCurrentDate();
+		var nextMonday = currentMonday;
+		nextMonday.setDate(currentMonday.getDate() + 7);
+		mondayDate = nextMonday.toISOString().substr(0,10);
+		displayEventsHomepage(mondayDate);
+	}
+
+	function getCurrentDate() {
+		var dateHeader = document.getElementsByClassName("events-date")[0].firstElementChild;
+		var date = dateHeader.textContent.split("-");
+		var d = new Date(date[0] + date[1].substr(-4));
+		return d;
+	}
+
+
 
 });
 

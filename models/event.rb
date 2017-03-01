@@ -25,7 +25,9 @@ class Event
   # if there are no params, the current week will be used
   # returns the date of the monday for  the week as a string yyyy-mm-dd
   def Event.getDate(params)
+    # binding.pry
   	if params == true
+      # binding.pry
   	else
   	  d = Date.today
       difference = d.wday
@@ -44,7 +46,7 @@ class Event
 
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
-
+      binding.pry
       mondayDate = getDate(params)
 
       beginningDate = Date.parse(mondayDate)

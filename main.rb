@@ -9,6 +9,7 @@ require 'date'
 enable :sessions
 
 get ("/eventlist") {
+	# binding.pry
   event = Event.week(params).to_json
 }
 

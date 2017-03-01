@@ -50,8 +50,11 @@ class Database
 
   def getUsers(id)
     list = []
+
+
     CSV.foreach("users.csv", {headers: true, return_headers: false}) do |row|
-      if  row["eventId"].to_i == id
+     
+      if  row["eventId"] == id
         list.push(row.to_hash)
       end
     end

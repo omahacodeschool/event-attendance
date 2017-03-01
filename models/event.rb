@@ -1,4 +1,11 @@
 class Event
+
+  # Set the ID of this event.
+  # 
+  # id - Integer of the event ID.
+  def set_id(id)
+    @id = id
+  end
 	
   # Get all events.
   # 
@@ -10,12 +17,10 @@ class Event
 
   # Get an event's attendees.
   # 
-  # id - Integer of the event ID.
-  # 
   # Returns an Array of attendees.
-  def attendees(id)
+  def attendees
     database = Database.new
-    database.getUsers(id)
+    database.getUsers(@id)
   end
 
   # Find the date for Monday of the week of interest
@@ -63,12 +68,10 @@ class Event
 
   # Gets the event associated with the id
   #
-  # id - String of a number.
-  #
   # Returns a csv::row or an error hash.
-  def eventById(id)
+  def eventById
   	database = Database.new
-  	database.getRowById("events", id)
+  	database.getRowById("events", @id)
   end
 
 end

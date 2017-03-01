@@ -34,3 +34,20 @@ post ("/login") do
 
 	redirect("/")
 end
+
+get ("/add") do
+	thing = Database.new
+	thing.newRow("hi")
+end
+
+
+
+
+
+
+
+
+
+
+
+

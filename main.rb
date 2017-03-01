@@ -21,9 +21,8 @@ get ("/userslist") {
 }
 
 get "/event" do
-	event = Event.new
-	event.set_id(params["id"].to_i)
-	
+	event = Event.new(params["id"])
+
 	@info = event.eventById.to_h
 	@rsvpList = event.attendees
 

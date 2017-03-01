@@ -1,9 +1,6 @@
 class Event
 
-  # Set the ID of this event.
-  # 
-  # id - Integer of the event ID.
-  def set_id(id)
+  def initialize(id)
     @id = id
   end
 	

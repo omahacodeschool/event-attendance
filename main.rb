@@ -8,15 +8,13 @@ require 'date'
 require_relative "models/users.rb"
 enable :sessions
 
-logins = {"admin" => "password", "allen" => "duck"}
-
 get ("/eventlist") {
   event = Event.week(params).to_json
 }
 
 get "/event" do
 	@event = Event.new(params["id"])
-	
+
 	erb :event
 end
 
@@ -30,8 +28,7 @@ post ("/logout"){
 }
 
 post ("/login") do
-
-	if (logins[params["user"]] == params["pass"]) then
+	if Login.valid(params["user"], params["pass"])
 		session[:validate] = true
 		session[:username] = params["user"]
 	end

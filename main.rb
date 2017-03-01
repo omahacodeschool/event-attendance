@@ -39,3 +39,5 @@ post ("/addEvent") do
 	Database.newEvent(params.values)
 	redirect("/")
 end
+
+

@@ -18,13 +18,13 @@
 
 		<form class="admin-add-event loginForm" action="/addEvent" method="post">
 			<h2>Add Event</h2>
-				<input type="text" placeholder="group" name="group"><br>
-				<input type="text" placeholder="title" name="title"><br>
-				<input type="text" placeholder="date" name="date"><br>
-				<input type="text" placeholder="time" name="time"><br>
-				<input type="text" placeholder="location" name="location"><br>
-				<input type="text" placeholder="address" name="address"><br>
-				<input type="text" placeholder="link" name="link"><br>
+				<input type="text" placeholder="group name" name="group" required><br>
+				<input type="text" placeholder="event title" name="title" required><br>
+				<input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" placeholder="yyyy/mm/dd" name="date" required><br>
+				<input type="time" placeholder="time" name="time" required><br>
+				<input type="text" placeholder="location" name="location" required><br>
+				<input type="text" placeholder="address" name="address" required><br>
+				<input type="url" placeholder="url" name="link" required><br>
 
 			<input type="submit">
 		</form>

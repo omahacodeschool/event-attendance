@@ -23,13 +23,12 @@ get "/"  do
 end
 
 post ("/logout"){
-	session[:validate] = false
+	session[:username] = nil
 	redirect("/")
 }
 
 post ("/login") do
 	if Login.valid(params["user"], params["pass"])
-		session[:validate] = true
 		session[:username] = params["user"]
 	end
 

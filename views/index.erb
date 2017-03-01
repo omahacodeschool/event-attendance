@@ -10,7 +10,7 @@
 <body>
 <div class="page_body">	
 
-	<% if session[:validate] == true %>
+	<% if session[:username] %>
 		<form class="loginForm" action="/logout" method="post">
 			<p class="welcome"> Welcome: <%= session["username"] %>
 			<button type="Submit" name="logout">Log Out</button></p>

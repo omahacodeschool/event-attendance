@@ -5,6 +5,9 @@ require 'json'
 require_relative "services/database.rb"
 require_relative "models/event.rb"
 require_relative "models/users.rb"
+enable :sessions
+
+logins = {"admin" => "password", "allen" => "duck"}
 
 get ("/eventlist") {
   event = Event.new
@@ -19,6 +22,9 @@ get ("/userslist") {
 get "/event" do
 	event = Event.new
 	@info = event.eventById(params["id"]).to_h
+	userList = AttendList.new
+	@rsvpList =  userList.byId(params["id"].to_i)
+
 	erb :event
 end
 
@@ -28,3 +34,18 @@ get "/"  do
 end
 
 
+
+post ("/logout"){
+	session[:validate] = false
+	redirect("/")
+}
+
+post ("/login") do
+
+	if (logins[params["user"]] == params["pass"]) then
+		session[:validate] = true
+		session[:username] = params["user"]
+	end
+
+	redirect("/")
+end

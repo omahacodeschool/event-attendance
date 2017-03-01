@@ -9,8 +9,35 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
-<div class="page_body">
-	
+<div class="page_body">	
+
+	<% if session[:validate] == true %>
+	<form class="loginForm" action="/logout" method="post">
+		<p class="welcome"> Welcome: <%= session["username"] %>
+		<button type="Submit" name="logout">Log Out</button></p>
+	</form>
+
+	<form class="admin-add-event loginForm">
+		<h2>Add Event</h2>
+			<input type="text" placeholder="group" name="group"><br>
+			<input type="text" placeholder="title" name="title"><br>
+			<input type="text" placeholder="date" name="date"><br>
+			<input type="text" placeholder="time" name="time"><br>
+			<input type="text" placeholder="location" name="location"><br>
+			<input type="text" placeholder="address" name="address"><br>
+			<input type="text" placeholder="link" name="link"><br>
+
+		<input type="submit">
+	</form>
+
+	<% else %>
+       <form class="loginForm" action="/login" method="post">
+			<input class="username" type="text" placeholder="username" name="user">
+			<input class="password" type="password" placeholder="password" name="pass">
+			<input class="admin-submit" type='submit'>
+		</form>
+	<% end %>
+
 	<div class="events">
 
 		<div class="events-date">
@@ -46,19 +73,6 @@
 				</ul>
 		</div>
 	</div>
-
-	<form class="admin-add-event">
-		<h2>Add Event</h2>
-		Group: <input type="text" name="group"><br>
-		Title: <input type="text" name="title"><br>
-		Date: <input type="text" name="date"><br>
-		Time: <input type="text" name="time"><br>
-		Location: <input type="text" name="location"><br>
-		Address: <input type="text" name="address"><br>
-		Link: <input type="text" name="link"><br>
-
-		<input type="submit">
-	</form>
 
 </div>
 

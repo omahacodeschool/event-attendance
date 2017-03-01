@@ -33,9 +33,9 @@
 		<hr>
 		<div class="attendies">
 			<ul>
-				<li>Susan</li>
-				<li>Wilbur</li>
-				<li>Stevie</li>
+				<% @rsvpList.each do |name| %>
+				<%= "<li>" + name["first_name"] + " " + name["last_name"] + "<br>" + "</li>"%> 
+				<% end %> 
 			</ul>
 		</div>
 	</div>

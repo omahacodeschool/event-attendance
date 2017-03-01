@@ -40,9 +40,21 @@ class Event
   # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
   # Returns the data as a hash of weekdays -> array of events
   def Event.week(params)
-  	database = Database.new
-  	mondayDate = getDate(params)
-    weekdata = database.week("events",mondayDate)
+  	database = Database.new  	
+
+    filter = Proc.new do |row|
+      row_date = Date.parse(row["date"])
+
+      mondayDate = getDate(params)
+
+      beginningDate = Date.parse(mondayDate)
+      endingDate = Date.parse(mondayDate) + 7
+
+      (row_date >= beginningDate && row_date < endingDate)
+    end
+
+    weekdata = database.all_with_filter("events", filter)
+
     sortEvents(weekdata)
   end
 

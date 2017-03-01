@@ -15,21 +15,22 @@ class Database
 
   # Get one week of events.
   # 
-  # table - Table name String.
-  # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
+  # table  - Table name String.
+  # filter - Proc of the filter function to call.
   # 
   # Returns Array of row Hashes in the week of interest
-  def week(table,mondayDate)
-    list = []
-    CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
-        date = Date.parse(row["date"])
-        beginningDate = Date.parse(mondayDate)
-        endingDate = Date.parse(mondayDate) + 7
-        if date >= beginningDate && date < endingDate
-          list.push(row.to_hash)
-        end
+  def all_with_filter(table, filter)
+    all_rows = all(table)
+
+    filtered_rows = []
+
+    all_rows.each do |row|
+      if filter.call(row)
+        filtered_rows.push(row.to_h)
+      end
     end
-    return list
+
+    return filtered_rows
   end
 
 

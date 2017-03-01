@@ -14,11 +14,6 @@ get ("/eventlist") {
   event = Event.week(params).to_json
 }
 
-get ("/userslist") {
-	userList = AttendList.new
-	return userList.byId(params["id"]).to_json
-}
-
 get "/event" do
 	event = Event.new(params["id"])
 

@@ -24,8 +24,7 @@ window.addEventListener("load", function (){
 		// event - get request for events.
 		// Adds the html to index for list of the week of events.
 		function addEvents(event) {
-			var result = event.target.responseText;
-			data = JSON.parse(result);
+			var data = JSON.parse(event.target.responseText);
 			createHTML(data);		
 		};
 

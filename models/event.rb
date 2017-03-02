@@ -25,19 +25,15 @@ class Event
   # if there are no params, the current week will be used
   # returns the date of the monday for  the week as a string yyyy-mm-dd
   def Event.getDate(params)
-    if $mondayDate == nil || params == true
-    	if params == true
-        $mondayDate = params["date"]
-    	else
-    	  d = Date.today
-        difference = d.wday
-        if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
-        monday = d - difference + 1
-        $mondayDate = monday.strftime("%Y-%m-%d")
-        binding.pry
-    	end
+    if $mondayDate == nil
+      d = Date.today
+      difference = d.wday
+      if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
+      monday = d - difference + 1
+      $mondayDate = monday.strftime("%Y-%m-%d")
+    elsif params != {}
+      $mondayDate = params["date"]
     end
-    binding.pry
   	return $mondayDate
   end
 
@@ -49,7 +45,6 @@ class Event
 
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
-      binding.pry
       $mondayDate = getDate(params)
       beginningDate = Date.parse($mondayDate)
       endingDate = Date.parse($mondayDate) + 7

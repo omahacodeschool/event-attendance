@@ -17,7 +17,7 @@ window.addEventListener("load", function (){
 	function displayHeaderOnHomepage(date=null) {
 		if (date) {
 			var monday = new Date();
-			monday.setTime(Date.parse(date) + 100000000)
+			monday.setTime(Date.parse(date.replace(/-/g, '\/')));
 		} else {
 			monday = getCurrentDate();
 		}
@@ -48,7 +48,10 @@ window.addEventListener("load", function (){
 	function createHTML(data){
 		htmlToInsert = "";
 		createHTMLForEachWeekday(data);
-		document.getElementsByClassName("events")[0].insertAdjacentHTML('beforeend',htmlToInsert);
+		if (htmlToInsert == "") {
+			htmlToInsert = "<p>No events listed</p>";
+		}
+		document.getElementsByClassName("events-list")[0].innerHTML = htmlToInsert;
 	}
 
 	// Creates html for events by each weekday.

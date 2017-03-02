@@ -17,7 +17,7 @@ get "/event" do
 	erb :event
 end
 
-get "/"  do 
+get "/" do 
 	erb :index
 end
 

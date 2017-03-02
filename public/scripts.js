@@ -6,8 +6,11 @@ window.addEventListener("load", function (){
 	//
 	// returns a boolean (true / false).
 	function bodyHasClass(className){
-		body = document.getElementsByTagName("body")[0];
-		return body.classList.contains(className);
+		if (window.body == undefined){
+			window.body = document.getElementsByTagName("body")[0];
+		}
+
+		return window.body.classList.contains(className);
 	};
 
 	if (bodyHasClass("index_page")){ 

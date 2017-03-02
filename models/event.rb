@@ -68,8 +68,11 @@ class Event
   # Returns a Hash of the event's info (or an error).
   def info
     if @info.nil?
+      filter = Proc.new do |row|
+        (row["id"]==@id)
+      end
       database = Database.new
-      @info = database.getRowById("events", @id)
+      @info = database.all_with_filter("events", filter)[0].to_h
     else
       @info
     end

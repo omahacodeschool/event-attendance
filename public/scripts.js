@@ -29,24 +29,24 @@ window.addEventListener("load", function (){
 		};
 
 		// Creates html for events for the week and add to index.erb.
-		// data - json data as a hash organized as weekday -> array of events.
+		// events_by_weekday - json data as a hash organized as weekday -> array of events.
 		// html added to index.erb.
-		function createHTML(data){
+		function createHTML(eventsByWeekday){
 			htmlToInsert = "";
 			weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-			createHTMLForEachWeekday(data);
+			createHTMLForEachWeekday(eventsByWeekday);
 			document.getElementsByClassName("events")[0].insertAdjacentHTML('beforeend',htmlToInsert);
 		}
 
 		// Creates html for events by each weekday.
 		// data - json data as a hash organized as weekday -> array of events.
 		// html created as a string for all weekdays.
-		function createHTMLForEachWeekday(data) {
+		function createHTMLForEachWeekday(eventsByWeekday) {
 			for (var i=0;i<weekdays.length;i++) {
-				if (data[weekdays[i]]){
+				if (eventsByWeekday[weekdays[i]]){
 					htmlToInsert += "<div class='event-item'>";
 					htmlToInsert += "<h2>" + weekdays[i] + "</h2><ul>";
-					createHTMLForEachEvent(data[weekdays[i]])
+					createHTMLForEachEvent(eventsByWeekday[weekdays[i]])
 					htmlToInsert += "</ul></div>";
 				}
 			}

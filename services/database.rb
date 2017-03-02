@@ -13,7 +13,7 @@ class Database
     return list
   end
 
-  # Get one week of events.
+  # Get all rows from a table, given some filter.
   # 
   # table  - Table name String.
   # filter - Proc of the filter function to call.
@@ -47,6 +47,7 @@ class Database
     end
   end
 
+  # TODO Use all_with_filter instead. This method should be removed.
   def getUsers(id)
     list = []
 

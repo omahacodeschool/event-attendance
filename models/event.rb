@@ -60,23 +60,6 @@ class Event
     sortEvents(weekdata)
   end
 
-  # Sort the events by weekday
-  # weekdata - an array of events
-  # Returns the data as a hash of weekdays -> array of events
-  def Event.sortEvents(weekdata)
-  	sortedEvents = {}
-  	weekdata.each do |row|
-  		date = Date.parse(row["date"])
-  		weekday = date.strftime("%A")
-  		if sortedEvents[weekday]
-  			sortedEvents[weekday].push(row)
-  		else
-  			sortedEvents[weekday] = [row]
-  		end
-  	end
- 	  return sortedEvents
-  end
-
   # Gets event info.
   #
   # Returns a Hash of the event's info (or an error).
@@ -87,6 +70,26 @@ class Event
     else
       @info
     end
+  end
+
+  private
+
+  # Sort the events by weekday
+  # weekdata - an array of events
+  # Returns the data as a hash of weekdays -> array of events
+  def Event.sortEvents(weekdata)
+    sortedEvents = {}
+    weekdata.each do |row|
+      date = Date.parse(row["date"])
+      weekday = date.strftime("%A")
+      if sortedEvents[weekday]
+        sortedEvents[weekday].push(row)
+      else
+        sortedEvents[weekday] = [row]
+      end
+    end
+    
+    return sortedEvents
   end
 
   # Adds a new attendee to the list of attendees

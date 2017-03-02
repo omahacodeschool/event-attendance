@@ -87,4 +87,16 @@ class Event
     end
   end
 
+  def Event.addAttendee(hashOfParams)
+    arrayOfValues = []
+    hashOfParams = hashOfParams.values.to_a
+    
+    arrayOfValues.push(hashOfParams[0])
+    hashOfParams[1].split(" ").each do |part|
+      arrayOfValues.push(part)
+    end
+
+    Database.newRow(arrayOfValues)
+  end
+
 end

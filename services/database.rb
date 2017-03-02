@@ -45,7 +45,6 @@ class Database
         return row.to_h
       end
     end
-    return {"title" => "not found"}
   end
 
   def getUsers(id)

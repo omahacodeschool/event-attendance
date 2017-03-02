@@ -21,9 +21,7 @@ class Database
   # Returns Array of row Hashes in the week of interest
   def all_with_filter(table, filter)
     all_rows = all(table)
-
     filtered_rows = []
-
     all_rows.each do |row|
       if filter.call(row)
         filtered_rows.push(row.to_h)
@@ -45,24 +43,6 @@ class Database
         return row.to_h
       end
     end
-  end
-
-  # TODO Use all_with_filter instead. This method should be removed.
-  def getUsers(id)
-    list = []
-
-    # Loops through users.csv and gets all with specific id
-    #
-    # id = string
-    #
-    # returns a hash of users
-    CSV.foreach("users.csv", {headers: true, return_headers: false}) do |row|
-     
-      if  row["eventId"] == id
-        list.push(row.to_hash)
-      end
-    end
-    return list
   end
 
   # Adds a new row to the database

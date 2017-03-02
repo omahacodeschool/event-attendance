@@ -12,12 +12,15 @@ class Event
     database.all("events")
   end
 
-  # Get an event's attendees.
+   # Get an event's attendees.
   # 
   # Returns an Array of attendees.
   def attendees
+    idFilter = Proc.new do |row|
+      row["eventId"] == @id
+    end
     database = Database.new
-    database.getUsers(@id)
+    database.all_with_filter("users", idFilter)
   end
 
   # Find the date for Monday of the week of interest.

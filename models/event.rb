@@ -20,10 +20,12 @@ class Event
     database.getUsers(@id)
   end
 
-  # Find the date for Monday of the week of interest
-  # params are a key value pair with a date of interest
-  # if there are no params, the current week will be used
-  # returns the date of the monday for  the week as a string yyyy-mm-dd
+  # Find the date for Monday of the week of interest.
+  # 
+  # params - are a key value pair with a date of interest. If there are no
+  #          params, the current week will be used
+  # 
+  # Returns the date of the Monday for the week as a String yyyy-mm-dd.
   def Event.getDate(params)
   	if params == true
   	else

@@ -79,8 +79,7 @@ class Event
   #
   # queryHash - key value pair of parameters
   def addAttendee(name)
-    split_name = name.split(" ")
-    Database.newRow([@id] + [split_name].flatten!, "users")
+    Database.newRow([@id] + [name], "users")
   end
 
 

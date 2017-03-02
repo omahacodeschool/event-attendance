@@ -35,7 +35,7 @@
 			<div class="attendies">
 				<ul>
 					<% @event.attendees.each do |name| %>
-					<%= "<li>" + name["first_name"] + " " + name["last_name"] + "<br>" + "</li>"%> 
+					<%= "<li>" + name["fullName"] + "<br>" + "</li>"%> 
 					<% end %> 
 				</ul>
 			</div>
@@ -54,8 +54,6 @@
 					type="text" 
 					placeholder="Enter your name" 
 					name="attendeename"
-					pattern="^[A-Za-z]{2,} +[A-Za-z]{2,}$" 
-					title="Enter your first and last name (both must be at least two charcters), seperated by a space. ex. 'John Doe'."
 					required
 				>
 				<input type="submit">

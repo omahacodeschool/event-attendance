@@ -72,6 +72,15 @@ class Event
     end
   end
 
+  # Adds a new attendee to the list of attendees
+  #
+  # queryHash - key value pair of parameters
+  def addAttendee(name)
+    split_name = name.split(" ")
+    Database.newRow([@id] + [split_name].flatten!, "users")
+  end
+
+
   private
 
   # Sort the events by weekday
@@ -90,14 +99,6 @@ class Event
     end
     
     return sortedEvents
-  end
-
-  # Adds a new attendee to the list of attendees
-  #
-  # queryHash - key value pair of parameters
-  def addAttendee(name)
-    split_name = name.split(" ")
-    Database.newRow([@id] + [split_name])
   end
 
 end

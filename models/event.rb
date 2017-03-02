@@ -87,17 +87,17 @@ class Event
     end
   end
 
-  def Event.addAttendee(hashOfParams)
-    arrayOfValues = []
-    hashOfParams = hashOfParams.values.to_a
-
-    arrayOfValues.push(hashOfParams[0])
-    hashOfParams[1].split(" ").each do |part|
-     
-      arrayOfValues.push(part.capitalize)
+  # Adds a new attendee to the list of attendees
+  #
+  # queryHash - key value pair of parameters
+  def Event.addAttendee(queryHash)
+    tableCells = []
+    queryArray = queryHash.values.to_a
+    tableCells.push(queryArray[0])
+    queryArray[1].split(" ").each do |part|
+      tableCells.push(part.capitalize)
     end
-
-    Database.newRow(arrayOfValues)
+    Database.newRow(tableCells)
   end
 
 end

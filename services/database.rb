@@ -61,22 +61,14 @@ class Database
     return list
   end
   
- # array = ["1","Spencer",Gerdes]
-
+  # Adds a new row to the database
+  #
+  # array - an array containing three strings
   def Database.newRow(array)
     CSV.open("users.csv", "a") do |csv|
       csv << array
     end
   end
-
-
-
-
-
-
-
-
-
 
 end
 

@@ -9,7 +9,7 @@ require 'date'
 enable :sessions
 
 get ("/eventlist") {
-  event = Event.week(params).to_json
+  Event.week(params).to_json
 }
 
 get "/event" do

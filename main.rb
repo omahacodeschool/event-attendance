@@ -34,7 +34,7 @@ post "/login" do
 end
 
 post "/addEvent" do
-	Database.newEvent(params.values)
+	Database.newRow(params.values, "events", Database.next_id("events"))
 	redirect("/")
 end
 

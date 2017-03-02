@@ -65,36 +65,31 @@ class Database
     return list
   end
 
-  # Appends a new line to events.csv file
-  #
-  # info - hash of new event strings
-  def Database.newEvent(info)
-    csv = File.open("events.csv", "a+")
-    uniqId = csv.readlines.size
-
-    info.insert(0, uniqId)
-    info = info.join(",")
-  
-    csv.puts info
-    csv.close
-  end 
-
   # Adds a new row to the database
   #
   # array - an array containing three strings
-  def Database.newRow(array, table)
-    # TODO Use Database.next_id to integrate Allen's method's functionality
-    #      into this method, thus letting you refactor away Database.newEvent.
+  def Database.newRow(array, table, uniqId = nil)
+    if uniqId != nil 
+      array.insert(0, uniqId)
+    end
 
-    CSV.open(table, "a") do |csv|
+    CSV.open("#{table}.csv", "a") do |csv|
       csv << array
     end
   end
 
   private
 
+  # Counts the number of rows in a table
+  # 
+  # table - string
+  # 
+  # return Integer
   def Database.next_id(table)
-    # TODO
+    csv = File.open("#{table}.csv", "r")
+    uniqId = csv.readlines.size
+    csv.close
+    return uniqId
   end
 
 end

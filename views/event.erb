@@ -52,7 +52,11 @@
 				<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
 				<input 
 					type="text" 
-					placeholder="Enter your name" 
+					<% if session[:fullname] %> 
+						value=<%="'" + session[:fullname] + "'"%>
+					<% else %>
+						placeholder="please enter your  name"
+					<% end %>
 					name="attendeename"
 					required
 				>

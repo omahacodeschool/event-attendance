@@ -1,8 +1,11 @@
 window.addEventListener("load", function (){
-	// displayHeaderOnHomepage("2017-03-06");
 	displayHeaderOnHomepage();
 	displayEventsOnHomepage();
 
+	// get events for a specific week from server 
+	// and display them by creating and inserting html
+	// on to homepage as a list
+	// date is the date of the monday of the week as yyyy-mm-dd
 	function displayEventsOnHomepage(date = null) {
 		var ourRequest = new XMLHttpRequest();
 		if (date) {
@@ -14,6 +17,9 @@ window.addEventListener("load", function (){
 		ourRequest.send();
 	}
 
+	// will display the date range for the week as a header
+	// date is the date of the monday of the week as yyyy-mm-dd
+	// returns nothing, inserts header text in html h2
 	function displayHeaderOnHomepage(date=null) {
 		if (date) {
 			var monday = new Date();
@@ -21,16 +27,20 @@ window.addEventListener("load", function (){
 		} else {
 			monday = getCurrentDate();
 		}
+		dateString = createDateString(monday);
+		document.getElementsByClassName("events-date")[0].firstElementChild.textContent = dateString;
+	}
+
+	// creates the string to be displayed in the header
+	// monday is a date object of a monday
+	// returns a string of the form "February 27 - March 5, 2017"
+	function createDateString(monday) {
 		var month = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-		m1 = month[monday.getMonth()];
-		d1 = monday.getDate();
-		y = monday.getFullYear();
+		m1d1 = month[monday.getMonth()] + " " + monday.getDate();
 		var sunday = monday;
 		sunday.setDate(sunday.getDate() + 6);
-		m2 = month[sunday.getMonth()];
-		d2 = sunday.getDate();
-		dateString = m1 + " " + d1 + " - " + m2 + " " + d2 + ", " + y;
-		document.getElementsByClassName("events-date")[0].firstElementChild.textContent = dateString;
+		m2d2 = month[sunday.getMonth()] + " " + sunday.getDate();
+		return m1d1 + " - " + m2d2 + ", " + monday.getFullYear();
 	}
 
 	// Add all events to the homepage.
@@ -83,12 +93,18 @@ window.addEventListener("load", function (){
 		}
 	}
 
+	// create event listeners for previous and next buttons
+	// buttons on homepage
 	var prevWeekButton = document.getElementsByClassName("prevWeek")[0];
 	var nextWeekButton = document.getElementsByClassName("nextWeek")[0];
-
 	prevWeekButton.addEventListener("click",showPrevWeek);
 	nextWeekButton.addEventListener("click",showNextWeek);
 
+	// run when previous week button is clicked
+	// 
+	// does not return anything, but creates and inserts html
+	// for the header and event list on the homepage 
+	// for the week previous to what was being displayed
 	function showPrevWeek() {
 		var currentMonday = getCurrentDate();
 		var prevMonday = currentMonday;
@@ -98,6 +114,11 @@ window.addEventListener("load", function (){
 		displayEventsOnHomepage(mondayDate);
 	}
 
+	// run when next week button is clicked
+	// 
+	// does not return anything, but creates and inserts html
+	// for the header and event list on the homepage 
+	// for the next week from what was being displayed
 	function showNextWeek() {
 		var currentMonday = getCurrentDate();
 		var nextMonday = currentMonday;
@@ -107,14 +128,15 @@ window.addEventListener("load", function (){
 		displayEventsOnHomepage(mondayDate);
 	}
 
+	// get the date of what is currently being displayed
+	//
+	// returns a date of the format yyyy-mm-dd
 	function getCurrentDate() {
 		var dateHeader = document.getElementsByClassName("events-date")[0].firstElementChild;
 		var date = dateHeader.textContent.split("-");
 		var d = new Date(date[0] + date[1].substr(-4));
 		return d;
 	}
-
-
 
 });
 

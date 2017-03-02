@@ -39,7 +39,9 @@ post "/addEvent" do
 end
 
 post "/add" do
-	Event.addAttendee(params)
+	event = Event.new(params["eventId"])
+	event.addAttendee(params["attendeename"])
+	
 	redirect("/event?id=" + params["eventId"])
 end
 

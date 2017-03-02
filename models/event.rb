@@ -20,10 +20,12 @@ class Event
     database.getUsers(@id)
   end
 
-  # Find the date for Monday of the week of interest
-  # params are a key value pair with a date of interest
-  # if there are no params, the current week will be used
-  # returns the date of the monday for  the week as a string yyyy-mm-dd
+  # Find the date for Monday of the week of interest.
+  # 
+  # params - are a key value pair with a date of interest. If there are no
+  #          params, the current week will be used
+  # 
+  # Returns the date of the Monday for the week as a String yyyy-mm-dd.
   def Event.getDate(params)
   	if params == true
   	else
@@ -90,14 +92,9 @@ class Event
   # Adds a new attendee to the list of attendees
   #
   # queryHash - key value pair of parameters
-  def Event.addAttendee(queryHash)
-    tableCells = []
-    queryArray = queryHash.values.to_a
-    tableCells.push(queryArray[0])
-    queryArray[1].split(" ").each do |part|
-      tableCells.push(part.capitalize)
-    end
-    Database.newRow(tableCells)
+  def addAttendee(name)
+    split_name = name.split(" ")
+    Database.newRow([@id] + [split_name])
   end
 
 end

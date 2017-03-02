@@ -20,8 +20,8 @@ window.addEventListener("load", function (){
 		// and display them by creating and inserting html
 		// on to homepage as a list
 		// date is the date of the monday of the week as yyyy-mm-dd
-		function displayHomepage(date) {
-			var list = new EventList(date)
+		function displayHomepage(date = null) {
+			var list = new EventList(date);
 			list.addEvents();
 			list.addHeader();	
 		};
@@ -39,11 +39,10 @@ window.addEventListener("load", function (){
 		// for the header and event list on the homepage 
 		// for the week previous to what was being displayed
 		function showPrevWeek() {
-			var currentMonday = getCurrentDate();
+			var currentMonday = getDisplayedWeekDate();
 			var prevMonday = currentMonday;
 			prevMonday.setDate(currentMonday.getDate() - 7);
-			mondayDate = prevMonday.toISOString().substr(0,10);
-			displayHomepage(mondayDate);
+			displayHomepage(prevMonday);
 		}
 
 		// run when next week button is clicked
@@ -52,11 +51,20 @@ window.addEventListener("load", function (){
 		// for the header and event list on the homepage 
 		// for the next week from what was being displayed
 		function showNextWeek() {
-			var currentMonday = getCurrentDate();
+			var currentMonday = ggetDisplayedWeekDate();
 			var nextMonday = currentMonday;
 			nextMonday.setDate(currentMonday.getDate() + 7);
-			mondayDate = nextMonday.toISOString().substr(0,10);
-			displayHomepage(mondayDate);
+			displayHomepage(nextMonday);
+		}
+
+		// get the date of what is currently being displayed
+		//
+		// returns a date object
+		function getDisplayedWeekDate() {
+		  var dateHeader = document.getElementsByClassName("events-date")[0].firstElementChild;
+		  var date = dateHeader.textContent.split("-");
+		  var d = new Date(date[0] + date[1].substr(-4));
+		  return d;
 		}
 
 

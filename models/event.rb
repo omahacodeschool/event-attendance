@@ -20,10 +20,12 @@ class Event
     database.getUsers(@id)
   end
 
-  # Find the date for Monday of the week of interest
-  # params are a key value pair with a date of interest
-  # if there are no params, the current week will be used
-  # returns the date of the monday for  the week as a string yyyy-mm-dd
+  # Find the date for Monday of the week of interest.
+  # 
+  # params - are a key value pair with a date of interest. If there are no
+  #          params, the current week will be used
+  # 
+  # Returns the date of the Monday for the week as a String yyyy-mm-dd.
   def Event.getDate(params)
     if $mondayDate == nil
       d = Date.today
@@ -57,23 +59,6 @@ class Event
     sortEvents(weekdata)
   end
 
-  # Sort the events by weekday
-  # weekdata - an array of events
-  # Returns the data as a hash of weekdays -> array of events
-  def Event.sortEvents(weekdata)
-  	sortedEvents = {}
-  	weekdata.each do |row|
-  		date = Date.parse(row["date"])
-  		weekday = date.strftime("%A")
-  		if sortedEvents[weekday]
-  			sortedEvents[weekday].push(row)
-  		else
-  			sortedEvents[weekday] = [row]
-  		end
-  	end
- 	  return sortedEvents
-  end
-
   # Gets event info.
   #
   # Returns a Hash of the event's info (or an error).
@@ -84,6 +69,34 @@ class Event
     else
       @info
     end
+  end
+
+  private
+
+  # Sort the events by weekday
+  # weekdata - an array of events
+  # Returns the data as a hash of weekdays -> array of events
+  def Event.sortEvents(weekdata)
+    sortedEvents = {}
+    weekdata.each do |row|
+      date = Date.parse(row["date"])
+      weekday = date.strftime("%A")
+      if sortedEvents[weekday]
+        sortedEvents[weekday].push(row)
+      else
+        sortedEvents[weekday] = [row]
+      end
+    end
+    
+    return sortedEvents
+  end
+
+  # Adds a new attendee to the list of attendees
+  #
+  # queryHash - key value pair of parameters
+  def addAttendee(name)
+    split_name = name.split(" ")
+    Database.newRow([@id] + [split_name])
   end
 
 end

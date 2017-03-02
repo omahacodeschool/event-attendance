@@ -13,7 +13,7 @@ class Database
     return list
   end
 
-  # Get one week of events.
+  # Get all rows from a table, given some filter.
   # 
   # table  - Table name String.
   # filter - Proc of the filter function to call.
@@ -44,13 +44,17 @@ class Database
         return row.to_h
       end
     end
-    return {"title" => "not found"}
   end
 
+  # TODO Use all_with_filter instead. This method should be removed.
   def getUsers(id)
     list = []
 
-
+    # Loops through users.csv and gets all with specific id
+    #
+    # id = string
+    #
+    # returns a hash of users
     CSV.foreach("users.csv", {headers: true, return_headers: false}) do |row|
      
       if  row["eventId"] == id
@@ -59,6 +63,38 @@ class Database
     end
     return list
   end
+
+  # Appends a new line to events.csv file
+  #
+  # info - hash of new event strings
+  def Database.newEvent(info)
+    csv = File.open("events.csv", "a+")
+    uniqId = csv.readlines.size
+
+    info.insert(0, uniqId)
+    info = info.join(",")
   
+    csv.puts info
+    csv.close
+  end 
+
+  # Adds a new row to the database
+  #
+  # array - an array containing three strings
+  def Database.newRow(array, table)
+    # TODO Use Database.next_id to integrate Allen's method's functionality
+    #      into this method, thus letting you refactor away Database.newEvent.
+
+    CSV.open(table, "a") do |csv|
+      csv << array
+    end
+  end
+
+  private
+
+  def Database.next_id(table)
+    # TODO
+  end
+
 end
 

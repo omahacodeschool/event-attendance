@@ -63,45 +63,63 @@ window.addEventListener("load", function (){
 	if (bodyHasClass("event_page")){
 
 		rsvpButton = document.getElementsByClassName("reservations")[0].children[1];
-		submit = document.getElementsByName("Submit")[0];
+		// submit = document.getElementsByName("Submit")[0];
 
 		rsvpButton.addEventListener("click", showModal);
-		submit.addEventListener("click", sendReservation);
+		// submit.addEventListener("click", sendReservation);
+		// submit.addEventListener("click", prevent);
 
 		function showModal(){
 			modalWindow = document.getElementsByClassName("modal")[0];
 			modalWindow.style.display = "block";
 		};
 
-		function sendReservation(e){
-			e.preventDefault();
-			// Get form field name
-			findName()
-			// Get event id | returns as a string ie "10000"
-			findEventId()
-		};
-
-		function findName(){
-			return document.getElementsByName("newAttendeeName")[0];
-		}
+		// function sendReservation(e){
+		// 	fullName = findName();
+		// 	eventIdentifer = findEventId()
+	
+		// 	queryString = "eventId=" + eventIdentifer + "&first_name=" + fullName[0] + "&last_name=" + fullName[1];
+		// 	sendRequest('POST','/add', queryString , function(){ console.log("Sent!")})
+		// };
 
 
-		function findEventId(){
-			params = window.location.search
-			return parseParams(params)["id"];
-		};
-
-		function parseParams(parameters){
-			parameters = parameters.replace("?","");
-			peices = parameters.split("&");
-			hash = {};
-			for (i = 0; i < peices.length; i++){
-				hash[peices[i].split("=")[0]] = peices[i].split("=")[1];
-			}
-			return hash;
-		};
 
 
+		// function sendRequest(method, action, params, afterLoad){
+		// 	request = new XMLHttpRequest();
+		// 	request.open(method, action, true);
+		// 	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
+		// 	request.send(params);
+		// 	request.addEventListener("load", afterLoad);
+		// };
+
+		// function findName(){
+		// 	name = document.getElementsByName("newAttendeeName")[0].value;
+		// 	return splitName(name);
+		// }
+
+		// function splitName(name){
+		// 	nameArray = name.split(" ");
+		// 	return nameArray;
+		// };
+
+		// function findEventId(){
+		// 	params = window.location.search
+		// 	return parseParams(params)["id"];
+		// };
+
+		// function parseParams(parameters){
+		// 	peices = parameters.replace("?","").split("&");
+		// 	hash = {};
+		// 	for (i = 0; i < peices.length; i++){
+		// 		hash[peices[i].split("=")[0]] = peices[i].split("=")[1];
+		// 	}
+		// 	return hash;
+		// };
+
+		// function prevent(e){
+		// 	e.preventDefault();
+		// };
 
 	};
 

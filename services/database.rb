@@ -81,10 +81,19 @@ class Database
   # Adds a new row to the database
   #
   # array - an array containing three strings
-  def Database.newRow(array)
-    CSV.open("users.csv", "a") do |csv|
+  def Database.newRow(array, table)
+    # TODO Use Database.next_id to integrate Allen's method's functionality
+    #      into this method, thus letting you refactor away Database.newEvent.
+
+    CSV.open(table, "a") do |csv|
       csv << array
     end
+  end
+
+  private
+
+  def Database.next_id(table)
+    # TODO
   end
 
 end

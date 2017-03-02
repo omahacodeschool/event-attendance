@@ -3,6 +3,10 @@ function EventList(date = null) {
   // monday - date object of a Monday
   this.monday = date;
 
+  // sets the date object for monday and the iso string
+  // 
+  // sets monday if it is not provided to the monday of the current week
+  // sets a string of yyyy-mm-dd to mondayISO from monday
   this.setMondayDate = function() {
     if (this.monday == null) {
       this.getCurrentMonday();
@@ -10,6 +14,9 @@ function EventList(date = null) {
     this.mondayISO = this.monday.toISOString().substr(0,10);
   };
 
+  // gets the dat for monday of the current week
+  //
+  // sets monday to the date object of the monday of the current week
   this.getCurrentMonday = function() {
     today = new Date();
     difference = today.getDay();
@@ -20,13 +27,10 @@ function EventList(date = null) {
 
   this.setMondayDate();
 
-
   this.weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
   this.months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
   this.htmlToInsert = "";
-
-
 
 
   // Creates html for events for the week and add to index.erb.
@@ -39,18 +43,20 @@ function EventList(date = null) {
     document.getElementsByClassName("events-list")[0].innerHTML = this.htmlToInsert;
   };
 
-  this.addEvents = function() {
-    var that2 = this
+  this.addEvents = function(realThis) {
+    debugger;
     var ourRequest = new XMLHttpRequest();
     ourRequest.open('GET', "/eventlist?date=" + this.mondayISO, true);
     debugger;
-    ourRequest.onload = function(){
-      debugger;
-      this.eventsByWeekday = JSON.parse(event.target.responseText);
-      this.createHTML();
-    };
+    ourRequest.onload = realThis.onloadFunction;
     ourRequest.send();
   };
+
+  this.onloadFunction = function(event) {
+    this.eventsByWeekday = JSON.parse(event.target.responseText);
+    debugger;
+    this.createHTML();
+  }
 
   // Gets a single day of events
   //

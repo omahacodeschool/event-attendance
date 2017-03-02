@@ -25,46 +25,10 @@ window.addEventListener("load", function (){
 		// Adds the html to index for list of the week of events.
 		function addEvents(event) {
 			var data = JSON.parse(event.target.responseText);
-			createHTML(data);		
+
+			var list = new EventList(data)
+			list.createHTML();
 		};
-
-		// Creates html for events for the week and add to index.erb.
-		// events_by_weekday - json data as a hash organized as weekday -> array of events.
-		// html added to index.erb.
-		function createHTML(eventsByWeekday){
-			htmlToInsert = "";
-			weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-			createHTMLForEachWeekday(eventsByWeekday);
-			document.getElementsByClassName("events")[0].insertAdjacentHTML('beforeend',htmlToInsert);
-		}
-
-		// Creates html for events by each weekday.
-		// data - json data as a hash organized as weekday -> array of events.
-		// html created as a string for all weekdays.
-		function createHTMLForEachWeekday(eventsByWeekday) {
-			for (var i=0;i<weekdays.length;i++) {
-				if (eventsByWeekday[weekdays[i]]){
-					htmlToInsert += "<div class='event-item'>";
-					htmlToInsert += "<h2>" + weekdays[i] + "</h2><ul>";
-					createHTMLForEachEvent(eventsByWeekday[weekdays[i]])
-					htmlToInsert += "</ul></div>";
-				}
-			}
-		}
-
-		// Creates html for events for a single weekday.
-		// daysEvents - an array of events for a single weekday.
-		// html created as a string for one weekday.
-		function createHTMLForEachEvent(daysEvents) {
-			for (var j=0; j<daysEvents.length;j++) {
-				htmlToInsert += "<li>";
-				htmlToInsert += daysEvents[j]["time"] + " - ";
-				htmlToInsert += daysEvents[j]["group"] + " - ";
-				htmlToInsert += "<a href='/event?id=" + daysEvents[j]["id"] + "'>"
-				htmlToInsert += daysEvents[j]["title"]
-				htmlToInsert += "</a></li>";
-			}
-		}
 	};
 
 	if (bodyHasClass("event_page")){

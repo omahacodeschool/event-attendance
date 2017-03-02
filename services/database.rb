@@ -63,10 +63,9 @@ class Database
   
  # array = ["1","Spencer",Gerdes]
 
-  def newRow(array)
-    
+  def Database.newRow(array)
     CSV.open("users.csv", "a") do |csv|
-      csv << ["1", "Allen", "Wipf"]
+      csv << array
     end
   end
 

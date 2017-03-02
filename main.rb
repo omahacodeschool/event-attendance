@@ -14,7 +14,6 @@ get ("/eventlist") {
 
 get "/event" do
 	@event = Event.new(params["id"])
-
 	erb :event
 end
 
@@ -31,7 +30,6 @@ post ("/login") do
 	if Login.valid(params["user"], params["pass"])
 		session[:username] = params["user"]
 	end
-
 	redirect("/")
 end
 
@@ -40,4 +38,8 @@ post ("/addEvent") do
 	redirect("/")
 end
 
+post ("/add") do
+	Event.addAttendee(params)
+	redirect("/event?id=" + params["eventId"])
+end
 

@@ -87,4 +87,17 @@ class Event
     end
   end
 
+  # Adds a new attendee to the list of attendees
+  #
+  # queryHash - key value pair of parameters
+  def Event.addAttendee(queryHash)
+    tableCells = []
+    queryArray = queryHash.values.to_a
+    tableCells.push(queryArray[0])
+    queryArray[1].split(" ").each do |part|
+      tableCells.push(part.capitalize)
+    end
+    Database.newRow(tableCells)
+  end
+
 end

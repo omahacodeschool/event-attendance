@@ -1,56 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="scripts.js"></script>
 	<title>This event</title>
 	<link rel="stylesheet" type="text/css" href="/styles.css?i=lol">
 </head>
 
-<body>
+<body class="event_page">
 
-<div class="page_body event_page">
-	<div class="event">	
-		<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
-		<hr>
-		<div class="event_details">
-			<ul>
-				<li><%= @event.info['group'] %></li>
-				<li><%= @event.info['time'] %></li>
-				<li><%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
-				<li>
-					<a href = <%= @event.info['link'].to_s %>>
-						Original Page.
-					</a>
-				</li>
-			</ul>	
+<% if !@event.info.nil?%>
+	<div class="page_body">
+		<div class="event">	
+			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
+			<hr>
+			<div class="event_details">
+				<ul>
+					<li><%= @event.info['group'] %></li>
+					<li><%= @event.info['time'] %></li>
+					<li><%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
+					<li>
+						<a href = <%= @event.info['link'].to_s %>>
+							Original Page.
+						</a>
+					</li>
+				</ul>	
+			</div>
+		</div>
+
+		<div class="reservations">
+			<h2>Attendees</h2>
+			<button>RSVP</button>
+			<hr>
+			<div class="attendies">
+				<ul>
+					<% @event.attendees.each do |name| %>
+					<%= "<li>" + name["first_name"] + " " + name["last_name"] + "<br>" + "</li>"%> 
+					<% end %> 
+				</ul>
+			</div>
 		</div>
 	</div>
 
-	<div class="reservations">
-		<h2>Attendees</h2>
-		<button>RSVP</button>
-		<hr>
-		<div class="attendies">
-			<ul>
-				<% @event.attendees.each do |name| %>
-				<%= "<li>" + name["first_name"] + " " + name["last_name"] + "<br>" + "</li>"%> 
-				<% end %> 
-			</ul>
+	<div class="modal">
+
+		<div class="modal_body">
+			<div class="exit"><a href="#">X</a></div>
+			<h3>Add yourself to the list.</h3>
+			<p>Are you going? RSVP below.</p>
+			<form action="/add" method="post">
+				<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
+				<input 
+					type="text" 
+					placeholder="Enter your name" 
+					name="attendeename"
+					pattern="^[A-Za-z]{2,} +[A-Za-z]{2,}$" 
+					title="Enter your first and last name (both must be at least two charcters), seperated by a space. ex. 'John Doe'."
+					required
+				>
+				<input type="submit">
+			</form>
 		</div>
 	</div>
-</div>
-
-<div class="modal">
-
-	<div class="modal_body">
-		<div class="exit">X</div>
-		<h3>Wordpress Omaha Planning Meeting</h3>
-		<p>Are you going? RSVP below.</p>
-		<form action="">
-			<input type="text" placeholder="Enter your name" name="newAttendeeName">
-			<input type="submit" name="Submit">
-		</form>
-	</div>
-</div>
+<% else %>
+	<h1>Bzzt! ERROR! No event under this id.</h1>
+<% end %>
 
 </body>
 </html>

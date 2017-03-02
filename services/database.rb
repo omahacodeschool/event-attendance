@@ -45,7 +45,6 @@ class Database
         return row.to_h
       end
     end
-    return {"title" => "not found"}
   end
 
   def getUsers(id)
@@ -78,5 +77,15 @@ class Database
     csv.puts info
     csv.close
   end 
+
+  # Adds a new row to the database
+  #
+  # array - an array containing three strings
+  def Database.newRow(array)
+    CSV.open("users.csv", "a") do |csv|
+      csv << array
+    end
+  end
+
 end
 

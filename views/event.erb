@@ -8,7 +8,7 @@
 
 <body class="event_page">
 
-<% if @event.info != nil%>
+<% if !@event.info.nil?%>
 	<div class="page_body">
 		<div class="event">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>

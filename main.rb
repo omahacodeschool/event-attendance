@@ -35,9 +35,11 @@ post ("/login") do
 	redirect("/")
 end
 
-get ("/add") do
-	thing = Database.new
-	thing.newRow("hi")
+# Adds params values to data base
+
+post ("/add") do
+	Event.addAttendee(params)
+	redirect("/event?id=" + params["eventId"])
 end
 
 

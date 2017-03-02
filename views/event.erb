@@ -14,6 +14,7 @@
 		<hr>
 		<div class="event_details">
 			<ul>
+				<li><%= @event.info['id']%></li>
 				<li><%= @event.info['group'] %></li>
 				<li><%= @event.info['time'] %></li>
 				<li><%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
@@ -47,9 +48,10 @@
 		<div class="exit">X</div>
 		<h3>Add yourself to the list.</h3>
 		<p>Are you going? RSVP below.</p>
-		<form action="">
-			<input type="text" placeholder="Enter your name" name="newAttendeeName">
-			<input type="submit" name="Submit">
+		<form action="/add" method="post">
+			<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+			<input type="text" placeholder="Enter your name" name="attendeename">
+			<input type="submit">
 		</form>
 	</div>
 </div>

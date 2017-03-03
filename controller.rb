@@ -40,7 +40,7 @@ end
 
 post "/deleteRsvp" do
   # TODO The controller shouldn't know about "Database"--move this into Event model.
-  Database.deleteRow("rsvps", params["eventId"], session[:user][:fullname])
+  $database.deleteRow("rsvps", params["eventId"], session[:user][:fullname])
   redirect("/event?id=" + params["eventId"])
 end
 

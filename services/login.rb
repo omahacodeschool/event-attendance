@@ -7,7 +7,7 @@ class Login
   # 
   # Returns Hash of user's information, or Nil.
   def Login.valid(username, password)
-    userArr = Database.all_with_filter("users") do |row|
+    userArr = $database.all_with_filter("users") do |row|
       (row["username"] == username) && (row["password"] == password)
     end
 

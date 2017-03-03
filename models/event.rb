@@ -8,8 +8,7 @@ class Event
   # 
   # Returns Array of Event Hashes.
   def Event.all
-    database = Database.new
-    database.all("events")
+    $database.all("events")
   end
 
   def Event.create(params)
@@ -18,7 +17,7 @@ class Event
     # TODO Populate values as needed based on params.
     # values << ???
 
-    Database.newRow(values, "events", Database.next_id("events"))
+    $database.newRow(values, "events", $database.next_id("events"))
   end
 
    # Get an event's attendees.
@@ -28,8 +27,8 @@ class Event
     idFilter = Proc.new do |row|
       row["eventid"] == @id
     end
-    database = Database.new
-    database.all_with_filter("rsvps", idFilter)
+
+    $database.all_with_filter("rsvps", idFilter)
   end
 
   # Find the date for Monday of the week of interest.
@@ -45,7 +44,7 @@ class Event
       if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
       monday = d - difference + 1
       $mondayDate = monday.strftime("%Y-%m-%d")
-    elsif params != {}
+    elsif !date.nil?
       $mondayDate = date
     end
   	return $mondayDate
@@ -58,8 +57,6 @@ class Event
   # 
   # Returns the data as a hash of weekdays -> array of events
   def Event.week(date)
-  	database = Database.new 
-
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
       $mondayDate = getDate(date)
@@ -69,7 +66,7 @@ class Event
       (row_date >= beginningDate && row_date < endingDate)
     end
 
-    weekdata = database.all_with_filter("events", filter)
+    weekdata = $database.all_with_filter("events", filter)
 
     sortEvents(weekdata)
   end
@@ -82,8 +79,8 @@ class Event
       filter = Proc.new do |row|
         (row["id"]==@id)
       end
-      database = Database.new
-      @info = database.all_with_filter("events", filter)[0].to_h
+
+      @info = $database.all_with_filter("events", filter)[0].to_h
     else
       @info
     end
@@ -93,7 +90,7 @@ class Event
   #
   # queryHash - key value pair of parameters
   def addAttendee(name)
-    Database.newRow([@id] + [name], "rsvps")
+    $database.newRow([@id] + [name], "rsvps")
   end
 
 

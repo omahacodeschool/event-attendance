@@ -34,17 +34,19 @@
 			<h2>Attendees</h2>
 
 			<% if session[:fullname] %>
-				<form action="/add" method="post">
-					<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
-				    <input type="hidden" name="attendeename" value=<%= "'" + session[:fullname] + "'"%> readonly >
-					<input type="submit" value="RSVP!">
-				</form>
-			
-				<form action="/deleteRsvp" method="post">
-					<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
-					<input type="hidden" value=<%= "'" + session[:fullname] + "'"%> name="user" readonly>
-					<input type='submit' value="Remove RSVP">		
-				</form>
+				<div class="rsvp-actions">
+					<form class="rsvp-button" action="/add" method="post">
+						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
+					    <input type="hidden" name="attendeename" value=<%= "'" + session[:fullname] + "'"%> readonly >
+						<input type="submit" value="RSVP!">
+					</form>
+				
+					<form class="rsvp-button" action="/deleteRsvp" method="post">
+						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
+						<input type="hidden" value=<%= "'" + session[:fullname] + "'"%> name="user" readonly>
+						<input type='submit' value="Remove RSVP">		
+					</form>
+				</div>
 			<% else %>
 
 				<p> Please register to RSVP </p>

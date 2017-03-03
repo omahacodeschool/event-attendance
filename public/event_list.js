@@ -21,8 +21,8 @@ function EventList(date = null) {
   //
   // sets monday to the date object of the monday of the current week
   this.getCurrentMonday = function() {
-    today = new Date();
-    difference = today.getDay();
+    var today = new Date();
+    var difference = today.getDay();
     if (difference == 0) {difference = 7};
     this.monday = today;
     this.monday.setDate(this.monday.getDate() - difference + 1);
@@ -114,7 +114,7 @@ function EventList(date = null) {
   // date is the date of the monday of the week as yyyy-mm-dd
   // returns nothing, inserts header text in html h2
   this.addHeader = function() {
-    dateString = this.createDateString();
+    var dateString = this.createDateString();
     document.getElementsByClassName("events-date")[0].firstElementChild.textContent = dateString;
   };
 
@@ -123,10 +123,10 @@ function EventList(date = null) {
   // monday is a date object of a monday
   // returns a string of the form "February 27 - March 5, 2017"
   this.createDateString = function() { 
-    m1d1 = this.months[this.monday.getMonth()] + " " + this.monday.getDate();
+    var m1d1 = this.months[this.monday.getMonth()] + " " + this.monday.getDate();
     var sunday = this.monday;
     sunday.setDate(sunday.getDate() + 6);
-    m2d2 = this.months[sunday.getMonth()] + " " + sunday.getDate();
+    var m2d2 = this.months[sunday.getMonth()] + " " + sunday.getDate();
     return m1d1 + " - " + m2d2 + ", " + this.monday.getFullYear();
   };
 

@@ -1,4 +1,3 @@
-events.csv
-users.csv
-spec/fakeEvents.csv
-spec/fakeUsers.csv
+*events.csv
+*users.csv
+*rsvps.csv

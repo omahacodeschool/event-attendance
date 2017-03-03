@@ -1,8 +1,13 @@
 RSpec.describe(Event,"#info") do 
 	it "gets the event information" do
-		id = "1"
-		event = Event.new(id)
-		# Needs refactoring reference to 'events.csv' hardcoded in database
+		# Setup
+		# Create the event.
+		# Capture ID.
+			# id = "1"
+
+		# Exercise
+			event = Event.new(id)
+
 		expect(event.info["id"]).to eq(id)
 	end
 

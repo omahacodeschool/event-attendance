@@ -8,8 +8,16 @@ class Event
   # 
   # Returns Array of Event Hashes.
   def Event.all
-    database = Database.new
-    database.all("events")
+    $database.all("events")
+  end
+
+  def Event.create(params)
+    values = []
+
+    # TODO Populate values as needed based on params.
+    # values << ???
+
+    $database.newRow(values, "events", $database.next_id("events"))
   end
 
    # Get an event's attendees.
@@ -19,45 +27,46 @@ class Event
     idFilter = Proc.new do |row|
       row["eventid"] == @id
     end
-    database = Database.new
-    database.all_with_filter("users", idFilter)
+
+    $database.all_with_filter("rsvps", idFilter)
   end
 
   # Find the date for Monday of the week of interest.
   # 
-  # params - are a key value pair with a date of interest. If there are no
-  #          params, the current week will be used
+  # date - String date of interest in YYYY-MM-DD format. If there are no
+  #        params, the current week will be used.
   # 
   # Returns the date of the Monday for the week as a String yyyy-mm-dd.
-  def Event.getDate(params)
+  def Event.getDate(date)
     if $mondayDate == nil
       d = Date.today
       difference = d.wday
       if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
       monday = d - difference + 1
       $mondayDate = monday.strftime("%Y-%m-%d")
-    elsif params != {}
-      $mondayDate = params["date"]
+    elsif !date.nil?
+      $mondayDate = date
     end
   	return $mondayDate
   end
 
   # Get one weeks events.
-  # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
+  # 
+  # date - String date of interest in YYYY-MM-DD format. If there are no
+  #        params, the current week will be used.
+  # 
   # Returns the data as a hash of weekdays -> array of events
-  def Event.week(params)
-  	database = Database.new 
-
+  def Event.week(date)
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
-      $mondayDate = getDate(params)
+      $mondayDate = getDate(date)
       beginningDate = Date.parse($mondayDate)
       endingDate = Date.parse($mondayDate) + 7
 
       (row_date >= beginningDate && row_date < endingDate)
     end
 
-    weekdata = database.all_with_filter("events", filter)
+    weekdata = $database.all_with_filter("events", filter)
 
     sortEvents(weekdata)
   end
@@ -70,8 +79,8 @@ class Event
       filter = Proc.new do |row|
         (row["id"]==@id)
       end
-      database = Database.new
-      @info = database.all_with_filter("events", filter)[0].to_h
+
+      @info = $database.all_with_filter("events", filter)[0].to_h
     else
       @info
     end
@@ -81,7 +90,7 @@ class Event
   #
   # queryHash - key value pair of parameters
   def addAttendee(name)
-    Database.newRow([@id] + [name], "users")
+    $database.newRow([@id] + [name], "rsvps")
   end
 
 

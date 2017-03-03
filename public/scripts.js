@@ -72,6 +72,7 @@ window.addEventListener("load", function (){
 
 	if (bodyHasClass("event_page")){
 
+     
 		rsvpButton = document.getElementsByClassName("reservations")[0].children[1];
 		modalExit = document.getElementsByClassName("exit")[0]; 
 		modalWindow = document.getElementsByClassName("modal")[0];

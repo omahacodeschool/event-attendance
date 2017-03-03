@@ -12,12 +12,15 @@ class Event
     database.all("events")
   end
 
-  # Get an event's attendees.
+   # Get an event's attendees.
   # 
   # Returns an Array of attendees.
   def attendees
+    idFilter = Proc.new do |row|
+      row["eventId"] == @id
+    end
     database = Database.new
-    database.getUsers(@id)
+    database.all_with_filter("users", idFilter)
   end
 
   # Find the date for Monday of the week of interest.
@@ -64,12 +67,23 @@ class Event
   # Returns a Hash of the event's info (or an error).
   def info
     if @info.nil?
+      filter = Proc.new do |row|
+        (row["id"]==@id)
+      end
       database = Database.new
-      @info = database.getRowById("events", @id)
+      @info = database.all_with_filter("events", filter)[0].to_h
     else
       @info
     end
   end
+
+  # Adds a new attendee to the list of attendees
+  #
+  # queryHash - key value pair of parameters
+  def addAttendee(name)
+    Database.newRow([@id] + [name], "users")
+  end
+
 
   private
 
@@ -89,14 +103,6 @@ class Event
     end
     
     return sortedEvents
-  end
-
-  # Adds a new attendee to the list of attendees
-  #
-  # queryHash - key value pair of parameters
-  def addAttendee(name)
-    split_name = name.split(" ")
-    Database.newRow([@id] + [split_name])
   end
 
 end

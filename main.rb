@@ -34,14 +34,14 @@ post "/login" do
 end
 
 post "/addEvent" do
-	Database.newEvent(params.values)
+	Database.newRow(params.values, "events", Database.next_id("events"))
 	redirect("/")
 end
 
 post "/add" do
 	event = Event.new(params["eventId"])
 	event.addAttendee(params["attendeename"])
-	
+	session[:fullname] = params["attendeename"]
 	redirect("/event?id=" + params["eventId"])
 end
 

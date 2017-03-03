@@ -1,6 +1,6 @@
 class Database
 
-  def initialize(database_path="databases")
+  def initialize(database_path="../databases")
     @database_path = database_path
   end
 

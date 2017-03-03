@@ -1,0 +1,14 @@
+<head>
+	<meta charset="utf-8">
+	<title>
+		<% if @event %>
+			<%= @event.info["title"] %>
+		<% else %>
+			<%= "Events" %>
+		<% end %>
+	</title>
+	<script type="text/javascript" src="/event_list.js"></script>
+	<script type="text/javascript" src="/scripts.js"></script>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>

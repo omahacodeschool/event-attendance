@@ -34,7 +34,7 @@ end
 # TODO - Clearer route path (or document the action).
 post "/add" do
   event = Event.new(params["eventId"])
-  event.addAttendee(params["attendeename"])
+  event.addAttendee(session[:user][:fullname])
   redirect("/event?id=" + params["eventId"])
 end
 

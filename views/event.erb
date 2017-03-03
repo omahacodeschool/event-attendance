@@ -37,7 +37,6 @@
 				<div class="rsvp-actions">
 					<form class="rsvp-button" action="/add" method="post">
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
-					    <input type="hidden" name="attendeename" value=<%= "'" + session[:user][:fullname] + "'"%> readonly >
 						<input type="submit" value="RSVP!">
 					</form>
 				

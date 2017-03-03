@@ -1,5 +1,6 @@
 require_relative "../services/login.rb"
 require_relative "../services/database.rb"
+require_relative "../models/event.rb"
 require 'pry'
 require 'csv'
 

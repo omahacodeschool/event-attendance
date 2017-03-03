@@ -31,43 +31,22 @@ class Event
     $database.all_with_filter("rsvps", idFilter)
   end
 
-  # Find the date for Monday of the week of interest.
-  # 
-  # date - String date of interest in YYYY-MM-DD format. If there are no
-  #        params, the current week will be used.
-  # 
-  # Returns the date of the Monday for the week as a String yyyy-mm-dd.
-  def Event.getDate(date)
-    if $mondayDate == nil
-      d = Date.today
-      difference = d.wday
-      if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
-      monday = d - difference + 1
-      $mondayDate = monday.strftime("%Y-%m-%d")
-    elsif !date.nil?
-      $mondayDate = date
-    end
-  	return $mondayDate
-  end
 
   # Get one weeks events.
   # 
-  # date - String date of interest in YYYY-MM-DD format. If there are no
-  #        params, the current week will be used.
+  # date - String date of interest in YYYY-MM-DD format
   # 
-  # Returns the data as a hash of weekdays -> array of events
+  # Returns the events as a Hash of weekday -> array of events
   def Event.week(date)
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
-      $mondayDate = getDate(date)
-      beginningDate = Date.parse($mondayDate)
-      endingDate = Date.parse($mondayDate) + 7
+      beginningDate = Date.parse(date)
+      endingDate = Date.parse(date) + 7
 
       (row_date >= beginningDate && row_date < endingDate)
     end
 
     weekdata = $database.all_with_filter("events", filter)
-
     sortEvents(weekdata)
   end
 

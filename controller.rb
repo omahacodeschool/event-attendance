@@ -39,7 +39,8 @@ post "/add" do
 end
 
 post "/deleteRsvp" do
-  Database.deleteRow("rsvps",params["eventId"],params["user"])
+  # TODO The controller shouldn't know about "Database"--move this into Event model.
+  Database.deleteRow("rsvps", params["eventId"], session[:user][:fullname])
   redirect("/event?id=" + params["eventId"])
 end
 

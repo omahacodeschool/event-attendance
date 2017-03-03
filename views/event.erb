@@ -42,7 +42,6 @@
 				
 					<form class="rsvp-button" action="/deleteRsvp" method="post">
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
-						<input type="hidden" value=<%= "'" + session[:user][:fullname] + "'"%> name="user" readonly>
 						<input type='submit' value="Remove RSVP">		
 					</form>
 				</div>

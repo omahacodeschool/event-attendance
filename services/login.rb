@@ -14,14 +14,4 @@ class Login
     return userArr[0]
   end
 
-  def Login.saveLogins(email,pass,fullname)
-    if !Database.checkifUniq(email, "users", "username")
-      loginInfo = Array.new([email,pass,fullname,"false"])
-      Database.newRow(loginInfo, "users")
-    end
-
-    return {username: email, fullname: fullname, admin: "false"}
-  end
-
-
 end

@@ -20,7 +20,7 @@ class Event
       row["eventid"] == @id
     end
     database = Database.new
-    database.all_with_filter("users", idFilter)
+    database.all_with_filter("rsvps", idFilter)
   end
 
   # Find the date for Monday of the week of interest.
@@ -84,7 +84,7 @@ class Event
   #
   # queryHash - key value pair of parameters
   def addAttendee(name)
-    Database.newRow([@id] + [name], "users")
+    Database.newRow([@id] + [name], "rsvps")
   end
 
 

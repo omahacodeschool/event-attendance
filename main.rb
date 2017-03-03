@@ -22,24 +22,17 @@ get "/" do
 end
 
 post "/logout" do
-	session[:username] = nil
-	redirect("/")
-end
-
-post "/logoutuser" do
-	session[:fullname] = nil
+	session[:user] = nil
 	redirect("/")
 end
 
 post "/login" do
-	if Login.valid(params["user"], params["pass"])
-		session[:username] = params["user"]
-	end
-	redirect("/")
-end
+	user = Login.valid(params["user"], params["pass"])
 
-post "/userlogin" do
-	session[:fullname] = Login.Uservalid(params["user"], params["pass"])
+	if !user.nil?
+		session[:user] = user
+	end
+
 	redirect("/")
 end
 
@@ -55,17 +48,19 @@ post "/add" do
 end
 
 post "/deleteRsvp" do
-	Database.deleteRow("users",params["eventId"],params["user"])
+	Database.deleteRow("rsvps",params["eventId"],params["user"])
 	redirect("/event?id=" + params["eventId"])
 end
 
 post "/register" do
-	if Login.saveLogins(params["email"],(params["pass"]),(params["fullname"]))
-		session[:email] = params["email"]
-		session[:fullname] = params["fullname"]
-		session[:message] = ''
+	user = User.create(params["email"], params["pass"], params["fullname"])
+
+	if user
+		session[:user] = user
+	else
+		session[:message] = "Email is taken"	
 	end
-	session[:message] = "Email is taken"
+
 	redirect("/")
 end
 

@@ -1,4 +1,6 @@
 events.csv
 users.csv
+rsvps.csv
 spec/fakeEvents.csv
 spec/fakeUsers.csv
+spec/fakeRSVPs.csv

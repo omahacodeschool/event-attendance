@@ -83,17 +83,6 @@ class Database
     File.open("#{table}.csv", 'w') do |row|
       row.write(csv.to_csv)
     end
-  end 
-
-  def Database.checkLogin(email, password)
-
-    CSV.foreach("logins.csv", {headers: true, return_headers: false}) do |row|
-      if row["username"] == email && row["password"] == password
-        return row["fullname"]
-      else
-        next
-      end
-    end
   end
 
 end

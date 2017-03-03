@@ -1,22 +1,23 @@
+// javascript 'class' for creating the homepage html
+//
+// date - Date object for a Monday
+//
+// 
 function EventList(date = null) {
-  
-  // monday - date object of a Monday
   this.monday = date;
-
-  this.setMondayDate();
-
+  this.htmlToInsert = "";
+  this.ourRequest = null;
   this.weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
   this.months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
-  // Create empty String variable of html to insert in dom of index.erb
-  this.htmlToInsert = "";
-  this.ourRequest = null;
+  this.setMondayDate();
 };
 
 // sets the date object for monday and the iso string
 // 
-// sets monday if it is not provided to the monday of the current week
-// sets a string of yyyy-mm-dd to mondayISO from monday
+// sets this.monday if nil - Date object for current week Monday
+// 
+// sets mondayISO - String yyyy-mm-dd of a Monday
 EventList.prototype.setMondayDate = function() {
   if (this.monday == null) {
     this.getCurrentMonday();
@@ -25,9 +26,9 @@ EventList.prototype.setMondayDate = function() {
 };
 
 
-// gets the date for monday of the current week
+// gets current week's Monday
 //
-// sets monday to the date object of the monday of the current week
+// sets this.monday - Date object for current week Monday
 EventList.prototype.getCurrentMonday = function() {
   var today = new Date();
   var difference = today.getDay();
@@ -38,7 +39,8 @@ EventList.prototype.getCurrentMonday = function() {
 
 
 // Makes request to server to get event list
-// Calls onloadFunction
+//
+// calls onloadFunction
 EventList.prototype.addEvents = function() {
   var self = this;
   this.ourRequest = new XMLHttpRequest();
@@ -50,7 +52,9 @@ EventList.prototype.addEvents = function() {
 };
 
 
-
+// Makes html for week of events
+//
+// this.eventsByWeekday - Hash of weekday -> array of events
 function onloadFunction() {
   this.eventsByWeekday = JSON.parse(event.target.responseText);
   this.createHTML();
@@ -58,7 +62,7 @@ function onloadFunction() {
 
 // Creates html for events for the week and adds to index.erb.
 //
-// eventsByWeekday - json data as a hash organized as weekday -> array of events.
+// if no html to add, create no event message
 //
 // Returns nothing, results in html added to index.erb.
 EventList.prototype.createHTML = function() {
@@ -109,16 +113,16 @@ EventList.prototype.createHTMLForEachEvent = function (daysEvents) {
 };
 
 // will display the date range for the week as a header
-// date is the date of the monday of the week as yyyy-mm-dd
+//
 // returns nothing, inserts header text in html h2
 EventList.prototype.addHeader = function() {
   var dateString = this.createDateString();
   document.getElementsByClassName("events-date")[0].firstElementChild.textContent = dateString;
 };
 
-// creates the string to be displayed in the header
-// monday is a date object of a monday
-// returns a string of the form "February 27 - March 5, 2017"
+// creates the date range to be displayed in the header
+//
+// returns a String of the form "February 27 - March 5, 2017"
 EventList.prototype.createDateString = function() { 
   var m1d1 = this.months[this.monday.getMonth()] + " " + this.monday.getDate();
   var sunday = this.monday;

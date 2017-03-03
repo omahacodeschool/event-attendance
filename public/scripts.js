@@ -14,12 +14,13 @@ window.addEventListener("load", function (){
 
 	if (bodyHasClass("index_page")){
 
+		// displays events for the current week upon initial page load
 		displayHomepage();
 
 		// get events for a specific week from server 
 		// and display them by creating and inserting html
 		// on to homepage as a list
-		// date is the date of the monday of the week as yyyy-mm-dd
+		// date - Date object for a Monday
 		function displayHomepage(date = null) {
 			var list = new EventList(date);
 			list.addHeader();	
@@ -59,7 +60,7 @@ window.addEventListener("load", function (){
 
 		// get the date of what is currently being displayed
 		//
-		// returns a date object
+		// returns a Date object
 		function getDisplayedWeekDate() {
 		  var dateHeader = document.getElementsByClassName("events-date")[0].firstElementChild;
 		  var date = dateHeader.textContent.split("-");

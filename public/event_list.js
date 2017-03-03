@@ -1,3 +1,5 @@
+// TODO Add 'var' where needed.
+
 function EventList(date = null) {
   
   // monday - date object of a Monday

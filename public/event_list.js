@@ -14,7 +14,7 @@ function EventList(date = null) {
     this.mondayISO = this.monday.toISOString().substr(0,10);
   };
 
-  // gets the dat for monday of the current week
+  // gets the date for monday of the current week
   //
   // sets monday to the date object of the monday of the current week
   this.getCurrentMonday = function() {
@@ -30,21 +30,13 @@ function EventList(date = null) {
   this.weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
   this.months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
+
+  // Create empty String variable of html to insert in dom of index.erb
   this.htmlToInsert = "";
 
-
-  // Creates html for events for the week and add to index.erb.
-  //
-  // events_by_weekday - json data as a hash organized as weekday -> array of events.
-  //
-  // Returns nothing, results in html added to index.erb.
-  this.createHTML = function() {
-    this.createHTMLForEachWeekday();
-    if (this.htmlToInsert == "") {this.htmlToInsert = "<p>No events</p>"}
-    document.getElementsByClassName("events-list")[0].innerHTML = this.htmlToInsert;
-  };
+  // Makes request to server to get event list
+  // Calls onloadFunction
   this.ourRequest = null;
-
   this.addEvents = function() {
     var self = this;
     this.ourRequest = new XMLHttpRequest();
@@ -59,6 +51,17 @@ function EventList(date = null) {
     this.eventsByWeekday = JSON.parse(event.target.responseText);
     this.createHTML();
   }
+
+  // Creates html for events for the week and adds to index.erb.
+  //
+  // eventsByWeekday - json data as a hash organized as weekday -> array of events.
+  //
+  // Returns nothing, results in html added to index.erb.
+  this.createHTML = function() {
+    this.createHTMLForEachWeekday();
+    if (this.htmlToInsert == "") {this.htmlToInsert = "<p>No events</p>"}
+    document.getElementsByClassName("events-list")[0].innerHTML = this.htmlToInsert;
+  };
 
 
   // Gets a single day of events

@@ -8,6 +8,8 @@
 </head>
 
 <body class="event_page">
+
+<!-- if event exists -->
 <% if !@event.info.nil?%>
 	<div class="page_body">
 		<div class="event">	
@@ -32,8 +34,9 @@
 
 		<div class="reservations">
 			<h2>Attendees</h2>
-
-			<% if session[:user][:fullname] %>
+			
+			<!-- user is logged in -->
+			<% if session[:user] %>
 				<div class="rsvp-actions">
 					<form class="rsvp-button" action="/addAttendee" method="post">
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
@@ -45,6 +48,8 @@
 						<input type='submit' value="Remove RSVP">		
 					</form>
 				</div>
+
+			<!-- user is not logged in -->
 			<% else %>
 
 				<p> Please register to RSVP </p>
@@ -60,6 +65,8 @@
 			</div>
 		</div>
 	</div>
+
+<!-- if event doesnt exist -->
 <% else %>
 	<h1>Bzzt! ERROR! No event under this id.</h1>
 <% end %>

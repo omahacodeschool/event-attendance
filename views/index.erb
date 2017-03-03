@@ -11,9 +11,9 @@
 <div class="page_body">
 
 	<% if session[:user] %>
-		<% if session[:user][:admin] == "true" %>
+		<% if session[:user]["admin"] == "true" %>
 			<form class="loginForm" action="/logout" method="post">
-				<p class="welcome"> Welcome: <%= session[:user][:fullname] %>
+				<p class="welcome"> Welcome: <%= session[:user]["fullname"] %>
 				<button type="Submit" name="logout">Log Out</button></p>
 			</form>
 
@@ -32,7 +32,7 @@
 		<% end %>
 
 		<form class="loginForm" action="/logout" method="post">
-			<p class="welcome"> Welcome: <%= session[:user][:fullname] %>
+			<p class="welcome"> Welcome: <%= session[:user]["fullname"] %>
 			<button type="Submit" name="logout">Log Out</button></p>
 		</form>
 	<% else %>

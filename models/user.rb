@@ -10,7 +10,7 @@ class User
       userInfo = [email, pass, fullname, admin]
       $database.newRow(userInfo, "users")
 
-      return {username: email, fullname: fullname, admin: admin}
+      return {"username" => email, "fullname" => fullname, "admin" => admin}
     end
   end
 end

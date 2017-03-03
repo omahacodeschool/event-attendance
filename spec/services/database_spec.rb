@@ -1,4 +1,4 @@
-RSpec.describe(Database, '.all') do
+RSpec.describe(Database, '#all') do
 	
 	it 'gets all rows from a table' do
 		database = Database.new

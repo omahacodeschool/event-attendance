@@ -25,11 +25,11 @@ class Event
 
   # Find the date for Monday of the week of interest.
   # 
-  # params - are a key value pair with a date of interest. If there are no
-  #          params, the current week will be used
+  # date - String date of interest in YYYY-MM-DD format. If there are no
+  #        params, the current week will be used.
   # 
   # Returns the date of the Monday for the week as a String yyyy-mm-dd.
-  def Event.getDate(params)
+  def Event.getDate(date)
     if $mondayDate == nil
       d = Date.today
       difference = d.wday
@@ -37,20 +37,23 @@ class Event
       monday = d - difference + 1
       $mondayDate = monday.strftime("%Y-%m-%d")
     elsif params != {}
-      $mondayDate = params["date"]
+      $mondayDate = date
     end
   	return $mondayDate
   end
 
   # Get one weeks events.
-  # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
+  # 
+  # date - String date of interest in YYYY-MM-DD format. If there are no
+  #        params, the current week will be used.
+  # 
   # Returns the data as a hash of weekdays -> array of events
-  def Event.week(params)
+  def Event.week(date)
   	database = Database.new 
 
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
-      $mondayDate = getDate(params)
+      $mondayDate = getDate(date)
       beginningDate = Date.parse($mondayDate)
       endingDate = Date.parse($mondayDate) + 7
 

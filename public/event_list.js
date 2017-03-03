@@ -48,7 +48,7 @@ function EventList(date = null) {
   this.addEvents = function() {
     var self = this;
     this.ourRequest = new XMLHttpRequest();
-    this.ourRequest.open('GET', "/eventlist?date=" + this.mondayISO, true);
+    this.ourRequest.open('GET', "/eventlist?somethingElse=" + this.mondayISO, true);
     this.ourRequest.onload = function() {
       onloadFunction.call(self);
     }

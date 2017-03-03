@@ -26,10 +26,20 @@ post "/logout" do
 	redirect("/")
 end
 
+post "/logoutuser" do
+	session[:fullname] = nil
+	redirect("/")
+end
+
 post "/login" do
 	if Login.valid(params["user"], params["pass"])
 		session[:username] = params["user"]
 	end
+	redirect("/")
+end
+
+post "/userlogin" do
+	session[:fullname] = Login.Uservalid(params["user"], params["pass"])
 	redirect("/")
 end
 
@@ -41,7 +51,28 @@ end
 post "/add" do
 	event = Event.new(params["eventId"])
 	event.addAttendee(params["attendeename"])
-	session[:fullname] = params["attendeename"]
 	redirect("/event?id=" + params["eventId"])
 end
+
+post "/deleteRsvp" do
+	Database.deleteRow("users",params["eventId"],params["user"])
+	redirect("/event?id=" + params["eventId"])
+end
+
+post "/register" do
+	if Login.saveLogins(params["email"],(params["pass"]),(params["fullname"]))
+		session[:email] = params["email"]
+		session[:fullname] = params["fullname"]
+		session[:message] = ''
+	end
+	session[:message] = "Email is taken"
+	redirect("/")
+end
+
+
+
+
+
+
+
 

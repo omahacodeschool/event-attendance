@@ -17,7 +17,7 @@ class Event
   # Returns an Array of attendees.
   def attendees
     idFilter = Proc.new do |row|
-      row["eventId"] == @id
+      row["eventid"] == @id
     end
     database = Database.new
     database.all_with_filter("users", idFilter)

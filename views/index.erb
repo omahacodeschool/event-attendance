@@ -31,11 +31,33 @@
 
 	<% else %>
 		<form class="loginForm" action="/login" method="post">
-			<input class="username" type="text" placeholder="username" name="user">
+			<input class="username" type="text" placeholder="admin" name="user">
+			<input class="password" type="password" placeholder="password" name="pass">
+			<input class="admin-submit" type='submit'>
+		</form>
+
+	<% end %>
+
+	<% if session[:fullname] %>
+		<form class="loginForm" action="/logoutuser" method="post">
+			<p class="welcome"> Welcome: <%= session[:fullname] %>
+			<button type="Submit" name="logout">Log Out</button></p>
+		</form>
+	<% else %>
+		<form class="register" action="/register" method="post">
+			<input  type="text" placeholder="full name" name="fullname" required>
+			<input  type="email" placeholder="email" name="email" required>
+			<input  type="password" placeholder="password" name="pass" required>
+			<input class="register" type='submit' value="register">
+		</form>
+
+		<form class="loginForm" action="/userlogin" method="post">
+			<input class="username" type="text" placeholder="email" name="user">
 			<input class="password" type="password" placeholder="password" name="pass">
 			<input class="admin-submit" type='submit'>
 		</form>
 	<% end %>
+
 
 	<div class="events">
 
@@ -43,6 +65,9 @@
 			<h1>February 27 - March 5, 2017</h1>
 			<button class="prevWeek">previous</button> 
 			<button class="nextWeek">next</button>
+			<form class="test" method="get" action="/">
+    			<button type="submit">this week</button>
+			</form>
 		</div>
 
 		<div class="events-list">

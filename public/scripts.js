@@ -22,9 +22,8 @@ window.addEventListener("load", function (){
 		// date is the date of the monday of the week as yyyy-mm-dd
 		function displayHomepage(date = null) {
 			var list = new EventList(date);
-			debugger;
 			list.addHeader();	
-			list.addEvents(list);
+			list.addEvents();
 		};
 
 		// create event listeners for previous and next buttons
@@ -67,8 +66,6 @@ window.addEventListener("load", function (){
 		  var d = new Date(date[0] + date[1].substr(-4));
 		  return d;
 		}
-
-
 
 	};
 

@@ -40,23 +40,26 @@ function EventList(date = null) {
   // Returns nothing, results in html added to index.erb.
   this.createHTML = function() {
     this.createHTMLForEachWeekday();
+    if (this.htmlToInsert == "") {this.htmlToInsert = "<p>No events</p>"}
     document.getElementsByClassName("events-list")[0].innerHTML = this.htmlToInsert;
   };
+  this.ourRequest = null;
 
-  this.addEvents = function(realThis) {
-    debugger;
-    var ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET', "/eventlist?date=" + this.mondayISO, true);
-    debugger;
-    ourRequest.onload = realThis.onloadFunction;
-    ourRequest.send();
+  this.addEvents = function() {
+    var self = this;
+    this.ourRequest = new XMLHttpRequest();
+    this.ourRequest.open('GET', "/eventlist?date=" + this.mondayISO, true);
+    this.ourRequest.onload = function() {
+      onloadFunction.call(self);
+    }
+    this.ourRequest.send();
   };
 
-  this.onloadFunction = function(event) {
+  function onloadFunction() {
     this.eventsByWeekday = JSON.parse(event.target.responseText);
-    debugger;
     this.createHTML();
   }
+
 
   // Gets a single day of events
   //

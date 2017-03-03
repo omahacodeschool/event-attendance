@@ -12,6 +12,15 @@ class Event
     database.all("events")
   end
 
+  def Event.create(params)
+    values = []
+
+    # TODO Populate values as needed based on params.
+    # values << ???
+
+    Database.newRow(values, "events", Database.next_id("events"))
+  end
+
    # Get an event's attendees.
   # 
   # Returns an Array of attendees.

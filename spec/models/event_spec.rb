@@ -1,5 +1,6 @@
 RSpec.describe(Event,"#info") do 
 	it "gets the event information" do
+		pending
 		# Setup
 		# Create the event.
 		# Capture ID.

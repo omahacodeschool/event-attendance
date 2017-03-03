@@ -8,13 +8,15 @@
 </head>
 
 <body class="event_page">
-
 <% if !@event.info.nil?%>
 	<div class="page_body">
 		<div class="event">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 			<hr>
 			<div class="event_details">
+			<form action="/">
+				<input type="submit" value="Go To Events"/>
+			</form>
 				<ul>
 					<li><%= @event.info['group'] %></li>
 					<li><%= @event.info['time'] %></li>
@@ -30,36 +32,34 @@
 
 		<div class="reservations">
 			<h2>Attendees</h2>
-			<button>RSVP</button>
+
+			<% if session[:fullname] %>
+				<div class="rsvp-actions">
+					<form class="rsvp-button" action="/add" method="post">
+						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
+					    <input type="hidden" name="attendeename" value=<%= "'" + session[:fullname] + "'"%> readonly >
+						<input type="submit" value="RSVP!">
+					</form>
+				
+					<form class="rsvp-button" action="/deleteRsvp" method="post">
+						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
+						<input type="hidden" value=<%= "'" + session[:fullname] + "'"%> name="user" readonly>
+						<input type='submit' value="Remove RSVP">		
+					</form>
+				</div>
+			<% else %>
+
+				<p> Please register to RSVP </p>
+
+			<% end %>
 			<hr>
 			<div class="attendies">
 				<ul>
 					<% @event.attendees.each do |name| %>
-					<%= "<li>" + name["first_name"] + " " + name["last_name"] + "<br>" + "</li>"%> 
+					<%= "<li>" + name["fullname"] + "<br>" + "</li>"%> 
 					<% end %> 
 				</ul>
 			</div>
-		</div>
-	</div>
-
-	<div class="modal">
-
-		<div class="modal_body">
-			<div class="exit"><a href="#">X</a></div>
-			<h3>Add yourself to the list.</h3>
-			<p>Are you going? RSVP below.</p>
-			<form action="/add" method="post">
-				<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
-				<input 
-					type="text" 
-					placeholder="Enter your name" 
-					name="attendeename"
-					pattern="^[A-Za-z]{2,} +[A-Za-z]{2,}$" 
-					title="Enter your first and last name (both must be at least two charcters), seperated by a space. ex. 'John Doe'."
-					required
-				>
-				<input type="submit">
-			</form>
 		</div>
 	</div>
 <% else %>
@@ -68,3 +68,5 @@
 
 </body>
 </html>
+
+

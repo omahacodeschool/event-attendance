@@ -1,4 +1,5 @@
 RSpec.describe(Login, '.valid') do
+	
   it "validates correct username and password" do
     login_attempt = Login.valid("admin", "password")
 
@@ -10,4 +11,5 @@ RSpec.describe(Login, '.valid') do
 
     expect(login_attempt).to eq(false)
   end
+
 end

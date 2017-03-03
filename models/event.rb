@@ -11,12 +11,9 @@ class Event
     $database.all("events")
   end
 
+  # TODO document!!!!!!!!
   def Event.create(params)
-    values = []
-
-    # TODO Populate values as needed based on params.
-    # values << ???
-
+    values = [params[:group],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address]]
     $database.newRow(values, "events", $database.next_id("events"))
   end
 

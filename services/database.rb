@@ -57,7 +57,11 @@ class Database
     end
   end
 
-  # TODO Documentation!
+  # turns a row from database based on params
+  #
+  # email - String, table - String, column - String
+  #
+  # TODO
   def checkifUniq(email, table, column)
     CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
       if row[column] == email
@@ -80,8 +84,6 @@ class Database
     return uniqId
   end
 
-
-  private
 
   # deletes a users entry given a table, event id and name
   #

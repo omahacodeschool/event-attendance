@@ -44,6 +44,17 @@ class Database
     end
   end
 
+  def Database.checkifUniq(email, table, column)
+    CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
+      if row[column] == email
+        return true
+      else
+        next
+      end
+    end
+  end
+
+
   private
 
   # Counts the number of rows in a table
@@ -58,5 +69,46 @@ class Database
     return uniqId
   end
 
+  # deletes a users entry given a table, event id and name
+  #
+  # table - String, Id = Int, username = String
+  def Database.deleteRow(table, id, username)
+    csv = CSV.table("#{table}.csv", headers:true)
+
+    csv.delete_if do |row|
+  
+      row[:eventid] == id.to_i && row[:fullname] == username
+    end
+
+    File.open("#{table}.csv", 'w') do |row|
+      row.write(csv.to_csv)
+    end
+  end 
+
+  def Database.checkLogin(email, password)
+
+    CSV.foreach("logins.csv", {headers: true, return_headers: false}) do |row|
+      if row["username"] == email && row["password"] == password
+        return row["fullname"]
+      else
+        next
+      end
+    end
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

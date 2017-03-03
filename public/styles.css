@@ -7,6 +7,20 @@
 	/*display: flex;*/
 	/*justify-content: space-around;*/
 }
+.events-nav{
+	display: flex;
+	flex-direction: row;
+}
+.rsvp-actions{
+	display: flex;
+	flex-direction: row;
+}
+.navlink{
+	margin: 5px;
+}
+.rsvp-button{
+	margin:5px;
+}
 
 .modal{
 	display: none;

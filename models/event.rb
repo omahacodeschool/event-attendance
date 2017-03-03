@@ -17,7 +17,7 @@ class Event
   # Returns an Array of attendees.
   def attendees
     idFilter = Proc.new do |row|
-      row["eventId"] == @id
+      row["eventid"] == @id
     end
     database = Database.new
     database.all_with_filter("users", idFilter)
@@ -30,30 +30,29 @@ class Event
   # 
   # Returns the date of the Monday for the week as a String yyyy-mm-dd.
   def Event.getDate(params)
-  	if params == true
-  	else
-  	  d = Date.today
+    if $mondayDate == nil
+      d = Date.today
       difference = d.wday
       if difference == 0 then difference = 7 end #wday starts at 0 on sunday, but our week starts on Monday
       monday = d - difference + 1
-      mondayDate = monday.strftime("%Y-%m-%d")
-  	end
-  	return mondayDate
+      $mondayDate = monday.strftime("%Y-%m-%d")
+    elsif params != {}
+      $mondayDate = params["date"]
+    end
+  	return $mondayDate
   end
 
   # Get one weeks events.
   # mondayDate - the date of the monday of the week of interest in the format yyyy-mm-dd
   # Returns the data as a hash of weekdays -> array of events
   def Event.week(params)
-  	database = Database.new  	
+  	database = Database.new 
 
     filter = Proc.new do |row|
       row_date = Date.parse(row["date"])
-
-      mondayDate = getDate(params)
-
-      beginningDate = Date.parse(mondayDate)
-      endingDate = Date.parse(mondayDate) + 7
+      $mondayDate = getDate(params)
+      beginningDate = Date.parse($mondayDate)
+      endingDate = Date.parse($mondayDate) + 7
 
       (row_date >= beginningDate && row_date < endingDate)
     end

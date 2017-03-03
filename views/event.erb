@@ -4,15 +4,10 @@
 <%= erb :"assets/head" %>
 
 <body class="event_page">
-
-
-
 <!-- if event exists -->
-<% if !@event.info.nil?%>
-	<div class="page_body">
-	
+<% if @event.info.length > 0 %>
+	<div class="page_body">	
 		<%= erb :"assets/header" %>
-
 		<div class="event">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 			<hr>
@@ -32,7 +27,6 @@
 				</ul>	
 			</div>
 		</div>
-
 		<div class="reservations">
 			<h2>Attendees</h2>
 			<!-- user is logged in -->
@@ -42,18 +36,14 @@
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
 						<input type="submit" value="RSVP!">
 					</form>
-				
 					<form class="rsvp-button" action="/deleteRsvp" method="post">
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
 						<input type='submit' value="Remove RSVP">		
 					</form>
 				</div>
-
 			<!-- user is not logged in -->
 			<% else %>
-
 				<p> Please register to RSVP </p>
-
 			<% end %>
 			<hr>
 			<div class="attendies">
@@ -65,7 +55,6 @@
 			</div>
 		</div>
 	</div>
-
 <!-- if event doesnt exist -->
 <% else %>
 	<h1>Bzzt! ERROR! No event under this id.</h1>

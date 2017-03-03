@@ -31,6 +31,7 @@ post "/addEvent" do
   redirect("/")
 end
 
+# TODO - Clearer route path (or document the action).
 post "/add" do
   event = Event.new(params["eventId"])
   event.addAttendee(params["attendeename"])

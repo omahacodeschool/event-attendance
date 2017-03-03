@@ -44,6 +44,7 @@ class Database
     end
   end
 
+  # TODO Documentation!
   def Database.checkifUniq(email, table, column)
     CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
       if row[column] == email
@@ -86,18 +87,3 @@ class Database
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

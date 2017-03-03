@@ -35,7 +35,7 @@
 
 			<% if session[:user][:fullname] %>
 				<div class="rsvp-actions">
-					<form class="rsvp-button" action="/add" method="post">
+					<form class="rsvp-button" action="/addAttendee" method="post">
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
 						<input type="submit" value="RSVP!">
 					</form>

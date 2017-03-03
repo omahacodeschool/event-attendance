@@ -1,3 +1,6 @@
+// TODO Add 'var' where needed.
+// TODO Implement true "prototypal inheritance".
+
 function EventList(date = null) {
   
   // monday - date object of a Monday

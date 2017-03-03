@@ -1,5 +1,18 @@
 class Database
 
+  def initialize(database_path="databases")
+    @database_path = database_path
+  end
+
+  # Get path to database table.
+  # 
+  # table - String table name.
+  # 
+  # Returns String
+  def table_path(table)
+    "#{@database_path}/#{table}.csv"
+  end
+
   # Get all rows from a table.
   # 
   # table - Table name String.
@@ -7,7 +20,7 @@ class Database
   # Returns Array of row Hashes.
   def all(table)
     list = []
-    CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
+    CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
       list.push(row.to_hash)
     end
     return list
@@ -34,18 +47,19 @@ class Database
   # Adds a new row to the database
   #
   # array - an array containing three strings
-  def Database.newRow(array, table, uniqId = nil)
+  def newRow(array, table, uniqId = nil)
     if uniqId != nil 
       array.insert(0, uniqId)
     end
 
-    CSV.open("#{table}.csv", "a") do |csv|
+    CSV.open(table_path(table), "a") do |csv|
       csv << array
     end
   end
 
-  def Database.checkifUniq(email, table, column)
-    CSV.foreach("#{table}.csv", {headers: true, return_headers: false}) do |row|
+  # TODO Documentation!
+  def checkifUniq(email, table, column)
+    CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
       if row[column] == email
         return true
       else
@@ -54,61 +68,35 @@ class Database
     end
   end
 
-
-  private
-
   # Counts the number of rows in a table
   # 
   # table - string
   # 
   # return Integer
-  def Database.next_id(table)
-    csv = File.open("#{table}.csv", "r")
+  def next_id(table)
+    csv = File.open(table_path(table), "r")
     uniqId = csv.readlines.size
     csv.close
     return uniqId
   end
 
+
+  private
+
   # deletes a users entry given a table, event id and name
   #
   # table - String, Id = Int, username = String
-  def Database.deleteRow(table, id, username)
-    csv = CSV.table("#{table}.csv", headers:true)
+  def deleteRow(table, id, username)
+    csv = CSV.table(table_path(table), headers:true)
 
     csv.delete_if do |row|
   
       row[:eventid] == id.to_i && row[:fullname] == username
     end
 
-    File.open("#{table}.csv", 'w') do |row|
+    File.open(table_path(table), 'w') do |row|
       row.write(csv.to_csv)
-    end
-  end 
-
-  def Database.checkLogin(email, password)
-
-    CSV.foreach("logins.csv", {headers: true, return_headers: false}) do |row|
-      if row["username"] == email && row["password"] == password
-        return row["fullname"]
-      else
-        next
-      end
     end
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

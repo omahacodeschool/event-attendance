@@ -5,11 +5,14 @@
 
 <body class="event_page">
 
-<%= erb :"assets/header" %>
+
 
 <!-- if event exists -->
 <% if !@event.info.nil?%>
 	<div class="page_body">
+	
+		<%= erb :"assets/header" %>
+
 		<div class="event">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 			<hr>

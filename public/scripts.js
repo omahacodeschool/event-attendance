@@ -5,7 +5,7 @@ window.addEventListener("load", function (){
 
 	// Checks for the number of drop down menus
 	function checkForDropDownMenus(){
-		drops = allElementsOfClass("dropDown").length;
+		var drops = allElementsOfClass("dropDown").length;
 		if (drops > 0){
 			determineDropMenus(drops)
 		};
@@ -25,15 +25,15 @@ window.addEventListener("load", function (){
 
 	// Adds eventlistener to show the admin's addevent drop menu
 	function setAdminDrops(){
-		addEventButton = document.getElementsByClassName("addEvent Button")[0];
+		var addEventButton = document.getElementsByClassName("addEvent Button")[0];
 
 		addEventButton.addEventListener("click", dropMenuDown);
 	};
 
 	// Sets an eventlistener to show the login/signup menus
 	function setNoUserDrops(){
-		loginButton = document.getElementsByClassName("login Button")[0];
-		signupButton = document.getElementsByClassName("signup Button")[0];
+		var loginButton = document.getElementsByClassName("login Button")[0];
+		var signupButton = document.getElementsByClassName("signup Button")[0];
 
 		loginButton.addEventListener("click", dropMenuDown);
 		signupButton.addEventListener("click", dropMenuDown);
@@ -48,8 +48,8 @@ window.addEventListener("load", function (){
 		}
 		else{
 			lastButtonClicked = this.classList[0];
-			menu = document.getElementsByClassName(lastButtonClicked)[1];
-			header = document.getElementsByClassName("header_title")[0];
+			var menu = document.getElementsByClassName(lastButtonClicked)[1];
+			var header = document.getElementsByClassName("header_title")[0];
 			menu.style.top = windowTopToBottomOf(header) + "px";
 		};	
 	};

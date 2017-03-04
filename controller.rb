@@ -52,3 +52,9 @@ post "/register" do
   end
   redirect("/")
 end
+
+post "/comments" do
+  event = Event.new(params["eventId"])
+  event.createComment(params, session[:user]["fullname"])
+  redirect("/event?id=" + params["eventId"])
+end 

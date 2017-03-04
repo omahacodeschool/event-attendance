@@ -26,7 +26,6 @@ class Database
     return list
   end
 
-
   # Get all rows from a table, given some filter.
   # 
   # table  - Table name String.

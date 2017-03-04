@@ -42,6 +42,11 @@
 	position: absolute;
 }
 
+.commentInput{
+	width: 200px;
+	height: 30px;
+}
+
 body {
 
 	font-family: 'Roboto', sans-serif;

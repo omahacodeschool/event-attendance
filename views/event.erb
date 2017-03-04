@@ -54,6 +54,19 @@
 				</ul>
 			</div>
 		</div>
+
+		<div class="comments">
+			<h2>Comments</h2><br>
+				<% @event.comments.each do |comment| %>
+				<%= comment["fullname"] + " " + comment["comment"] + "<br>"%> 
+				<% end %> 
+			<form action="/comments" method="post">
+				<textarea class="commentInput" name='comment'></textarea><br>
+				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+				<input type='submit' value="post comment">	
+			</form>
+		</div>
+
 	</div>
 <!-- if event doesnt exist -->
 <% else %>

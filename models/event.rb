@@ -17,6 +17,11 @@ class Event
     $database.newRow(values, "events", $database.next_id("events"))
   end
 
+  def createComment(params, fullname)
+    values = [@id, fullname, params[:comment]]
+    $database.newRow(values, "comments")
+  end
+
    # Get an event's attendees.
   # 
   # Returns an Array of attendees.
@@ -28,6 +33,13 @@ class Event
     $database.all_with_filter("rsvps", idFilter)
   end
 
+  def comments
+    idFilter = Proc.new do |row|
+      row["eventid"] == @id
+    end
+
+    $database.all_with_filter("comments", idFilter)
+  end
 
   # Get one weeks events.
   # 

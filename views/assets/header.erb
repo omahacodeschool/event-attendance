@@ -11,20 +11,20 @@
 
 			<!-- Register form -->
 			<div class="registerDropDown">
-				<form class="register" action="/register" method="post">
-					<input  type="text" placeholder="full name" name="fullname" required>
-					<input  type="email" placeholder="email" name="email" required>
-					<input  type="password" placeholder="password" name="pass" required>
-					<input class="register" type='submit' value="Register">
+				<form action="/register" method="post">
+					<input type="text" placeholder="name" name="fullname" required>
+					<input type="email" placeholder="email" name="email" required>
+					<input type="password" placeholder="password" name="pass" required>
+					<input type='submit' value="Register">
 				</form>
 			</div>
 
 			<!-- Login form -->
 			<div class="loginDropDown">
-				<form class="loginForm" action="/login" method="post">
-					<input class="username" type="text" placeholder="email" name="user">
-					<input class="password" type="password" placeholder="password" name="pass">
-					<input class="login" type='submit' value="Login">
+				<form action="/login" method="post">
+					<input type="text" placeholder="email" name="user">
+					<input type="password" placeholder="password" name="pass">
+					<input type='submit' value="Login">
 				</form>
 			</div>	
 
@@ -32,8 +32,8 @@
 		<% else %>
 
 			<!-- log out form -->
-			<form class="logoutForm" action="/logout" method="post">
-				<p class="welcome"> Logged in as: <%= session[:user]["fullname"] %>
+			<form action="/logout" method="post">
+				<p> Logged in as: <%= session[:user]["fullname"] %>
 				<input type="submit" value="Log Out"></input></p>
 			</form>
 

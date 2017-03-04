@@ -6,8 +6,9 @@
 <body class="event_page">
 <!-- if event exists -->
 <% if @event.info.length > 0 %>
+<%= erb :"assets/header" %>
 	<div class="page_body">	
-		<%= erb :"assets/header" %>
+		
 		<div class="event">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 			<hr>

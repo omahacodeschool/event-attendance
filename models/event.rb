@@ -44,7 +44,21 @@ class Event
     end
 
     weekdata = $database.all_with_filter("events", filter)
+    weekdata = Event.getRsvps(weekdata)
     sortEvents(weekdata)
+  end
+
+  # ALLEN
+  def Event.getRsvps(data)
+
+    data.each do |each|
+      filter = Proc.new do |row|
+        (row["eventid"] == each["id"])
+      end
+      rsvps = $database.all_with_filter("rsvps", filter).length
+      each.merge!("rsvps" => rsvps.to_s)
+    end
+      return data
   end
 
   # Gets event info.
@@ -75,9 +89,6 @@ class Event
       $database.newRow([@id] + [name], "rsvps")
     end
   end
-
-
-  private
 
   # Sort the events by weekday
   # weekdata - an array of events

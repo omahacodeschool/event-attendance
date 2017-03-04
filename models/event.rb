@@ -48,7 +48,11 @@ class Event
     sortEvents(weekdata)
   end
 
-  # ALLEN
+  # Adds rsvps to the events being requested by the AJAX
+  # 
+  # data - Hash of events
+  # 
+  # returns data as Hash with the rsvps added
   def Event.getRsvps(data)
 
     data.each do |each|

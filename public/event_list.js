@@ -108,7 +108,8 @@ EventList.prototype.createHTMLForEachEvent = function (daysEvents) {
     this.htmlToInsert += daysEvents[j]["group"] + " - ";
     this.htmlToInsert += "<a href='/event?id=" + daysEvents[j]["id"] + "'>"
     this.htmlToInsert += daysEvents[j]["title"]
-    this.htmlToInsert += "</a></li>";
+    this.htmlToInsert += "</a><br>";
+    this.htmlToInsert += "rsvps = " + daysEvents[j]["rsvps"] + "</li>"
   };
 };
 

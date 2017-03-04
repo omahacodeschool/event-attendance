@@ -33,6 +33,25 @@
 	margin:5px;
 }
 
+.comment_edit{
+    display: inline-block;
+}
+
+.eachcomments{
+	margin: 10px;
+}
+
+.comment-id{
+	display: none;
+}
+.comment-text{
+
+	background: #eff0f1;
+	padding: 5px;
+	font-size: .8em;
+	max-width: 50px;
+}
+
 .modal{
 	display: none;
 	position: fixed;
@@ -51,6 +70,11 @@
 }
 .exit{
 	position: absolute;
+}
+
+.commentInput{
+	width: 200px;
+	height: 30px;
 }
 
 body {

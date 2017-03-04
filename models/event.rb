@@ -17,6 +17,11 @@ class Event
     $database.newRow(values, "events", $database.next_id("events"))
   end
 
+  def createComment(params, fullname)
+    values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" ")]
+    $database.newRow(values, "comments")
+  end
+
    # Get an event's attendees.
   # 
   # Returns an Array of attendees.
@@ -28,6 +33,13 @@ class Event
     $database.all_with_filter("rsvps", idFilter)
   end
 
+  def comments
+    idFilter = Proc.new do |row|
+      row["eventid"] == @id
+    end
+
+    $database.all_with_filter("comments", idFilter)
+  end
 
   # Get one weeks events.
   # 
@@ -44,7 +56,25 @@ class Event
     end
 
     weekdata = $database.all_with_filter("events", filter)
+    weekdata = Event.getRsvps(weekdata)
     sortEvents(weekdata)
+  end
+
+  # Adds rsvps to the events being requested by the AJAX
+  # 
+  # data - Hash of events
+  # 
+  # returns data as Hash with the rsvps added
+  def Event.getRsvps(data)
+
+    data.each do |each|
+      filter = Proc.new do |row|
+        (row["eventid"] == each["id"])
+      end
+      rsvps = $database.all_with_filter("rsvps", filter).length
+      each.merge!("rsvps" => rsvps.to_s)
+    end
+      return data
   end
 
   # Gets event info.
@@ -62,15 +92,19 @@ class Event
     end
   end
 
-  # Adds a new attendee to the list of attendees
+  # Adds a new attendee to the list of attendees if there is no prior rsvp
+  #     for that event by that user
   #
-  # queryHash - key value pair of parameters
+  # name - key value pair of parameters
   def addAttendee(name)
-    $database.newRow([@id] + [name], "rsvps")
+    filter = Proc.new do |row|
+      row["eventid"]==@id && row["fullname"] == name
+    end
+   
+    if $database.all_with_filter("rsvps", filter).length < 1
+      $database.newRow([@id] + [name], "rsvps")
+    end
   end
-
-
-  private
 
   # Sort the events by weekday
   # weekdata - an array of events

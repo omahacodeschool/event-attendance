@@ -1,75 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<script type="text/javascript" src="/event_list.js"></script>
-	<script type="text/javascript" src="/scripts.js"></script>
-	<title>Events Page</title>
-	<link rel="stylesheet" type="text/css" href="/styles.css">
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-</head>
+
+<%= erb :"assets/head" %>
+
 <body class="index_page">
-<div class="page_body">
-
-	<% if session[:user] %>
-		<% if session[:user][:admin] == "true" %>
-			<form class="loginForm" action="/logout" method="post">
-				<p class="welcome"> Welcome: <%= session[:user][:fullname] %>
-				<button type="Submit" name="logout">Log Out</button></p>
-			</form>
-
-			<form class="admin-add-event loginForm" action="/addEvent" method="post">
-				<h2>Add Event</h2>
-					<input type="text" placeholder="group name" name="group" required><br>
-					<input type="text" placeholder="event title" name="title" required><br>
-					<input type="date" placeholder="yyyy/mm/dd" name="date" required><br>
-					<input type="time" placeholder="time" name="time" required><br>
-					<input type="text" placeholder="location" name="location" required><br>
-					<input type="text" placeholder="address" name="address" required><br>
-					<input type="url" placeholder="url" name="link" required><br>
-
-				<input type="submit">
-			</form>
-		<% end %>
-
-		<form class="loginForm" action="/logout" method="post">
-			<p class="welcome"> Welcome: <%= session[:user][:fullname] %>
-			<button type="Submit" name="logout">Log Out</button></p>
-		</form>
-	<% else %>
-		<form class="register" action="/register" method="post">
-			<input  type="text" placeholder="full name" name="fullname" required>
-			<input  type="email" placeholder="email" name="email" required>
-			<input  type="password" placeholder="password" name="pass" required>
-			<input class="register" type='submit' value="register">
-		</form>
-
-		<form class="loginForm" action="/login" method="post">
-			<input class="username" type="text" placeholder="email" name="user">
-			<input class="password" type="password" placeholder="password" name="pass">
-			<input class="admin-submit" type='submit'>
-		</form>
-	<% end %>
-
-
-	<div class="events">
-
-		<div class="events-date">
-			<h1>February 27 - March 5, 2017</h1>
-			<div class="events-nav">
-				<button class="prevWeek navlink">previous</button> 
-				<button class="nextWeek navlink">next</button>
-				<form method="get" action="/">
-	    			<button class="navlink" type="submit">this week</button>
-				</form>
+	<div class="page_body">
+		<%= erb :"assets/header" %>
+		<div class="events">
+			<div class="events-date">
+				<h1>February 27 - March 5, 2017</h1>
+				<div class="events-nav">
+					<button class="prevWeek navlink">previous</button> 
+					<button class="nextWeek navlink">next</button>
+					<form method="get" action="/">
+						<button class="navlink" type="submit">this week</button>
+					</form>
+				</div>
+			</div>
+			<div class="events-list">
 			</div>
 		</div>
-
-		<div class="events-list">
-		</div>
-
 	</div>
-
-</div>
-
 </body>
 </html>

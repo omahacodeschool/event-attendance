@@ -1,11 +1,22 @@
-.event_page h2 {
+.header_title{
+	background-color: lightgray;
+	top: 8px;
+}
+.dropDown{
+	position: absolute;
+	background-color: dodgerblue;
+	top: 8px;
+}
+
+
+/*.event_page h2 {
 	display: inline;
 }
 .page_body{
 	max-width: 800px;
 	margin: 0 auto;
-	/*display: flex;*/
-	/*justify-content: space-around;*/
+	display: flex;
+	justify-content: space-around;
 }
 .events-nav{
 	display: flex;
@@ -108,3 +119,4 @@ h2 {
 
 
 
+*/

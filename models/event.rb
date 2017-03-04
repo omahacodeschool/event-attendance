@@ -18,7 +18,7 @@ class Event
   end
 
   def createComment(params, fullname)
-    values = [@id, fullname, params[:comment]]
+    values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" ")]
     $database.newRow(values, "comments")
   end
 

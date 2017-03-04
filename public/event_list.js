@@ -3,6 +3,7 @@
 // date - Date object for a Monday
 //
 // 
+
 function EventList(date = null) {
   this.monday = date;
   this.htmlToInsert = "";
@@ -45,6 +46,17 @@ EventList.prototype.addEvents = function() {
   var self = this;
   this.ourRequest = new XMLHttpRequest();
   this.ourRequest.open('GET', "/eventlist?date=" + this.mondayISO, true);
+  this.ourRequest.onload = function() {
+    onloadFunction.call(self);
+  }
+  this.ourRequest.send();
+};
+
+// ALLEN
+EventList.prototype.addRsvps = function() {
+  var self = this;
+  this.ourRequest = new XMLHttpRequest();
+  this.ourRequest.open('GET', "/rsvpNumber" , true);
   this.ourRequest.onload = function() {
     onloadFunction.call(self);
   }
@@ -109,8 +121,25 @@ EventList.prototype.createHTMLForEachEvent = function (daysEvents) {
     this.htmlToInsert += "<a href='/event?id=" + daysEvents[j]["id"] + "'>"
     this.htmlToInsert += daysEvents[j]["title"]
     this.htmlToInsert += "</a></li>";
+    this.htmlToInsert += this.rsvpsByEvent(daysEvents[j]["id"]) // ALLEN
   };
 };
+
+// calculates the number of RSVPS by each event
+// 
+// eventId = String value of the event id
+// 
+// returns a String
+// ALLEN
+EventList.prototype.rsvpsByEvent = function(eventId){
+  var y = 0
+  for (x in rsvps){
+    if (rsvps[x] == eventId){
+        y = y + 1
+      }
+  } 
+  return "<span class='rsvps'>RSVPs = " + y + "</span>"
+}
 
 // will display the date range for the week as a header
 //

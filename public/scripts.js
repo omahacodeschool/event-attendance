@@ -12,7 +12,27 @@ window.addEventListener("load", function (){
 		return window.body.classList.contains(className);
 	};
 
+
 	if (bodyHasClass("index_page")){
+
+
+
+		// Gets an array of all the eventIds in the rsvps file 
+		// 
+		// returns an Array 
+		// ALLEN
+		function rsvpCount(){
+		    var getRequest = new XMLHttpRequest();
+		    getRequest.open('get', "/rsvpNumber", true);
+
+		    getRequest.onload = function() {
+		        rsvps = getRequest.responseText.split(",");
+		    };
+		    getRequest.send();
+		}
+		rsvpCount()
+
+
 
 		// displays events for the current week upon initial page load
 		displayHomepage();
@@ -26,6 +46,7 @@ window.addEventListener("load", function (){
 			list.addHeader();	
 			list.addEvents();
 		};
+
 
 		// create event listeners for previous and next buttons
 		// buttons on homepage
@@ -67,7 +88,7 @@ window.addEventListener("load", function (){
 		  var d = new Date(date[0] + date[1].substr(-4));
 		  return d;
 		}
-
+		
 	};
 
 

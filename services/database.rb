@@ -26,6 +26,19 @@ class Database
     return list
   end
 
+  # Returns all the values in a single column as a string
+  # 
+  # table - Table name as String
+  # Returns a String
+  # ALLEN
+  def oneColumn(table)
+    list = ""
+    CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
+      list += row["eventid"] + ','
+    end
+    return list
+  end
+
   # Get all rows from a table, given some filter.
   # 
   # table  - Table name String.

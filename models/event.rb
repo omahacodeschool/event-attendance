@@ -62,9 +62,10 @@ class Event
     end
   end
 
-  # Adds a new attendee to the list of attendees
+  # Adds a new attendee to the list of attendees if there is no prior rsvp
+  #     for that event by that user
   #
-  # queryHash - key value pair of parameters
+  # name - key value pair of parameters
   def addAttendee(name)
     filter = Proc.new do |row|
       row["eventid"]==@id && row["fullname"] == name

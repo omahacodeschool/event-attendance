@@ -44,6 +44,12 @@ post "/deleteRsvp" do
   redirect("/event?id=" + params["eventId"])
 end
 
+# ALLEN
+get "/rsvpNumber" do
+  return Database.new.oneColumn("rsvps")
+end
+
+
 post "/register" do
   user = User.create(params["email"], params["pass"], params["fullname"])
   if user

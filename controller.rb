@@ -54,3 +54,7 @@ post "/register" do
 
   redirect("/")
 end
+
+get "/refreshMeetups" do
+  MeetupEvents.new
+end 

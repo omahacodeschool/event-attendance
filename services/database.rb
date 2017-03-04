@@ -1,6 +1,6 @@
 class Database
 
-  def initialize(database_path="../databases")
+  def initialize(database_path="databases")
     @database_path = database_path
   end
 
@@ -50,6 +50,20 @@ class Database
   def newRow(array, table, uniqId = nil)
     if uniqId != nil 
       array.insert(0, uniqId)
+    end
+
+    CSV.open(table_path(table), "a") do |csv|
+      csv << array
+    end
+  end
+
+  def newRow2(array, table, uniqId = nil)
+    csv = CSV.table(table_path(table), headers:true)
+    csv.delete_if do |row|
+      row[:id].to_s == uniqId
+    end
+    File.open(table_path(table), 'w') do |file|
+      file.write(csv.to_csv)
     end
 
     CSV.open(table_path(table), "a") do |csv|

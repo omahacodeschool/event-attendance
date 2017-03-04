@@ -20,6 +20,15 @@ class Event
     $database.newRow(values, "events", $database.next_id("events"))
   end
 
+  def Event.createMeetups(allMeetupEvents)
+    allMeetupEvents.each do |event|
+      values = [event["id"],event["groupName"],event["eventTitle"],
+                event["date"],event["time"],event["venue"],
+                event["address"],event["link"]]
+      $database.newRow2(values, "events", event["id"])
+    end
+  end
+
    # Get an event's attendees.
   # 
   # Returns an Array of attendees.

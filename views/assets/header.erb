@@ -1,46 +1,65 @@
 <div class="header">
-	<!-- if user is logged in -->
-	<% if session[:user] %>
+	<div class="header_title">
+		<h1>Welcome to Events</h1>
 
-		<!-- if logged in user is an admin -->
-		<% if session[:user][:admin] == "true" %>
-			<form class="loginForm" action="/logout" method="post">
-				<p class="welcome"> Welcome: <%= session[:user][:fullname] %>
-				<button type="Submit" name="logout">Log Out</button></p>
+		<!-- if no one is logged in -->
+		<% if !session[:user] %>
+
+				<button class="login Button">Login</button>
+				<button class="signup Button">Sign-up</button>
+			</div>
+
+			<!-- Register form -->
+			<div class="signup dropDown">
+				<form action="/register" method="post">
+					<input type="text" placeholder="name" name="fullname" required>
+					<input type="email" placeholder="email" name="email" required>
+					<input type="password" placeholder="password" name="pass" required>
+					<input type='submit' value="Register">
+				</form>
+			</div>
+
+			<!-- Login form -->
+			<div class="login dropDown">
+				<form action="/login" method="post">
+					<input type="text" placeholder="email" name="user">
+					<input type="password" placeholder="password" name="pass">
+					<input type='submit' value="Login">
+				</form>
+			</div>	
+
+		<!-- someone is logged in -->
+		<% else %>
+
+			<!-- log out form -->
+			<form action="/logout" method="post">
+				<p> Logged in as: <%= session[:user]["fullname"] %>
+				<input type="submit" value="Log Out"></input></p>
 			</form>
 
-			<form class="admin-add-event loginForm" action="/addEvent" method="post">
-				<h2>Add Event</h2>
-					<input type="text" placeholder="group name" name="group" required><br>
-					<input type="text" placeholder="event title" name="title" required><br>
-					<input type="date" placeholder="yyyy/mm/dd" name="date" required><br>
-					<input type="time" placeholder="time" name="time" required><br>
-					<input type="text" placeholder="location" name="location" required><br>
-					<input type="text" placeholder="address" name="address" required><br>
-					<input type="url" placeholder="url" name="link" required><br>
+			<!-- if logged in user is an admin -->
+			<% if session[:user]["admin"] == "true" %>
+				<button class="addEvent Button">Add an Event</button>
+				</div>
 
-				<input type="submit">
-			</form>
+				<div class="addEvent dropDown">
+
+				<!-- form for adding event here -->
+				<form action="/addEvent" method="post">
+					<h2>Add Event</h2>
+					<input type="text" placeholder="group name" name="group" required>
+					<input type="text" placeholder="event title" name="title" required>
+					<input type="date" placeholder="yyyy/mm/dd" name="date" required>
+					<input type="time" placeholder="time" name="time" required>
+					<input type="text" placeholder="location" name="location" required>
+					<input type="text" placeholder="address" name="address" required>
+					<input type="url" placeholder="url" name="link" required>
+					<input type="submit">
+				</form>
+
+			<% end %>
+
+			</div>
 		<% end %>
-
-		<form class="loginForm" action="/logout" method="post">
-			<p class="welcome"> Welcome: <%= session[:user][:fullname] %>
-			<button type="Submit" name="logout">Log Out</button></p>
-		</form>
-
-	<!-- if user in not logged in -->
-	<% else %>
-		<form class="register" action="/register" method="post">
-			<input  type="text" placeholder="full name" name="fullname" required>
-			<input  type="email" placeholder="email" name="email" required>
-			<input  type="password" placeholder="password" name="pass" required>
-			<input class="register" type='submit' value="register">
-		</form>
-
-		<form class="loginForm" action="/login" method="post">
-			<input class="username" type="text" placeholder="email" name="user">
-			<input class="password" type="password" placeholder="password" name="pass">
-			<input class="admin-submit" type='submit'>
-		</form>
-	<% end %>
+	<!-- </div> -->
 </div>

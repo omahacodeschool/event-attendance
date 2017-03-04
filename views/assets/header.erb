@@ -5,12 +5,12 @@
 		<!-- if no one is logged in -->
 		<% if !session[:user] %>
 
-				<button>Login</button>
-				<button>Sign-up</button>
+				<button class="login Button">Login</button>
+				<button class="signup Button">Sign-up</button>
 			</div>
 
 			<!-- Register form -->
-			<div class="registerDropDown">
+			<div class="signup dropDown">
 				<form action="/register" method="post">
 					<input type="text" placeholder="name" name="fullname" required>
 					<input type="email" placeholder="email" name="email" required>
@@ -20,7 +20,7 @@
 			</div>
 
 			<!-- Login form -->
-			<div class="loginDropDown">
+			<div class="login dropDown">
 				<form action="/login" method="post">
 					<input type="text" placeholder="email" name="user">
 					<input type="password" placeholder="password" name="pass">
@@ -39,13 +39,13 @@
 
 			<!-- if logged in user is an admin -->
 			<% if session[:user]["admin"] == "true" %>
-				<button>Add an Event</button>
+				<button class="addEvent Button">Add an Event</button>
 				</div>
 
-				<div class="newEventDropDown">
+				<div class="addEvent dropDown">
 
 				<!-- form for adding event here -->
-				<form class="admin-add-event loginForm" action="/addEvent" method="post">
+				<form action="/addEvent" method="post">
 					<h2>Add Event</h2>
 					<input type="text" placeholder="group name" name="group" required>
 					<input type="text" placeholder="event title" name="title" required>

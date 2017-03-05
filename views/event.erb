@@ -49,7 +49,7 @@
 			<hr>
 			<div class="attendies">
 				<ul>
-					<% @event.attendees.each do |name| %>
+					<% @event.getFromDatabase("rsvps").each do |name| %>
 					<%= "<li>" + name["fullname"] + "<br>" + "</li>"%> 
 					<% end %> 
 				</ul>
@@ -58,7 +58,7 @@
 
 		<div class="comments">
 			<h2>Comments</h2><br>
-			<% @event.comments.each do |comment| %>
+			<% @event.getFromDatabase("comments").each do |comment| %>
 				<%= "<div class='eachcomments'><span class='comment-name'>" + comment["fullname"] + "</span> " + 
 				"<span class='comment-text'>" + comment["comment"] + "</span> " %>
 

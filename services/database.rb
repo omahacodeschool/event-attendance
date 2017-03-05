@@ -46,7 +46,7 @@ class Database
 
   # Adds a new row to the database
   #
-  # array - an array containing three strings
+  # array - an array
   def newRow(array, table, uniqId = nil)
     if uniqId != nil 
       array.insert(0, uniqId)
@@ -61,7 +61,7 @@ class Database
   #
   # email - String, table - String, column - String
   #
-  # TODO
+  # returns Boolean
   def checkifUniq(email, table, column)
     CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
       if row[column] == email
@@ -90,29 +90,46 @@ class Database
   # table - String, Id = Int, username = String
   def deleteRow(table, id, username)
     csv = CSV.table(table_path(table), headers:true)
-
     csv.delete_if do |row|
-  
       row[:eventid] == id.to_i && row[:fullname] == username
     end
-
     File.open(table_path(table), 'w') do |row|
       row.write(csv.to_csv)
     end
   end
 
-  # TODO deletes a comment
+  # Deletes a comment based on a comment Id
+  # 
+  # table - String, Id = String
   def deleteComment(table, id)
     csv = CSV.table(table_path(table), headers:true)
-
     csv.delete_if do |row|
-  
       row[:commentid] == id.to_i
     end
-
     File.open(table_path(table), 'w') do |row|
       row.write(csv.to_csv)
     end
-  end
+  end 
 
+  # Sorts based on a column name.
+  # 
+  # table - String, columnName - String
+  # 
+  # doesn't return anything but overwrites the csv
+  #   with the sorted hash
+  def sortContents(table, columnName)
+    rows = []
+    CSV.foreach(table_path(table), headers: true) do |row|
+      rows << row.to_h
+    end
+    data = rows.sort_by{ |row| row[columnName] }   
+    CSV.open(table_path(table), "wb") do |csv|
+      csv << data.first.keys
+      data.each do |hash|
+        csv << hash.values
+      end
+    end
+  end
 end
+
+

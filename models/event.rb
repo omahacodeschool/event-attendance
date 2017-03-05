@@ -11,12 +11,17 @@ class Event
     $database.all("events")
   end
 
-  # TODO document!!!!!!!!
+  # creates an event
+  # 
+  # params - Hash
   def Event.create(params)
     values = [params[:group],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address]]
     $database.newRow(values, "events", $database.next_id("events"))
   end
 
+  # creates a comment
+  #
+  # params - Hash, fullname = String
   def createComment(params, fullname)
     values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" ")]
     $database.newRow(values, "comments")
@@ -24,33 +29,44 @@ class Event
 
   # Get an event's attendees.
   # 
+  # table - String
+  # 
   # Returns an Array of attendees.
-  def attendees
+  def getFromDatabase(table)
     idFilter = Proc.new do |row|
       row["eventid"] == @id
     end
-
-    $database.all_with_filter("rsvps", idFilter)
+    $database.all_with_filter(table, idFilter)
   end
 
-  # TODO
+  # # gets the comments for an event based on eventid
+  # #
+  # # TODO combine with attendees function above
+  # def comments(table=nil)
+  #   idFilter = Proc.new do |row|
+  #     row["eventid"] == @id
+  #   end
+
+  #   $database.all_with_filter("comments", idFilter)
+  # end
+
+  # Edits a comment. 
+  # 
+  # params - Hash, user = String
+  # 
+  # no return but deletes a comment, writes the new version
+  #   then sorts the comments based on Id so they appear in
+  #   the same spot as before edit
   def editComment(params, user)
     filter = Proc.new do |row|
       (row["commentid"] == params["commentId"]) & (row["eventid"] == @id) & (row["fullname"] == user)
     end
     if $database.all_with_filter("comments", filter)
-       DATABASE WRITE IN COMMENT
       $database.deleteComment("comments", params["commentId"])
+      values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" ")]
+      $database.newRow(values, "comments")
+      $database.sortContents("comments", "commentid")
     end
-  end
-
-  # TODO
-  def comments
-    idFilter = Proc.new do |row|
-      row["eventid"] == @id
-    end
-
-    $database.all_with_filter("comments", idFilter)
   end
 
   # Get one weeks events.

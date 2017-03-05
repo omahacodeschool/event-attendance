@@ -103,13 +103,13 @@ EventList.prototype.createHTMLForEachWeekday = function () {
 // html created as a string for one weekday.
 EventList.prototype.createHTMLForEachEvent = function (daysEvents) {
   for (var j=0; j<daysEvents.length;j++) {
-    this.htmlToInsert += "<li>";
+    this.htmlToInsert += "<li>" + "<a class='event-description' href='/event?id=";
+    this.htmlToInsert += daysEvents[j]["id"] + "'>";
     this.htmlToInsert += daysEvents[j]["time"] + " - ";
     this.htmlToInsert += daysEvents[j]["group"] + " - ";
-    this.htmlToInsert += "<a href='/event?id=" + daysEvents[j]["id"] + "'>"
-    this.htmlToInsert += daysEvents[j]["title"]
-    this.htmlToInsert += "</a><br>";
-    this.htmlToInsert += "rsvps = " + daysEvents[j]["rsvps"] + "</li>"
+    this.htmlToInsert += daysEvents[j]["title"] + "<br>";
+    this.htmlToInsert += "<span class='event-details'><span class='highlight'>";
+    this.htmlToInsert += daysEvents[j]["rsvps"] + "</span> people are going.</span></li></a>";
   };
 };
 

@@ -17,13 +17,10 @@ post "/logout" do
 end
 
 post "/login" do
-
   user = Login.valid(params["user"], params["pass"])
-
   if !user.nil?
     session[:user] = user
   end
-
   redirect("/")
 end
 

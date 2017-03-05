@@ -62,9 +62,11 @@
 				<%= "<div class='eachcomments'><span class='comment-name'>" + comment["fullname"] + "</span> " + 
 				"<span class='comment-text'>" + comment["comment"] + "</span> " %>
 
-				<% if comment['fullname'] == session[:user]['fullname'] %>
-					<button class="editComment" id=<%= comment["commentid"] %>>edit</button>
-			    <% end %> 
+				<% if session[:user] %>
+					<% if comment['fullname'] == session[:user]['fullname'] %>
+						<button class="editComment" id=<%= comment["commentid"] %>>edit</button>
+				    <% end %> 
+				<% end %>    
 			    </div>
 			<% end %> 
 

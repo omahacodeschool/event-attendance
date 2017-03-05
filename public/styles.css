@@ -11,17 +11,79 @@ body{
 	margin: 0px;
 	font-family: 'Roboto', sans-serif;
 }
+.page_body{
+	margin: 50px 16px;
+	letter-spacing: 1px;
+	word-spacing: 2px;
+}
 .header_title{
 	font-family: 'Megrim', cursive;
 	background-color: lightgray;
-	padding-top: 1px;
+	padding: 12px;
+	position: relative;
+	z-index: 2;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+button{
+	background: none;
+	border: none;
+	padding: 8px;
+	margin: auto 4px;
+	cursor: pointer;
+}
+button:focus{
+	outline:none;
+}
+form{
+	display: inline-block;
+}
+.events-nav{
+	text-align: center;
+}
+.event-item > h2, .event-details{
+	color: #acacac;
+}
+.events-date, .event-item{
+	color: #5f5e5e;
+	border-bottom: 1px solid gainsboro;
+	padding: 25px 0px;
 }
 .dropDown{
 	position: absolute;
 	background-color: dodgerblue;
 	top: 8px;
 }
+.event-item li{
+	padding: 15px 0px;
+}
+a{
+	color: #cacaca;
+}
+.event-description{
+	color: #5f5e5e;
+	text-decoration: none;
+}
+.event-details{
+	position: relative;
+	left: 8px;
+	font-size: 12px;
+}
+.event-item li:hover > a{
+	color: #62acda;
+}
+ul{
+	list-style-type: circle;
+}
 
+
+
+
+
+/*ul li:hover{
+	list-style-type: initial;
+}*/
 
 
 /*.event_page h2 {

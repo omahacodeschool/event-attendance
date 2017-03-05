@@ -8,14 +8,15 @@
 <% if @event.info.length > 0 %>
 <%= erb :"assets/header" %>
 	<div class="page_body">	
+
+	<form class="Button" action="/">
+		<button type="submit"><< Back to Events</button>
+	</form>
 		
 		<div class="event">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 			<hr>
 			<div class="event_details">
-			<form action="/">
-				<input type="submit" value="Go To Events"/>
-			</form>
 				<ul>
 					<li><%= @event.info['group'] %></li>
 					<li><%= @event.info['time'] %></li>
@@ -44,7 +45,7 @@
 				</div>
 			<!-- user is not logged in -->
 			<% else %>
-				<p> Please register to RSVP </p>
+				<p> Please register or sign in to RSVP </p>
 			<% end %>
 			<hr>
 			<div class="attendies">

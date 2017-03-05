@@ -7,16 +7,16 @@
 	background-color: dodgerblue;
 	top: 8px;
 }
+.comment_edit{
+	display: inline-block;
+}
 
-
-/*.event_page h2 {
+.event_page h2 {
 	display: inline;
 }
 .page_body{
 	max-width: 800px;
 	margin: 0 auto;
-	display: flex;
-	justify-content: space-around;
 }
 .events-nav{
 	display: flex;
@@ -41,9 +41,6 @@
 	margin: 10px;
 }
 
-.comment-id{
-	display: none;
-}
 .comment-text{
 
 	background: #eff0f1;
@@ -52,25 +49,6 @@
 	max-width: 50px;
 }
 
-.modal{
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.42);
-}
-.modal_body{
-	background-color: white;
-	width: 50%;
-	margin: 150px auto;
-	text-align: center;
-	padding: 26px;
-}
-.exit{
-	position: absolute;
-}
 
 .commentInput{
 	width: 200px;
@@ -117,6 +95,29 @@ h2 {
 	text-align: center;
 }
 
+.editText {
 
+	width: 290px;
+	height: 100px;
+	resize: none;
 
-*/
+}
+
+.modal{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.42);
+
+}
+.modal_body{
+	background-color: white;
+	width: 300px;
+	margin: 150px auto;
+	text-align: center;
+	padding: 26px;
+}
+

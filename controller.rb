@@ -58,3 +58,12 @@ post "/comments" do
   event.createComment(params, session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
 end 
+
+post "/editComment" do
+  
+
+end 
+
+
+
+

@@ -63,7 +63,7 @@
 				"<span class='comment-text'>" + comment["comment"] + "</span> " %>
 
 				<% if session[:user] %>
-					<% if comment['fullname'] == session[:user]['fullname'] %>
+					<% if comment['fullname'] == session[:user]['fullname'] && (Time.now.to_i - comment['timestamp'].to_i) < 1800 %>
 						<button class="editComment" id=<%= comment["commentid"] %>>edit</button>
 				    <% end %> 
 				<% end %>    

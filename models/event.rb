@@ -23,7 +23,7 @@ class Event
   #
   # params - Hash, fullname = String
   def createComment(params, fullname)
-    values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" ")]
+    values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" "),Time.now.to_i]
     $database.newRow(values, "comments")
   end
 
@@ -52,7 +52,7 @@ class Event
     end
     if $database.all_with_filter("comments", filter)
       deleteComment(params["commentId"], "comments")
-      values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" ")]
+      values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" "),Time.now.to_i]
       $database.newRow(values, "comments")
       $database.sortContents("comments", "commentid")
     end

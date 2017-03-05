@@ -9,8 +9,10 @@
 
 body{
 	margin: 0px;
+	font-family: 'Roboto', sans-serif;
 }
 .header_title{
+	font-family: 'Megrim', cursive;
 	background-color: lightgray;
 	padding-top: 1px;
 }
@@ -19,6 +21,7 @@ body{
 	background-color: dodgerblue;
 	top: 8px;
 }
+
 
 
 /*.event_page h2 {

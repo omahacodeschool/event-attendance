@@ -148,7 +148,6 @@ window.addEventListener("load", function (){
 		  var d = new Date(date[0] + date[1].substr(-4));
 		  return d;
 		}
-
 	};
 
 
@@ -173,6 +172,7 @@ window.addEventListener("load", function (){
 			modalWindow.style.display = "block";
 			document.getElementsByClassName("editText")[0].innerHTML = this.parentElement.childNodes[2].innerHTML
 			document.getElementsByClassName("commentId")[0].value = this.id
+			e.preventDefault()
 		};
 	};
 });

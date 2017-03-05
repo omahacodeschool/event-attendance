@@ -71,7 +71,6 @@
 			<form action="/comments" method="post">
 				<textarea class="commentInput" name='comment'></textarea><br>
 				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
-				<input class="commentId" type="hidden" name="commentId" value="">
 				<input type='submit' value="post comment">	
 			</form>
 		</div>
@@ -79,11 +78,13 @@
 			    <!-- The Modal -->
 		<div class="modal">
 		    <div class="modal_body">
-		        	<form class="comment_edit" action="/editComment" method="post">
-						<textarea class="editText">blah blah blah</textarea><br>
-						<button class="cancel">submit</button>
-						<button class="exit">cancel</button>
-					</form>
+	        	<form class="comment_edit" action="/editComment" method="post">
+					<textarea class="editText" name="textContent"></textarea><br>
+					<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+					<input class="commentId" type="hidden" name="commentId" value="">
+					<button class="cancel">submit</button>
+					<button class="exit">cancel</button>
+				</form>
 		    </div>
 		</div>
 

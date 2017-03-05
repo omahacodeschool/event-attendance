@@ -22,7 +22,7 @@ class Event
     $database.newRow(values, "comments")
   end
 
-   # Get an event's attendees.
+  # Get an event's attendees.
   # 
   # Returns an Array of attendees.
   def attendees
@@ -33,6 +33,18 @@ class Event
     $database.all_with_filter("rsvps", idFilter)
   end
 
+  # TODO
+  def editComment(params, user)
+    filter = Proc.new do |row|
+      (row["commentid"] == params["commentId"]) & (row["eventid"] == @id) & (row["fullname"] == user)
+    end
+    if $database.all_with_filter("comments", filter)
+       DATABASE WRITE IN COMMENT
+      $database.deleteComment("comments", params["commentId"])
+    end
+  end
+
+  # TODO
   def comments
     idFilter = Proc.new do |row|
       row["eventid"] == @id

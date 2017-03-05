@@ -57,7 +57,7 @@ class Database
     end
   end
 
-  # turns a row from database based on params
+  # returns a row from database based on params
   #
   # email - String, table - String, column - String
   #
@@ -85,7 +85,7 @@ class Database
   end
 
 
-  # deletes a users entry given a table, event id and name
+  # deletes an entry given a table, event id and name
   #
   # table - String, Id = Int, username = String
   def deleteRow(table, id, username)
@@ -94,6 +94,20 @@ class Database
     csv.delete_if do |row|
   
       row[:eventid] == id.to_i && row[:fullname] == username
+    end
+
+    File.open(table_path(table), 'w') do |row|
+      row.write(csv.to_csv)
+    end
+  end
+
+  # TODO deletes a comment
+  def deleteComment(table, id)
+    csv = CSV.table(table_path(table), headers:true)
+
+    csv.delete_if do |row|
+  
+      row[:commentid] == id.to_i
     end
 
     File.open(table_path(table), 'w') do |row|

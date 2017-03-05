@@ -121,6 +121,7 @@ window.addEventListener("load", function (){
 		// for the header and event list on the homepage 
 		// for the week previous to what was being displayed
 		function showPrevWeek() {
+			event.preventDefault();
 			var currentMonday = getDisplayedWeekDate();
 			var prevMonday = currentMonday;
 			prevMonday.setDate(currentMonday.getDate() - 7);
@@ -133,6 +134,7 @@ window.addEventListener("load", function (){
 		// for the header and event list on the homepage 
 		// for the next week from what was being displayed
 		function showNextWeek() {
+			event.preventDefault();
 			var currentMonday = getDisplayedWeekDate();
 			var nextMonday = currentMonday;
 			nextMonday.setDate(currentMonday.getDate() + 7);

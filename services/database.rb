@@ -44,6 +44,34 @@ class Database
     return filtered_rows
   end
 
+
+  # deletes a row from a database based on a filter
+  # 
+  # table - String, filter - Proc
+  def deleteRow(table, filter)
+    csv = CSV.table(table_path(table), headers:true)
+    csv.delete_if do |row|
+      filter.call(row)
+    end
+    File.open(table_path(table), 'w') do |row|
+      row.write(csv.to_csv)
+    end
+  end
+
+
+  # Deletes a comment based on a comment Id
+  # 
+  # table - String, Id = String
+  def deleteComment(table, id)
+    csv = CSV.table(table_path(table), headers:true)
+    csv.delete_if do |row|
+      row[:commentid] == id.to_i
+    end
+    File.open(table_path(table), 'w') do |row|
+      row.write(csv.to_csv)
+    end
+  end 
+
   # Adds a new row to the database
   #
   # array - an array
@@ -83,33 +111,6 @@ class Database
     csv.close
     return uniqId
   end
-
-
-  # deletes an entry given a table, event id and name
-  #
-  # table - String, Id = Int, username = String
-  def deleteRow(table, id, username)
-    csv = CSV.table(table_path(table), headers:true)
-    csv.delete_if do |row|
-      row[:eventid] == id.to_i && row[:fullname] == username
-    end
-    File.open(table_path(table), 'w') do |row|
-      row.write(csv.to_csv)
-    end
-  end
-
-  # Deletes a comment based on a comment Id
-  # 
-  # table - String, Id = String
-  def deleteComment(table, id)
-    csv = CSV.table(table_path(table), headers:true)
-    csv.delete_if do |row|
-      row[:commentid] == id.to_i
-    end
-    File.open(table_path(table), 'w') do |row|
-      row.write(csv.to_csv)
-    end
-  end 
 
   # Sorts based on a column name.
   # 

@@ -27,28 +27,17 @@ class Event
     $database.newRow(values, "comments")
   end
 
-  # Get an event's attendees.
+  # Get a from data based on filter.
   # 
   # table - String
   # 
-  # Returns an Array of attendees.
+  # Returns a Hash
   def getFromDatabase(table)
     idFilter = Proc.new do |row|
       row["eventid"] == @id
     end
     $database.all_with_filter(table, idFilter)
   end
-
-  # # gets the comments for an event based on eventid
-  # #
-  # # TODO combine with attendees function above
-  # def comments(table=nil)
-  #   idFilter = Proc.new do |row|
-  #     row["eventid"] == @id
-  #   end
-
-  #   $database.all_with_filter("comments", idFilter)
-  # end
 
   # Edits a comment. 
   # 
@@ -62,12 +51,33 @@ class Event
       (row["commentid"] == params["commentId"]) & (row["eventid"] == @id) & (row["fullname"] == user)
     end
     if $database.all_with_filter("comments", filter)
-      $database.deleteComment("comments", params["commentId"])
+      deleteComment(params["commentId"], "comments")
       values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" ")]
       $database.newRow(values, "comments")
       $database.sortContents("comments", "commentid")
     end
   end
+
+  # deletes a comment. 
+  # 
+  # info - String, table = String
+  def deleteComment(info, table)
+    filter = Proc.new do |row|
+      row[:commentid] == info.to_i
+    end
+    $database.deleteRow(table,filter)
+  end
+
+  # deletes a row. 
+  # 
+  # info - String, table = String
+  def deleteRsvp(info, table)
+    filter = Proc.new do |row|
+      row[:eventid] == @id.to_i && row[:fullname] == info
+    end
+    $database.deleteRow(table,filter)
+  end
+
 
   # Get one weeks events.
   # 

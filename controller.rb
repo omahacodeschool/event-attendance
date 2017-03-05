@@ -38,11 +38,13 @@ post "/addAttendee" do
   redirect("/event?id=" + params["eventId"])
 end
 
+
 post "/deleteRsvp" do
-  # TODO The controller shouldn't know about "Database"--move this into Event model.
-  $database.deleteRow("rsvps", params["eventId"], session[:user]["fullname"])
+  event = Event.new(params["eventId"])
+  event.deleteRsvp(session[:user]["fullname"], "rsvps")
   redirect("/event?id=" + params["eventId"])
 end
+
 
 post "/register" do
   user = User.create(params["email"], params["pass"], params["fullname"])

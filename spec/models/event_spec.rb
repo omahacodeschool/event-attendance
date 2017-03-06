@@ -19,7 +19,7 @@ RSpec.describe(Event,"#info") do
 		result = event.info
 
 		#Verify
-		expect(result.values.join(" ")).to eq(mockEvent[1].join(" "))
+		expect(result.values).to eq(mockEvent[1])
 
 		# Teardown
 		event = nil

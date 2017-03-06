@@ -11,7 +11,7 @@ class Event
     $database.all("events")
   end
 
-  # creates an event
+  # creates an event and adds it to database
   # 
   # params - Hash
   def Event.create(params)
@@ -20,7 +20,7 @@ class Event
   end
 
 
-  # creates a comment
+  # creates a comment and adds it to database
   #
   # params - Hash, fullname = String
   def createComment(params, fullname)
@@ -28,7 +28,7 @@ class Event
     $database.newRow(values, "comments")
   end
 
-  # Get a from data based on filter.
+  # Get data based on filter for event id.
   # 
   # table - String
   # 
@@ -62,9 +62,9 @@ class Event
   # deletes a comment. 
   # 
   # info - String, table = String
-  def deleteComment(info, table)
+  def deleteComment(commentId, table)
     filter = Proc.new do |row|
-      row[:commentid] == info.to_i
+      row[:commentid] == commentId.to_i
     end
     $database.deleteRow(table,filter)
   end

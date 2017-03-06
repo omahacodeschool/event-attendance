@@ -56,6 +56,7 @@ end
 get "/updateMeetups" do
   Event.updateMeetups()
   redirect("/")
+end
 
 post "/comments" do
   event = Event.new(params["eventId"])
@@ -67,4 +68,4 @@ post "/editComment" do
   event = Event.new(params["eventId"])
   event.editComment(params, session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
-end 
+end

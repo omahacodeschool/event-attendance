@@ -148,7 +148,6 @@ window.addEventListener("load", function (){
 		  var d = new Date(date[0] + date[1].substr(-4));
 		  return d;
 		}
-<<<<<<< HEAD
 
 		var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
 		updateMeetupsButton.addEventListener("click", updateMeetups);
@@ -158,9 +157,6 @@ window.addEventListener("load", function (){
 			ourRequest.open('GET', "/updateMeetups", true);
 			ourRequest.send();
 		}
-
-=======
->>>>>>> master
 	};
 
 

@@ -19,15 +19,6 @@ class Event
     $database.newRow(values, "events")
   end
 
-
-  # creates a comment and adds it to database
-  #
-  # params - Hash, fullname = String
-  def createComment(params, fullname)
-    values = [$database.next_id("comments"), @id, fullname, params[:comment].strip.split.join(" "),Time.now.to_i]
-    $database.newRow(values, "comments")
-  end
-
   # Get data based on filter for event id.
   # 
   # table - String
@@ -103,6 +94,7 @@ class Event
   # 
   # returns data as Hash with the rsvps added
   def Event.getRsvps(data)
+    RSVP.for_event(data)
 
     data.each do |each|
       filter = Proc.new do |row|

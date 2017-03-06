@@ -1,20 +1,47 @@
-RSpec.describe(Database, '#all') do
-	
-	it 'returns 0 for an empty table' do
-		list = $database.all("events")
+RSpec.describe(Database, "#all_with_filter") do
+	it 'returns a value from database' do
+		array = [["header1","header2"],["1","test 1"],["2","test 2"]]
+		CSV.open($database.table_path("comments"), "wb") do |csv|
+			array.each do |row|
+     		csv << row
+     		end
+   		end
 
-		expect(list.length).to eq(5)
+   		filter = Proc.new do |row|
+     	row["header1"] == "1"
+   		end
+
+		list = $database.all_with_filter("comments", filter)
+		expect(list.length).to eq(1)
+	end 
+
+end 
+
+RSpec.describe(Database, "#checkifUniq") do
+
+	it 'returns a True from database if email exists' do
+	array = [["username","password"],["email@a.com","test 1"],["email@b.com","test 2"]]
+	CSV.open($database.table_path("users"), "wb") do |csv|
+		array.each do |row|
+			csv << row
+		end
 	end
 
-  it 'returns correct value for a non-empty table' do
-    # Setup
-      # Delete all rows.
-  end
+	returnValue = $database.checkifUniq("email@a.com", "users", "username")
+	expect(returnValue).to eq(true)
+	end 
 
-	it 'returns an array of hashes from a table' do
-		list = $database.all("events")
-
-		expect(list.class).to eq(Array)
+	it 'returns nil from database if email exists' do
+	array = [["username","password"],["email@a.com","test 1"],["email@b.com","test 2"]]
+	CSV.open($database.table_path("users"), "wb") do |csv|
+		array.each do |row|
+			csv << row
+		end
 	end
+
+	returnValue = $database.checkifUniq("email@c.com", "users", "username")
+	expect(returnValue).to eq(nil)
+	end 
 
 end
+

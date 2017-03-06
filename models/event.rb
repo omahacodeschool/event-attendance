@@ -246,7 +246,7 @@ class Event
   #
   # returns a hash with date -> "yyyy-mm-dd", time -> "hh:mm am/pm"
   def Event.setDate(event)
-    d = DateTime.strptime(event["time"].to_s,"%Q").new_offset('-06:00')
+    d = Time.at(event["time"]/1000)
     time = d.strftime('%I:%M %p')
     date = d.strftime('%F')
     return {"date" => date, "time" => time}

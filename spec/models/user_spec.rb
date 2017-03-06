@@ -1,6 +1,6 @@
 RSpec.describe( User, '.create') do 
 
-	it 'creates a new user' do 
+	it "returns a Hash with the newly created user's info" do 
 
 		# Setup
 		email = "foobar@foo.com"
@@ -14,11 +14,13 @@ RSpec.describe( User, '.create') do
 		expect(newUser).to eq({"username"=>email,"fullname"=>fullname, "admin" => "false"})
 
 		# Teardown
-		newUser = nil;
 		CSV.open($database.table_path('users'), 'w') do |csv|
 			csv = ''
 		end
 
 	end
+
+	# it "adds the new user to the database" do
+	# end
 
 end

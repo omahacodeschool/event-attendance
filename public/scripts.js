@@ -1,7 +1,41 @@
 window.addEventListener("load", function (){
 
-	var lastButtonClicked = "";
-	checkForDropDownMenus();
+	if (window.innerWidth < 570){
+		var lastButtonClicked = "";
+		checkForDropDownMenus();
+	}
+	else{
+		
+		var modalWindow = document.getElementsByClassName("modal")[0];
+
+		if (modalWindow != undefined){
+			var modalBody = modalWindow.children[0];
+			var exit = document.getElementsByClassName("exitModal")[0];
+			var trigger = document.getElementsByClassName("modalTrigger")[0];
+
+			modalBody.addEventListener("click", dontBubble);
+			trigger.addEventListener("click", openModal);
+			modalWindow.addEventListener("click", closeModal);
+			exit.addEventListener("click", closeModal);
+		};
+
+		// Prevents events bubbling up to parent
+		// 
+		// e - event
+		function dontBubble(e){
+			e.stopImmediatePropagation();
+		};
+
+		// Sets the modal to display block
+		function openModal(){
+			modalWindow.style.display = "block";
+		};
+
+		// Hides modal
+		function closeModal(){
+			modalWindow.style.display = 'none';
+		};
+	};
 
 	// Checks for the number of drop down menus
 	function checkForDropDownMenus(){
@@ -68,7 +102,7 @@ window.addEventListener("load", function (){
 	// arrayOfElements - array of dom nodes
 	function moveElementsToTop(arrayOfElements){
 		for (i = 0; i < arrayOfElements.length; i++){
-			arrayOfElements[i].style.top = "8px"
+			arrayOfElements[i].style.top = "-80px"
 		};
 	};
 
@@ -121,6 +155,7 @@ window.addEventListener("load", function (){
 		// for the header and event list on the homepage 
 		// for the week previous to what was being displayed
 		function showPrevWeek() {
+			event.preventDefault();
 			var currentMonday = getDisplayedWeekDate();
 			var prevMonday = currentMonday;
 			prevMonday.setDate(currentMonday.getDate() - 7);
@@ -133,6 +168,7 @@ window.addEventListener("load", function (){
 		// for the header and event list on the homepage 
 		// for the next week from what was being displayed
 		function showNextWeek() {
+			event.preventDefault();
 			var currentMonday = getDisplayedWeekDate();
 			var nextMonday = currentMonday;
 			nextMonday.setDate(currentMonday.getDate() + 7);
@@ -161,8 +197,9 @@ window.addEventListener("load", function (){
 
 
 	if (bodyHasClass("event_page")){
+		
 		var modalExit = document.getElementsByClassName("exit")[0]; 
-		var modalWindow = document.getElementsByClassName("modal")[0];
+		var modalWindow = document.getElementsByClassName("editComment_modal")[0];
 		editOptions = document.getElementsByClassName("editComment")
 
 		modalExit.addEventListener("click", hideModal);

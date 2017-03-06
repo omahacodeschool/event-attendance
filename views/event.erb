@@ -8,18 +8,18 @@
 <% if @event.info.length > 0 %>
 <%= erb :"assets/header" %>
 	<div class="page_body">	
+
+	<form class="Button events-nav" action="/">
+		<button type="submit">Back to Events</button>
+	</form>
 		
-		<div class="event">	
+		<div class="event info">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
-			<hr>
 			<div class="event_details">
-			<form action="/">
-				<input type="submit" value="Go To Events"/>
-			</form>
 				<ul>
-					<li><%= @event.info['group'] %></li>
-					<li><%= @event.info['time'] %></li>
-					<li><%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
+					<li>Who: <%= @event.info['group'] %></li>
+					<li>When: <%= @event.info['time'] %></li>
+					<li>Where: <%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
 					<li>
 						<a href = <%= @event.info['link'].to_s %>>
 							Original Page.
@@ -28,8 +28,9 @@
 				</ul>	
 			</div>
 		</div>
-		<div class="reservations">
-			<h2>Attendees</h2>
+		<div class="reservations info">
+
+			<h2>Attendees (<%= @event.getFromDatabase("rsvps").length %>)</h2>
 			<!-- user is logged in -->
 			<% if session[:user] %>
 				<!-- prevents rsvp on past events -->
@@ -37,11 +38,11 @@
 					<div class="rsvp-actions">
 						<form class="rsvp-button" action="/addAttendee" method="post">
 							<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
-							<input type="submit" value="RSVP!">
+							<button type="submit"> RSVP </button>
 						</form>
 						<form class="rsvp-button" action="/deleteRsvp" method="post">
 							<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
-							<input type='submit' value="Remove RSVP">		
+							<button type='submit'> Remove RSVP </button>	
 						</form>
 					</div>
 				<% else %>
@@ -49,10 +50,9 @@
 				<% end %>
 			<!-- user is not logged in -->
 			<% else %>
-				<p> Please register to RSVP </p>
+				<p> Please register or sign in to RSVP </p>
 			<% end %>
-			<hr>
-			<div class="attendies">
+			<div class="attendees">
 				<ul>
 					<% @event.getFromDatabase("rsvps").each do |name| %>
 					<%= "<li>" + name["fullname"] + "<br>" + "</li>"%> 
@@ -68,6 +68,7 @@
 				"<span class='comment-text'>" + comment["comment"] + "</span> " %>
 
 				<% if session[:user] %>
+
 					<% if comment['fullname'] == session[:user]['fullname'] && (Time.now.to_i - comment['timestamp'].to_i) < 1800 %>
 						<button class="editComment" id=<%= comment["commentid"] %>>edit</button>
 				    <% end %> 
@@ -78,7 +79,7 @@
 			<form action="/comments" method="post">
 				<textarea class="commentInput" name='comment' required></textarea><br>
 				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
-				<input type='submit' value="post comment">	
+				<button type='submit'>post comment</button>
 			</form>
 			<% else %>
 			<p class="login-to-comment">please login to comment</p>
@@ -86,7 +87,7 @@
 		</div>
 
 			    <!-- The Modal -->
-		<div class="modal">
+		<div class="editComment_modal">
 		    <div class="modal_body">
 	        	<form class="comment_edit" action="/editComment" method="post">
 					<textarea class="editText" name="textContent"></textarea><br>

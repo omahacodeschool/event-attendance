@@ -1,68 +1,82 @@
 <div class="header">
 	<div class="header_title">
-		<h1>Welcome to Events</h1>
+		<h1>Events</h1>
 
-		<!-- if no one is logged in -->
-		<% if !session[:user] %>
+<!-- if no one is logged in -->
+<% if !session[:user] %>
 
-				<button class="login Button">Login</button>
-				<button class="signup Button">Sign-up</button>
-			</div>
+		<div class="controls">
+			<button class="login Button">Login</button>
+			<button class="signup Button modalTrigger">Sign-up</button>
+		</div>
+	</div>
+	<!-- Register form -->
+	<div class="signup dropDown modal">
+		<form action="/register" method="post">
+			<p class="exitModal">Exit</p>
+			<p> Register for an account</p>
+			<input type="text" placeholder="name" name="fullname" required>
+			<input type="email" placeholder="email" name="email" required>
+			<input type="password" placeholder="password" name="pass" required>
+			<button type='submit'>Register</button>
+		</form>
+	</div>
+	<!-- Login form -->
+	<div class="login dropDown">
+		<form action="/login" method="post">
+			<input type="text" placeholder="email" name="user">
+			<input type="password" placeholder="password" name="pass">
+			<button type='submit'>Login</button>
+		</form>
+	</div>	
 
-			<!-- Register form -->
-			<div class="signup dropDown">
-				<form action="/register" method="post">
-					<input type="text" placeholder="name" name="fullname" required>
-					<input type="email" placeholder="email" name="email" required>
-					<input type="password" placeholder="password" name="pass" required>
-					<input type='submit' value="Register">
+<!-- someone is logged in -->
+<% else %>
+
+		<!-- log out form -->
+		<div class="userinfo">
+			<p>Hello, <%= session[:user]["fullname"] %></p>
+			<div class="controls">
+				<form class="Button" action="/logout" method="post">
+					<button type="submit">Log Out</button>
 				</form>
-			</div>
+			
+	<!-- if logged in user is an admin -->
+	<% if session[:user]["admin"] == "true" %>
 
-			<!-- Login form -->
-			<div class="login dropDown">
-				<form action="/login" method="post">
-					<input type="text" placeholder="email" name="user">
-					<input type="password" placeholder="password" name="pass">
-					<input type='submit' value="Login">
-				</form>
-			</div>	
-
-		<!-- someone is logged in -->
-		<% else %>
-
-			<!-- log out form -->
-			<form action="/logout" method="post">
-				<p> Logged in as: <%= session[:user]["fullname"] %>
-				<input type="submit" value="Log Out"></input></p>
-			</form>
-
-			<!-- if logged in user is an admin -->
-			<% if session[:user]["admin"] == "true" %>
 				<button class="button_update_meetups">Update Meetups</button>
-				<button class="addEvent Button">Add an Event</button>
-				</div>
+				<button class="addEvent Button modalTrigger">Add an Event</button>
+			</div>
+		</div>
+	</div>
+	<div class="addEvent dropDown modal">
+		<!-- form for adding event here -->
+		<form action="/addEvent" method="post">
+			<p class="exitModal">Exit</p>
+			<p>Add a new Event</p>
+			<input type="text" placeholder="group name" name="group" required>
+			<input type="text" placeholder="event title" name="title" required>
+			<input type="date" placeholder="yyyy/mm/dd" name="date" required>
+			<input type="time" placeholder="time" name="time" required>
+			<input type="text" placeholder="location" name="location" required>
+			<input type="text" placeholder="address" name="address" required>
+			<input type="url" placeholder="url" name="link" required><br>
+			<button type="submit">Submit</button>
+		</form>
 
-				<div class="addEvent dropDown">
-
-				<!-- form for adding event here -->
-				<form action="/addEvent" method="post">
-					<h2>Add Event</h2>
-					<input type="text" placeholder="group name" name="group" required>
-					<input type="text" placeholder="event title" name="title" required>
-					<input type="date" placeholder="yyyy/mm/dd" name="date" required>
-					<input type="time" placeholder="time" name="time" required>
-					<input type="text" placeholder="location" name="location" required>
-					<input type="text" placeholder="address" name="address" required>
-					<input type="url" placeholder="url" name="link" required>
-					<input type="submit">
-				</form>
-
-			<% end %>
+	<!-- if not admin close tags -->
+	<% else %>
 
 			</div>
+		</div>
 
-		<% end %>
-	<!-- </div> -->
+	<!-- ends admin/basic user condition -->
+	<% end %>
+
+	</div>
+
+<!-- ends loggedin/not condition -->
+<% end %>
+
 </div>
 

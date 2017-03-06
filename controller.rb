@@ -39,8 +39,8 @@ post "/addAttendee" do
 end
 
 post "/deleteRsvp" do
-  # TODO The controller shouldn't know about "Database"--move this into Event model.
-  $database.deleteRow("rsvps", params["eventId"], session[:user]["fullname"])
+  event = Event.new(params["eventId"])
+  event.deleteAttendee(session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
 end
 
@@ -53,6 +53,7 @@ post "/register" do
   redirect("/")
 end
 
-get "/refreshMeetups" do
-  MeetupEvents.new
+get "/updateMeetups" do
+  Event.updateMeetups()
+  redirect("/")
 end 

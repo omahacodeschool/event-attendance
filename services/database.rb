@@ -44,33 +44,34 @@ class Database
     return filtered_rows
   end
 
+
+
   # Adds a new row to the database
   #
-  # array - an array containing three strings
-  def newRow(array, table, uniqId = nil)
-    if uniqId != nil 
-      array.insert(0, uniqId)
-    end
-
+  # array - an array containing strings
+  def newRow(array, table)
     CSV.open(table_path(table), "a") do |csv|
       csv << array
     end
   end
 
 
-  def newRow2(array, table, uniqId = nil)
+  # deletes a row of information from the given table using a filter
+  #
+  # table - String
+  # Proc with a conditional
+  def deleteRow(table, filter)
     csv = CSV.table(table_path(table), headers:true)
+
     csv.delete_if do |row|
-      row[:id].to_s == uniqId
-    end
-    File.open(table_path(table), 'w') do |file|
-      file.write(csv.to_csv)
+      filter.call(row)
     end
 
-    CSV.open(table_path(table), "a") do |csv|
-      csv << array
+    File.open(table_path(table), 'w') do |row|
+      row.write(csv.to_csv)
     end
   end
+
 
   # turns a row from database based on params
   #
@@ -87,6 +88,7 @@ class Database
     end
   end
 
+
   # Counts the number of rows in a table
   # 
   # table - string
@@ -99,21 +101,5 @@ class Database
     return uniqId
   end
 
-
-  # deletes a users entry given a table, event id and name
-  #
-  # table - String, Id = Int, username = String
-  def deleteRow(table, id, username)
-    csv = CSV.table(table_path(table), headers:true)
-
-    csv.delete_if do |row|
-  
-      row[:eventid] == id.to_i && row[:fullname] == username
-    end
-
-    File.open(table_path(table), 'w') do |row|
-      row.write(csv.to_csv)
-    end
-  end
 
 end

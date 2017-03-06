@@ -1,15 +1,15 @@
 RSpec.describe(Login, '.valid') do
 	
-  # it "validates correct username and password" do
-  #   login_attempt = Login.valid("admin", "password")
+  it "validates correct username and password" do
+    login_attempt = Login.valid("admin@gmail.com", "password")
+    binding.pry
+    expect(login_attempt).to be_truthy
+  end
 
-  #   expect(login_attempt).to eq(true)
-  # end
+  it "validates incorrect username and password" do
+    login_attempt = Login.valid("admin@gmail.com", "wrong")
 
-  # it "validates incorrect username and password" do
-  #   login_attempt = Login.valid("admin", "wrong")
-
-  #   expect(login_attempt).to eq(false)
-  # end
+    expect(login_attempt).to be_falsey
+  end
 
 end

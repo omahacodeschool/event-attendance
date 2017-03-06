@@ -19,16 +19,12 @@ class Event
     $database.newRow(values, "events")
   end
 
-  # Get data based on filter for event id.
-  # 
-  # table - String
-  # 
-  # Returns a Hash
-  def getFromDatabase(table)
-    idFilter = Proc.new do |row|
-      row["eventid"] == @id
-    end
-    $database.all_with_filter(table, idFilter)
+  def getComments
+    Comment.for_event(@id)
+  end
+
+  def getRSVPs
+    RSVP.for_event(@id)
   end
 
   # Edits a comment. 

@@ -39,25 +39,25 @@ RSpec.describe(Database, "#checkifUniq") do
 	it 'returns a True from database if email exists' do
 		array = [["username","password"],["email@a.com","test 1"],["email@b.com","test 2"]]
 		CSV.open($database.table_path("users"), "wb") do |csv|
-		array.each do |row|
-			csv << row
+			array.each do |row|
+				csv << row
+			end
 		end
-	end
 
-	returnValue = $database.checkifUniq("email@a.com", "users", "username")
-	expect(returnValue).to eq(true)
+		returnValue = $database.checkifUniq("email@a.com", "users", "username")
+		expect(returnValue).to eq(true)
 	end 
 
 	it 'returns nil from database if email exists' do
-	array = [["username","password"],["email@a.com","test 1"],["email@b.com","test 2"]]
-	CSV.open($database.table_path("users"), "wb") do |csv|
-		array.each do |row|
-			csv << row
+		array = [["username","password"],["email@a.com","test 1"],["email@b.com","test 2"]]
+		CSV.open($database.table_path("users"), "wb") do |csv|
+			array.each do |row|
+				csv << row
+			end
 		end
-	end
 
-	returnValue = $database.checkifUniq("email@c.com", "users", "username")
-	expect(returnValue).to eq(nil)
+		returnValue = $database.checkifUniq("email@c.com", "users", "username")
+		expect(returnValue).to eq(nil)
 	end 
 
 end

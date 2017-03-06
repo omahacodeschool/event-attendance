@@ -133,16 +133,7 @@ ul{
 	width: 70%;
 }
 
-
-
-
-
-
-/*mobile view*/
-
 @media screen and (max-width: 569px){
-
-/*header's css*/
 	.header_title{
 		align-items: flex-end; 
 	}
@@ -160,26 +151,12 @@ ul{
 		border-radius: 4px;
 		width: 30%;
 	}
-
-/*main page's css*/
 	.page_body{
 		padding: 50px 16px;
 	}
 	.exitModal{
 		display: none;
 	}
-
-
-
-
-
-
-/*events page's css*/
-
-	
-
-
-
 }
 
 @media screen and (min-width: 570px){
@@ -248,153 +225,4 @@ ul{
 	.events-date{
 		text-align: center;
 	}
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*ul li:hover{
-	list-style-type: initial;
-}*/
-
-
-/*.event_page h2 {
-	display: inline;
-}
-.page_body{
-	max-width: 800px;
-	margin: 0 auto;
-	display: flex;
-	justify-content: space-around;
-}
-.events-nav{
-	display: flex;
-	flex-direction: row;
-}
-.rsvp-actions{
-	display: flex;
-	flex-direction: row;
-}
-.navlink{
-	margin: 5px;
-}
-.rsvp-button{
-	margin:5px;
-}
-
-.comment_edit{
-    display: inline-block;
-}
-
-.eachcomments{
-	margin: 10px;
-}
-
-.comment-id{
-	display: none;
-}
-.comment-text{
-
-	background: #eff0f1;
-	padding: 5px;
-	font-size: .8em;
-	max-width: 50px;
-}
-
-.modal{
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.42);
-}
-.modal_body{
-	background-color: white;
-	width: 50%;
-	margin: 150px auto;
-	text-align: center;
-	padding: 26px;
-}
-.exit{
-	position: absolute;
-}
-
-.commentInput{
-	width: 200px;
-	height: 30px;
-}
-
-body {
-
-	font-family: 'Roboto', sans-serif;
-}
-
-.events-list {
-
-}
-
-h1 {
-
-	border-bottom: solid 1px ;
-	border-bottom-color: #EEEEEE;
-}
-h2 {
-
-	border-bottom: solid 1px ;
-	border-bottom-color: #EEEEEE;
-}
-
-.admin-add-event {
-
- display: block;
-
-}
-
-.admin-add-event input{
-
- min-width: 200px;
- font-size: 12px;
- padding: 1px;
- margin: 3px;
- 
-}
-
-.loginForm{
-
-	text-align: center;
-}
-
-
-
-*/

@@ -38,12 +38,22 @@ RSpec.describe(Database, '#all') do
 
 
 
-	it 'returns an array of hashes from a table' do
+	it 'returns an array from a table' do
 		
 		list = $database.all("events")
 
 		expect(list.class).to eq(Array)
+		# expect(list).to respond_to(:each)
 	end
+
+	# TODO - Consider testing the innards of $database.all.
+	# 
+	# it 'returns an array of hashes from a table' do
+		
+	# 	list = $database.all("events")
+
+	# 	expect(list.first.class).to eq(Hash)
+	# end
 
 end
 

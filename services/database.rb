@@ -40,14 +40,22 @@ class Database
         filtered_rows.push(row.to_h)
       end
     end
-
     return filtered_rows
   end
 
+  # Adds a new row to the database
+  #
+  # array - an array containing strings
+  def newRow(array, table)
+    CSV.open(table_path(table), "a") do |csv|
+      csv << array
+    end
+  end
 
-  # deletes a row from a database based on a filter
-  # 
-  # table - String, filter - Proc
+  # deletes a row of information from the given table using a filter
+  #
+  # table - String
+  # Proc with a conditional
   def deleteRow(table, filter)
     csv = CSV.table(table_path(table), headers:true)
     csv.delete_if do |row|
@@ -58,34 +66,7 @@ class Database
     end
   end
 
-
-  # Deletes a comment based on a comment Id
-  # 
-  # table - String, Id = String
-  def deleteComment(table, id)
-    csv = CSV.table(table_path(table), headers:true)
-    csv.delete_if do |row|
-      row[:commentid] == id.to_i
-    end
-    File.open(table_path(table), 'w') do |row|
-      row.write(csv.to_csv)
-    end
-  end 
-
-  # Adds a new row to the database
-  #
-  # array - an array
-  def newRow(array, table, uniqId = nil)
-    if uniqId != nil 
-      array.insert(0, uniqId)
-    end
-
-    CSV.open(table_path(table), "a") do |csv|
-      csv << array
-    end
-  end
-
-  # returns a row from database based on params
+  # checks if info is already in database
   #
   # email - String, table - String, column - String
   #

@@ -39,6 +39,7 @@
 
 			<!-- if logged in user is an admin -->
 			<% if session[:user]["admin"] == "true" %>
+				<button class="button_update_meetups">Update Meetups</button>
 				<button class="addEvent Button">Add an Event</button>
 				</div>
 
@@ -60,6 +61,7 @@
 			<% end %>
 
 			</div>
+
 		<% end %>
 	<!-- </div> -->
 </div>

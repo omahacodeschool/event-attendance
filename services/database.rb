@@ -119,18 +119,12 @@ class Database
   # doesn't return anything but overwrites the csv
   #   with the sorted hash
   def sortContents(table, columnName)
-    rows = []
-    CSV.foreach(table_path(table), headers: true) do |row|
-      rows << row.to_h
-    end
-    data = rows.sort_by{ |row| row[columnName] }   
-    CSV.open(table_path(table), "wb") do |csv|
-      csv << data.first.keys
-      data.each do |hash|
-        csv << hash.values
-      end
-    end
+    csv = CSV.read table_path(table)
+    data = csv.sort! { |a, b| a[0].to_i <=> b[0].to_i }
+    File.open(table_path(table),'w'){ |f| f << data.map(&:to_csv).join } 
   end
+
 end
+
 
 

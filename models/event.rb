@@ -145,7 +145,9 @@ class Event
   end
 
   # Sort the events by weekday
+  # 
   # weekdata - an array of events
+  # 
   # Returns the data as a hash of weekdays -> array of events
   def Event.sortEvents(weekdata)
     sortedEvents = {}

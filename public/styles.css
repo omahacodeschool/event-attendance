@@ -35,6 +35,7 @@ ul{
 	letter-spacing: 1px;
 	word-spacing: 2px;
     box-shadow: 0px -20px 61px 35px white;
+}
 .comment_edit{
 	display: inline-block;
 }
@@ -90,6 +91,7 @@ ul{
 	color: #5f5e5e;
 	border-bottom: 1px solid gainsboro;
 	padding: 25px 0px;
+}
 .comment-text{
 	background: #eff0f1;
 	padding: 5px;
@@ -253,7 +255,7 @@ ul{
 
 }
 
-/*.modal{
+.editComment_modal{
 	display: none;
 	position: fixed;
 	top: 0px;
@@ -262,10 +264,10 @@ ul{
 	width: 100%;
 	background-color: rgba(0, 0, 0, 0.42);
 
-}*/
+}
 .modal_body{
 	background-color: white;
-	width: 300px;
+	width: 341px;
 	margin: 150px auto;
 	text-align: center;
 	padding: 26px;

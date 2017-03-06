@@ -7,14 +7,17 @@ window.addEventListener("load", function (){
 	else{
 		
 		var modalWindow = document.getElementsByClassName("modal")[0];
-		var modalBody = modalWindow.children[0];
-		var exit = document.getElementsByClassName("exitModal")[0];
-		var trigger = document.getElementsByClassName("modalTrigger")[0];
 
-		modalBody.addEventListener("click", dontBubble);
-		trigger.addEventListener("click", openModal);
-		modalWindow.addEventListener("click", closeModal);
-		exit.addEventListener("click", closeModal);
+		if (modalWindow != undefined){
+			var modalBody = modalWindow.children[0];
+			var exit = document.getElementsByClassName("exitModal")[0];
+			var trigger = document.getElementsByClassName("modalTrigger")[0];
+
+			modalBody.addEventListener("click", dontBubble);
+			trigger.addEventListener("click", openModal);
+			modalWindow.addEventListener("click", closeModal);
+			exit.addEventListener("click", closeModal);
+		};
 
 		// Prevents events bubbling up to parent
 		// 
@@ -196,7 +199,7 @@ window.addEventListener("load", function (){
 	if (bodyHasClass("event_page")){
 		
 		var modalExit = document.getElementsByClassName("exit")[0]; 
-		var modalWindow = document.getElementsByClassName("modal")[0];
+		var modalWindow = document.getElementsByClassName("editComment_modal")[0];
 		editOptions = document.getElementsByClassName("editComment")
 
 		modalExit.addEventListener("click", hideModal);

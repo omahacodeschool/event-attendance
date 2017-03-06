@@ -29,7 +29,8 @@
 			</div>
 		</div>
 		<div class="reservations info">
-			<h2>Attendees (<%= @event.attendees.length %>)</h2>
+
+			<h2>Attendees (<%= @event.getFromDatabase("rsvps").length %>)</h2>
 			<!-- user is logged in -->
 			<% if session[:user] %>
 				<!-- prevents rsvp on past events -->
@@ -67,6 +68,7 @@
 				"<span class='comment-text'>" + comment["comment"] + "</span> " %>
 
 				<% if session[:user] %>
+
 					<% if comment['fullname'] == session[:user]['fullname'] && (Time.now.to_i - comment['timestamp'].to_i) < 1800 %>
 						<button class="editComment" id=<%= comment["commentid"] %>>edit</button>
 				    <% end %> 
@@ -85,7 +87,7 @@
 		</div>
 
 			    <!-- The Modal -->
-		<div class="modal">
+		<div class="editComment_modal">
 		    <div class="modal_body">
 	        	<form class="comment_edit" action="/editComment" method="post">
 					<textarea class="editText" name="textContent"></textarea><br>

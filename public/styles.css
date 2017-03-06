@@ -11,71 +11,272 @@ body{
 	margin: 0px;
 	font-family: 'Roboto', sans-serif;
 }
-.page_body{
-	margin: 50px 16px;
-	letter-spacing: 1px;
-	word-spacing: 2px;
-}
-.header_title{
-	font-family: 'Megrim', cursive;
-	background-color: lightgray;
-	padding: 12px;
-	position: relative;
-	z-index: 2;
-	display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 button{
 	background: none;
 	border: none;
 	padding: 8px;
 	margin: auto 4px;
 	cursor: pointer;
+	outline: none;
 }
-button:focus{
-	outline:none;
+input{
+	outline: none
 }
 form{
 	display: inline-block;
 }
+a{
+	color: #cacaca;
+}
+ul{
+	list-style-type: circle;
+}
+.page_body{
+	letter-spacing: 1px;
+	word-spacing: 2px;
+    box-shadow: 0px -20px 61px 35px white;
+}
+.header_title, .header_title button{
+	color: white;
+	background-color: #525151;
+}
+.header_title{
+	box-shadow: 0px 0px 5px black;
+	padding: 12px;
+	position: relative;
+	z-index: 2;
+	display: flex;
+    justify-content: space-between;
+}
+.header_title h1{
+	font-family: 'Megrim', cursive;
+}
+.userinfo{
+	font-size: 14px;
+	text-align: center;
+}
+.controls{
+	text-align: right;
+}
+.header button:hover{
+	color: #c0f7f8 !important;
+}
+.signup input{
+	width: 85px;
+}
+.home_image{
+	height: 200px;
+	background-image: url(https://c1.staticflickr.com/5/4058/4222627030_a1453b8d6b_b.jpg);
+    background-position: center;
+}
 .events-nav{
 	text-align: center;
 }
-.event-item > h2, .event-details{
-	color: #acacac;
+.events-nav button{
+	width: 100px;
+	border: 1px solid gainsboro;
+	border-radius: 25px;
 }
 .events-date, .event-item{
 	color: #5f5e5e;
 	border-bottom: 1px solid gainsboro;
 	padding: 25px 0px;
 }
-.dropDown{
-	position: absolute;
-	background-color: dodgerblue;
-	top: 8px;
+.events-date, .event-item, .event-description{
+	color: #5f5e5e;
+	text-decoration: none;
+}
+.events-list h2{
+	transition: color 3s;
 }
 .event-item li{
 	padding: 15px 0px;
 }
-a{
-	color: #cacaca;
-}
-.event-description{
-	color: #5f5e5e;
-	text-decoration: none;
+.event-item > h2, .event-details{
+	color: #acacac;
 }
 .event-details{
 	position: relative;
 	left: 8px;
 	font-size: 12px;
 }
+.events-nav button:hover{
+	box-shadow: 0px 0px 8px gainsboro;
+}
+.event-item:hover > h2{
+	color: black;
+}
 .event-item li:hover > a{
 	color: #62acda;
 }
-ul{
-	list-style-type: circle;
+.event_page h2{
+	border-bottom: 1px solid gainsboro;
+    color: #afafaf;
 }
+.info{
+	padding-top: 40px;
+}
+.event li{
+    padding: 4px 0px;
+}
+.attendees > ul{
+	list-style-type: none;
+	padding: 0px 10px;
+	line-height: 24px;
+}
+.comments form{
+	width: 100%;
+	text-align: center;
+}
+.commentInput{
+	resize: none;
+	width: 70%;
+}
+
+
+
+
+
+
+/*mobile view*/
+
+@media screen and (max-width: 569px){
+
+/*header's css*/
+	.header_title{
+		align-items: flex-end; 
+	}
+	.dropDown{
+		transition: top 0.8s;
+		width: 100%;
+		position: absolute;
+		background-color: gainsboro;
+		top: -80px;
+		text-align: center;
+		padding: 12px 0px;
+	    border-bottom: 1px solid #888686;
+	}
+	.dropDown input{
+		border-radius: 4px;
+		width: 30%;
+	}
+
+/*main page's css*/
+	.page_body{
+		padding: 50px 16px;
+	}
+	.exitModal{
+		display: none;
+	}
+
+
+
+
+
+
+/*events page's css*/
+
+	
+
+
+
+}
+
+@media screen and (min-width: 570px){
+
+	.page_body{
+		padding: 50px 20%;
+	}
+	.header_title{
+		align-items: center;
+		padding: 12px 4%;
+	}
+	.header_title h1{
+		font-size: 54px;
+		margin: 0px;
+	}
+	.home_image{
+		height: 300px;
+		background-size: cover;
+	}
+	.modal{
+		background-color:  rgba(0, 0, 0, 0.5);
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: 9999;
+		display: none;
+	}
+	.modal form{
+		background-color: white;
+		width: 50%;
+	    margin: 170px 25%;
+	    text-align: center;
+	    padding: 40px 20px;
+	    border-radius: 5px;
+	    position: relative;
+	}
+	.exitModal{
+		cursor: pointer;
+		position: absolute;
+	    top: 8px;
+	    right: 10px;
+	    margin: 0px;
+	}
+	.modal input{
+		width: 40%;
+		margin: 0px 30%;
+	}
+	button.login.Button{
+		display: none;
+	}
+	.login.dropDown{
+		position: absolute;
+		top: 30px;
+		z-index: 40;
+		right: calc(5% + 42px);
+	}
+	.login.dropDown button{
+		color: white;
+		border-right: 2px solid dimgray;
+	}
+	.login.dropDown input{
+		width: 110px;
+	}
+	.events-date{
+		text-align: center;
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

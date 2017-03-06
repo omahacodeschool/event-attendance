@@ -1,21 +1,32 @@
-# RSpec.describe(Event,"#info") do 
-# 	it "gets the event information" do
-# 		pending
-# 		# Setup
-# 		# Create the event.
-# 		# Capture ID.
-# 			# id = "1"
+RSpec.describe(Event,"#info") do 
+	
+	it "gets the event information associated with the id" do
+		
+		# Setup
+		mockEvent = [['id', 'group', 'title', 'date', 'time', 'location', 'address', 'link'],
+		['4', 'test group', 'testing functions', '02-02-2017', "11:00pm", 'Alley way', 
+		'88873', 'http://.com']]
 
-# 		# Exercise
-# 			event = Event.new(id)
+		CSV.open($database.table_path("events"), 'w') do |csv|
+			mockEvent.each do |row|
+				csv << row
+			end
+		end
+		
+		event = Event.new("4")
 
-# 		expect(event.info["id"]).to eq(id)
-# 	end
+		# Excersize
+		result = event.info
 
-# 	it "returns nil when no info found" do
-# 		pending
-# 		event = Event.new("")
-# 		# Also refers to 'events.csv'
-# 		expect(event.info).not_to eq(nil)
-# 	end
-# end
+		#Verify
+		expect(result.values.join(" ")).to eq(mockEvent[1].join(" "))
+
+		# Teardown
+		event = nil
+		CSV.open($database.table_path("events"), 'w') do |csv|
+			csv = ""
+		end
+
+	end
+
+end

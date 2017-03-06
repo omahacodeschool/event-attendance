@@ -79,7 +79,7 @@ end
 
 RSpec.describe( Database, '#next_id') do 
 
-	it "finds the largest number, and returns it +1" do
+	it "finds and return the number of lines in the csv" do
 
 		# Setup
 		testcsv = [["number"],[1],[2]] 

@@ -79,7 +79,10 @@ class Event
     $database.deleteRow("rsvps",filter)
   end
 
-
+  # update local info of meetups from the meetup api
+  #
+  # will update all events and add any new ones
+  # will go through all meetups listed in the meetups.csv
   def Event.updateMeetups()
     meetups = $database.all("meetups")
     allMeetupEvents = collectAllEvents(meetups)
@@ -107,6 +110,12 @@ class Event
     return sortedEvents
   end
 
+
+  # Gets all the events
+  # 
+  # meetups - array of hashes
+  #
+  # returns an array of events, each event is a hash of the event info
   def Event.collectAllEvents(meetups)
     allMeetupEvents = []
       meetups.each do |row|
@@ -122,6 +131,9 @@ class Event
     return allMeetupEvents
   end
 
+  # First removes the original info from the database, then adds the new info
+  #
+  # allMeetupEvents - array of events, each event is a hash of the event info
   def Event.createMeetups(allMeetupEvents)
     allMeetupEvents.each do |event|
       filter = Proc.new do |row|
@@ -135,6 +147,11 @@ class Event
     end
   end
 
+  # Gets all info about an event formatted and collected
+  #
+  # event - hash json result from meetup api
+  # 
+  # returns Hash of all the event info
   def Event.collectEventInfo(event)
     date = setDate(event)
     venue = setVenue(event)
@@ -146,12 +163,23 @@ class Event
       "link" => link, "id" => event["id"],
       "description" => event["description"]
     }
+    return eventInfo
   end
 
+  # sets the link address
+  # 
+  # event - hash json result from meetup api
+  #
+  # returns a link to the event's meetup site as a String
   def Event.setLink(event)
     return "https://www.meetup.com/" + event["group"]["urlname"]
   end
 
+  # sets the date and time for the event
+  # 
+  # event - hash json result from meetup api
+  #
+  # returns a hash with date -> "yyyy-mm-dd", time -> "hh:mm am/pm"
   def Event.setDate(event)
     d = DateTime.strptime(event["time"].to_s,"%Q").new_offset('-06:00')
     time = d.strftime('%I:%M %p')
@@ -159,6 +187,11 @@ class Event
     return {"date" => date, "time" => time}
   end
 
+  # sets the venue name and address
+  # 
+  # event - hash json result from meetup api
+  #
+  # returns a Hash with date -> String, time -> String
   def Event.setVenue(event)
     venueCheck = event["venue"]
     if venueCheck == nil

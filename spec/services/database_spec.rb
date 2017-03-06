@@ -57,7 +57,7 @@ RSpec.describe(Database, "#checkifUniq") do
 		end
 
 		returnValue = $database.checkifUniq("email@c.com", "users", "username")
-		expect(returnValue).to eq(nil)
+		expect(returnValue).to be_falsey
 	end 
 
 end

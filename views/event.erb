@@ -76,7 +76,7 @@
 			<% end %> 
 			<% if session[:user] %>
 			<form action="/comments" method="post">
-				<textarea class="commentInput" name='comment'></textarea><br>
+				<textarea class="commentInput" name='comment' required></textarea><br>
 				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
 				<input type='submit' value="post comment">	
 			</form>

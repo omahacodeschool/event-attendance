@@ -117,11 +117,11 @@ class Database
   # table - String, columnName - String
   # 
   # doesn't return anything but overwrites the csv
-  #   with the sorted hash
+  #   with the sorted array or arrays
   def sortContents(table, columnName)
     csv = CSV.read table_path(table)
-    data = csv.sort! { |a, b| a[0].to_i <=> b[0].to_i }
-    File.open(table_path(table),'w'){ |f| f << data.map(&:to_csv).join } 
+    csv.sort! { |a, z| a[0].to_i <=> z[0].to_i }
+    File.open(table_path(table),'w'){ |f| f << csv.map(&:to_csv).join } 
   end
 
 end

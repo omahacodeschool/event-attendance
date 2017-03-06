@@ -198,11 +198,11 @@ window.addEventListener("load", function (){
 
 	if (bodyHasClass("event_page")){
 		
-		var modalExit = document.getElementsByClassName("exit")[0]; 
-		var modalWindow = document.getElementsByClassName("editComment_modal")[0];
+		var modalCommentExit = document.getElementsByClassName("exit")[0]; 
+		var modalCommentWindow = document.getElementsByClassName("editComment_modal")[0];
 		editOptions = document.getElementsByClassName("editComment")
 
-		modalExit.addEventListener("click", hideModal);
+		modalCommentExit.addEventListener("click", hideModal);
 
 		for (i = 0; i <= editOptions.length -1; i++){
 			editOptions[i].addEventListener("click", showEditOptions);	
@@ -210,12 +210,12 @@ window.addEventListener("load", function (){
 
 		// Set modal window's display to none.
 		function hideModal(e){
-			modalWindow.style.display = "none";
+			modalCommentWindow.style.display = "none";
 			e.preventDefault()
 		};
 
 		function showEditOptions(e){
-			modalWindow.style.display = "block";
+			modalCommentWindow.style.display = "block";
 			document.getElementsByClassName("editText")[0].innerHTML = this.parentElement.childNodes[2].innerHTML
 			document.getElementsByClassName("commentId")[0].value = this.id
 			e.preventDefault()

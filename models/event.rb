@@ -3,13 +3,6 @@ class Event
   def initialize(id)
     @id = id
   end
-	
-  # Get all events.
-  # 
-  # Returns Array of Event Hashes.
-  def Event.all
-    $database.all("events")
-  end
 
   # creates an event and adds it to database
   # 
@@ -59,16 +52,6 @@ class Event
     end
   end
 
-  # deletes a comment. 
-  # 
-  # info - String, table = String
-  def deleteComment(commentId, table)
-    filter = Proc.new do |row|
-      row[:commentid] == commentId.to_i
-    end
-    $database.deleteRow(table,filter)
-  end
-
   # deletes a row. 
   # 
   # name - String of full name
@@ -97,22 +80,6 @@ class Event
     sortEvents(weekdata)
   end
 
-  # Adds rsvps to the events being requested by the AJAX
-  # 
-  # data - Hash of events
-  # 
-  # returns data as Hash with the rsvps added
-  def Event.getRsvps(data)
-
-    data.each do |each|
-      filter = Proc.new do |row|
-        (row["eventid"] == each["id"])
-      end
-      rsvps = $database.all_with_filter("rsvps", filter).length
-      each.merge!("rsvps" => rsvps.to_s)
-    end
-      return data
-  end
 
   # Gets event info.
   #
@@ -155,6 +122,18 @@ class Event
 
   private
 
+
+  # deletes a comment. 
+  # 
+  # info - String, table = String
+  def deleteComment(commentId, table)
+    filter = Proc.new do |row|
+      row[:commentid] == commentId.to_i
+    end
+    $database.deleteRow(table,filter)
+  end
+
+
   # Sort the events by weekday
   # 
   # weekdata - an array of events
@@ -173,6 +152,24 @@ class Event
     end
     
     return sortedEvents
+  end
+
+
+  # Adds rsvps to the events being requested by the AJAX
+  # 
+  # data - Hash of events
+  # 
+  # returns data as Hash with the rsvps added
+  def Event.getRsvps(data)
+
+    data.each do |each|
+      filter = Proc.new do |row|
+        (row["eventid"] == each["id"])
+      end
+      rsvps = $database.all_with_filter("rsvps", filter).length
+      each.merge!("rsvps" => rsvps.to_s)
+    end
+      return data
   end
 
 

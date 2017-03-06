@@ -185,6 +185,7 @@ class Event
         uri = URI('https://api.meetup.com/' + url + '/events')
         stringresult = Net::HTTP.get(uri) # => String
         jsonresult = JSON.parse(stringresult)
+        binding.pry
         jsonresult.each do |event|
           eventInfo = collectEventInfo(event)
           allMeetupEvents.push(eventInfo)

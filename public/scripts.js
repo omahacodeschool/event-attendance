@@ -1,7 +1,38 @@
 window.addEventListener("load", function (){
 
-	var lastButtonClicked = "";
-	checkForDropDownMenus();
+	if (window.innerWidth < 570){
+		var lastButtonClicked = "";
+		checkForDropDownMenus();
+	}
+	else{
+		
+		var modalWindow = document.getElementsByClassName("modal")[0];
+		var modalBody = modalWindow.children[0];
+		var exit = document.getElementsByClassName("exitModal")[0];
+		var trigger = document.getElementsByClassName("modalTrigger")[0];
+
+		modalBody.addEventListener("click", dontBubble);
+		trigger.addEventListener("click", openModal);
+		modalWindow.addEventListener("click", closeModal);
+		exit.addEventListener("click", closeModal);
+
+		// Prevents events bubbling up to parent
+		// 
+		// e - event
+		function dontBubble(e){
+			e.stopImmediatePropagation();
+		};
+
+		// Sets the modal to display block
+		function openModal(){
+			modalWindow.style.display = "block";
+		};
+
+		// Hides modal
+		function closeModal(){
+			modalWindow.style.display = 'none';
+		};
+	};
 
 	// Checks for the number of drop down menus
 	function checkForDropDownMenus(){
@@ -68,7 +99,7 @@ window.addEventListener("load", function (){
 	// arrayOfElements - array of dom nodes
 	function moveElementsToTop(arrayOfElements){
 		for (i = 0; i < arrayOfElements.length; i++){
-			arrayOfElements[i].style.top = "8px"
+			arrayOfElements[i].style.top = "-80px"
 		};
 	};
 
@@ -155,22 +186,22 @@ window.addEventListener("load", function (){
 
 
 	if (bodyHasClass("event_page")){
-		var rsvpButton = document.getElementsByClassName("reservations")[0].children[1];
-		var modalExit = document.getElementsByClassName("exit")[0]; 
-		var modalWindow = document.getElementsByClassName("modal")[0];
+		// var rsvpButton = document.getElementsByClassName("reservations")[0].children[1];
+		// var modalExit = document.getElementsByClassName("exit")[0]; 
+		// var modalWindow = document.getElementsByClassName("modal")[0];
 
-		modalExit.addEventListener("click", hideModal);
-		rsvpButton.addEventListener("click", showModal);
+		// modalExit.addEventListener("click", hideModal);
+		// rsvpButton.addEventListener("click", showModal);
 
-		// Sets the modal window's display to block.
-		function showModal(){
-			modalWindow.style.display = "block";
-		};
+		// // Sets the modal window's display to block.
+		// function showModal(){
+		// 	modalWindow.style.display = "block";
+		// };
 
-		// Set modal window's display to none.
-		function hideModal(){
-			modalWindow.style.display = "none";
-		};
+		// // Set modal window's display to none.
+		// function hideModal(){
+		// 	modalWindow.style.display = "none";
+		// };
 	};
 
 });

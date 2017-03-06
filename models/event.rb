@@ -19,25 +19,12 @@ class Event
     $database.newRow(values, "events")
   end
 
-
-  # creates a comment and adds it to database
-  #
-  # params - Hash, fullname = String
-  def createComment(params, fullname)
-    values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" "),Time.now.to_i]
-    $database.newRow(values, "comments")
+  def getComments
+    Comment.for_event(@id)
   end
 
-  # Get data based on filter for event id.
-  # 
-  # table - String
-  # 
-  # Returns a Hash
-  def getFromDatabase(table)
-    idFilter = Proc.new do |row|
-      row["eventid"] == @id
-    end
-    $database.all_with_filter(table, idFilter)
+  def getRSVPs
+    RSVP.for_event(@id)
   end
 
   # Edits a comment. 
@@ -103,6 +90,7 @@ class Event
   # 
   # returns data as Hash with the rsvps added
   def Event.getRsvps(data)
+    RSVP.for_event(data)
 
     data.each do |each|
       filter = Proc.new do |row|

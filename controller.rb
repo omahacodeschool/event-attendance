@@ -57,8 +57,8 @@ get "/updateMeetups" do
 end
 
 post "/comments" do
-  event = Event.new(params["eventId"])
-  event.createComment(params, session[:user]["fullname"])
+  Comment.create(params, session[:user]["fullname"], params["eventId"])
+
   redirect("/event?id=" + params["eventId"])
 end 
 

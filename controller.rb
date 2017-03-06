@@ -37,6 +37,7 @@ post "/addAttendee" do
   redirect("/event?id=" + params["eventId"])
 end
 
+
 post "/deleteRsvp" do
   event = Event.new(params["eventId"])
   event.deleteAttendee(session[:user]["fullname"])
@@ -55,4 +56,15 @@ end
 get "/updateMeetups" do
   Event.updateMeetups()
   redirect("/")
+
+post "/comments" do
+  event = Event.new(params["eventId"])
+  event.createComment(params, session[:user]["fullname"])
+  redirect("/event?id=" + params["eventId"])
+end 
+
+post "/editComment" do
+  event = Event.new(params["eventId"])
+  event.editComment(params, session[:user]["fullname"])
+  redirect("/event?id=" + params["eventId"])
 end 

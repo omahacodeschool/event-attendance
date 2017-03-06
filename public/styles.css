@@ -1,11 +1,22 @@
+.header_title{
+	background-color: lightgray;
+	top: 8px;
+}
+.dropDown{
+	position: absolute;
+	background-color: dodgerblue;
+	top: 8px;
+}
+.comment_edit{
+	display: inline-block;
+}
+
 .event_page h2 {
 	display: inline;
 }
 .page_body{
 	max-width: 800px;
 	margin: 0 auto;
-	/*display: flex;*/
-	/*justify-content: space-around;*/
 }
 .events-nav{
 	display: flex;
@@ -22,24 +33,26 @@
 	margin:5px;
 }
 
-.modal{
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.42);
+.comment_edit{
+    display: inline-block;
 }
-.modal_body{
-	background-color: white;
-	width: 50%;
-	margin: 150px auto;
-	text-align: center;
-	padding: 26px;
+
+.eachcomments{
+	margin: 10px;
 }
-.exit{
-	position: absolute;
+
+.comment-text{
+
+	background: #eff0f1;
+	padding: 5px;
+	font-size: .8em;
+	max-width: 50px;
+}
+
+
+.commentInput{
+	width: 200px;
+	height: 30px;
 }
 
 body {
@@ -82,5 +95,29 @@ h2 {
 	text-align: center;
 }
 
+.editText {
 
+	width: 290px;
+	height: 100px;
+	resize: none;
+
+}
+
+.modal{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.42);
+
+}
+.modal_body{
+	background-color: white;
+	width: 300px;
+	margin: 150px auto;
+	text-align: center;
+	padding: 26px;
+}
 

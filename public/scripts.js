@@ -1,5 +1,86 @@
 window.addEventListener("load", function (){
 
+	var lastButtonClicked = "";
+	checkForDropDownMenus();
+
+	// Checks for the number of drop down menus
+	function checkForDropDownMenus(){
+		var drops = allElementsOfClass("dropDown").length;
+		if (drops > 0){
+			determineDropMenus(drops)
+		};
+	};
+
+	// Determines the drop downs from how many thier are
+	//
+	// numOfMenus - integer
+	function determineDropMenus(numOfMenus){
+		if(numOfMenus == 2){
+			setNoUserDrops();
+		}
+		else if(numOfMenus == 1){
+			setAdminDrops();
+		};
+	};
+
+	// Adds eventlistener to show the admin's addevent drop menu
+	function setAdminDrops(){
+		var addEventButton = document.getElementsByClassName("addEvent Button")[0];
+
+		addEventButton.addEventListener("click", dropMenuDown);
+	};
+
+	// Sets an eventlistener to show the login/signup menus
+	function setNoUserDrops(){
+		var loginButton = document.getElementsByClassName("login Button")[0];
+		var signupButton = document.getElementsByClassName("signup Button")[0];
+
+		loginButton.addEventListener("click", dropMenuDown);
+		signupButton.addEventListener("click", dropMenuDown);
+	};
+
+	// Moves the drop menus all up then the active one down, closes all if
+	// same button is clicked twice
+	function dropMenuDown(){
+		moveElementsToTop(allElementsOfClass("dropDown"));
+		if (lastButtonClicked == this.classList[0]){
+			lastButtonClicked = "";
+		}
+		else{
+			lastButtonClicked = this.classList[0];
+			var menu = document.getElementsByClassName(lastButtonClicked)[1];
+			var header = document.getElementsByClassName("header_title")[0];
+			menu.style.top = windowTopToBottomOf(header) + "px";
+		};	
+	};
+
+	// Find the pixels from top to bottom of element
+	//
+	// element - node
+	//
+	// returns an integer
+	function windowTopToBottomOf(element){
+		return element.offsetTop + element.offsetHeight;
+	};
+
+	// Moves a collection of dom nodes to the top of the page
+	//
+	// arrayOfElements - array of dom nodes
+	function moveElementsToTop(arrayOfElements){
+		for (i = 0; i < arrayOfElements.length; i++){
+			arrayOfElements[i].style.top = "8px"
+		};
+	};
+
+	// Finds elements with a class
+	// 
+	// className - string
+	//
+	// returns an array of nodes
+	function  allElementsOfClass(className){
+		return document.getElementsByClassName(className);
+	};
+
 	// Checks to see if the body tag has a particular class.
 	//
 	// className - String.
@@ -67,6 +148,7 @@ window.addEventListener("load", function (){
 		  var d = new Date(date[0] + date[1].substr(-4));
 		  return d;
 		}
+<<<<<<< HEAD
 
 		var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
 		updateMeetupsButton.addEventListener("click", updateMeetups);
@@ -77,28 +159,35 @@ window.addEventListener("load", function (){
 			ourRequest.send();
 		}
 
+=======
+>>>>>>> master
 	};
 
 
 	if (bodyHasClass("event_page")){
-		var rsvpButton = document.getElementsByClassName("reservations")[0].children[1];
 		var modalExit = document.getElementsByClassName("exit")[0]; 
 		var modalWindow = document.getElementsByClassName("modal")[0];
+		editOptions = document.getElementsByClassName("editComment")
 
 		modalExit.addEventListener("click", hideModal);
-		rsvpButton.addEventListener("click", showModal);
 
-		// Sets the modal window's display to block.
-		function showModal(){
-			modalWindow.style.display = "block";
-		};
+		for (i = 0; i <= editOptions.length -1; i++){
+			editOptions[i].addEventListener("click", showEditOptions);	
+		}
 
 		// Set modal window's display to none.
-		function hideModal(){
+		function hideModal(e){
 			modalWindow.style.display = "none";
+			e.preventDefault()
+		};
+
+		function showEditOptions(e){
+			modalWindow.style.display = "block";
+			document.getElementsByClassName("editText")[0].innerHTML = this.parentElement.childNodes[2].innerHTML
+			document.getElementsByClassName("commentId")[0].value = this.id
+			e.preventDefault()
 		};
 	};
-
 });
 
 

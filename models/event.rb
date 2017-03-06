@@ -11,22 +11,72 @@ class Event
     $database.all("events")
   end
 
-  # TODO document!!!!!!!!
+  # creates an event
+  # 
+  # params - Hash
   def Event.create(params)
     values = [$database.next_id("events"),params[:group],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address]]
     $database.newRow(values, "events")
   end
 
 
-  # Get an event's attendees.
+  # creates a comment
+  #
+  # params - Hash, fullname = String
+  def createComment(params, fullname)
+    values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" ")]
+    $database.newRow(values, "comments")
+  end
+
+  # Get a from data based on filter.
   # 
-  # Returns an Array of attendees.
-  def attendees
+  # table - String
+  # 
+  # Returns a Hash
+  def getFromDatabase(table)
     idFilter = Proc.new do |row|
       row["eventid"] == @id
     end
+    $database.all_with_filter(table, idFilter)
+  end
 
-    $database.all_with_filter("rsvps", idFilter)
+  # Edits a comment. 
+  # 
+  # params - Hash, user = String
+  # 
+  # no return but deletes a comment, writes the new version
+  #   then sorts the comments based on Id so they appear in
+  #   the same spot as before edit
+  def editComment(params, user)
+    filter = Proc.new do |row|
+      (row["commentid"] == params["commentId"]) & (row["eventid"] == @id) & (row["fullname"] == user)
+    end
+    if $database.all_with_filter("comments", filter)
+      deleteComment(params["commentId"], "comments")
+      values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" ")]
+      $database.newRow(values, "comments")
+      $database.sortContents("comments", "commentid")
+    end
+  end
+
+  # deletes a comment. 
+  # 
+  # info - String, table = String
+  def deleteComment(info, table)
+    filter = Proc.new do |row|
+      row[:commentid] == info.to_i
+    end
+    $database.deleteRow(table,filter)
+  end
+
+  # deletes a row. 
+  # 
+  # name - String of full name
+  def deleteAttendee(name)
+    filter = Proc.new do |row|
+        (row[:eventid] == @id.to_i && row[:fullname] == name)
+      end
+    $database.deleteRow("rsvps",filter)
   end
 
 
@@ -43,7 +93,25 @@ class Event
       (row_date >= beginningDate && row_date < endingDate)
     end
     weekdata = $database.all_with_filter("events", filter)
+    weekdata = Event.getRsvps(weekdata)
     sortEvents(weekdata)
+  end
+
+  # Adds rsvps to the events being requested by the AJAX
+  # 
+  # data - Hash of events
+  # 
+  # returns data as Hash with the rsvps added
+  def Event.getRsvps(data)
+
+    data.each do |each|
+      filter = Proc.new do |row|
+        (row["eventid"] == each["id"])
+      end
+      rsvps = $database.all_with_filter("rsvps", filter).length
+      each.merge!("rsvps" => rsvps.to_s)
+    end
+      return data
   end
 
   # Gets event info.
@@ -60,21 +128,18 @@ class Event
     end
   end
 
-  # Adds a new attendee to the list of attendees
+  # Adds a new attendee to the list of attendees if there is no prior rsvp
+  #     for that event by that user
   #
-  # queryHash - key value pair of parameters
+  # name - key value pair of parameters
   def addAttendee(name)
-    $database.newRow([@id] + [name], "rsvps")
-  end
-
-  # Adds a new attendee to the list of attendees
-  #
-  # queryHash - key value pair of parameters
-  def deleteAttendee(name)
     filter = Proc.new do |row|
-        (row[:eventid] == @id.to_i && row[:fullname] == name)
-      end
-    $database.deleteRow("rsvps",filter)
+      row["eventid"]==@id && row["fullname"] == name
+    end
+   
+    if $database.all_with_filter("rsvps", filter).length < 1
+      $database.newRow([@id] + [name], "rsvps")
+    end
   end
 
   # update local info of meetups from the meetup api

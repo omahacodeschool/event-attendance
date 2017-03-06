@@ -6,8 +6,9 @@
 <body class="event_page">
 <!-- if event exists -->
 <% if @event.info.length > 0 %>
+<%= erb :"assets/header" %>
 	<div class="page_body">	
-		<%= erb :"assets/header" %>
+		
 		<div class="event">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
 			<hr>
@@ -48,12 +49,47 @@
 			<hr>
 			<div class="attendies">
 				<ul>
-					<% @event.attendees.each do |name| %>
+					<% @event.getFromDatabase("rsvps").each do |name| %>
 					<%= "<li>" + name["fullname"] + "<br>" + "</li>"%> 
 					<% end %> 
 				</ul>
 			</div>
 		</div>
+
+		<div class="comments">
+			<h2>Comments</h2><br>
+			<% @event.getFromDatabase("comments").each do |comment| %>
+				<%= "<div class='eachcomments'><span class='comment-name'>" + comment["fullname"] + "</span> " + 
+				"<span class='comment-text'>" + comment["comment"] + "</span> " %>
+
+				<% if session[:user] %>
+					<% if comment['fullname'] == session[:user]['fullname'] %>
+						<button class="editComment" id=<%= comment["commentid"] %>>edit</button>
+				    <% end %> 
+				<% end %>    
+			    </div>
+			<% end %> 
+
+			<form action="/comments" method="post">
+				<textarea class="commentInput" name='comment'></textarea><br>
+				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+				<input type='submit' value="post comment">	
+			</form>
+		</div>
+
+			    <!-- The Modal -->
+		<div class="modal">
+		    <div class="modal_body">
+	        	<form class="comment_edit" action="/editComment" method="post">
+					<textarea class="editText" name="textContent"></textarea><br>
+					<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+					<input class="commentId" type="hidden" name="commentId" value="">
+					<button class="cancel">submit</button>
+					<button class="exit">cancel</button>
+				</form>
+		    </div>
+		</div>
+
 	</div>
 <!-- if event doesnt exist -->
 <% else %>

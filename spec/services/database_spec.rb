@@ -3,9 +3,7 @@ RSpec.describe(Database, '#all') do
 	it 'returns 0 for an empty table' do
 
 		# Setup
-		CSV.open($database.table_path('events'), 'w') do |csv|
-				csv = ''
-		end
+		DatabaseHelper.empty("events")
 
 		# Excersize
 		list = $database.all("events")
@@ -34,9 +32,7 @@ RSpec.describe(Database, '#all') do
 		expect(list.length).to eq(2)
 
 		# Teardown
-		CSV.open($database.table_path('events'), 'w') do |csv|
-			csv = ''
-		end
+		DatabaseHelper.empty("events")
 
 	end
 

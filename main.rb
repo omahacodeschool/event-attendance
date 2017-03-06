@@ -10,6 +10,7 @@ require_relative "services/login.rb"
 require_relative "models/event.rb"
 require_relative "models/user.rb"
 require 'date'
+require 'time'
 enable :sessions
 
 require_relative "controller.rb"

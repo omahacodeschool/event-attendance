@@ -11,6 +11,10 @@
 	display: inline-block;
 }
 
+.login-to-comment{
+	font-size: .7em;
+	color: orange;
+}
 .event_page h2 {
 	display: inline;
 }

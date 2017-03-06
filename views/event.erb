@@ -32,16 +32,21 @@
 			<h2>Attendees</h2>
 			<!-- user is logged in -->
 			<% if session[:user] %>
-				<div class="rsvp-actions">
-					<form class="rsvp-button" action="/addAttendee" method="post">
-						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
-						<input type="submit" value="RSVP!">
-					</form>
-					<form class="rsvp-button" action="/deleteRsvp" method="post">
-						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
-						<input type='submit' value="Remove RSVP">		
-					</form>
-				</div>
+				<!-- prevents rsvp on past events -->
+				<% if Time.parse(@event.info["date"] + ' ' + @event.info["time"]).to_i > Time.now.to_i %>
+					<div class="rsvp-actions">
+						<form class="rsvp-button" action="/addAttendee" method="post">
+							<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
+							<input type="submit" value="RSVP!">
+						</form>
+						<form class="rsvp-button" action="/deleteRsvp" method="post">
+							<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
+							<input type='submit' value="Remove RSVP">		
+						</form>
+					</div>
+				<% else %>
+					<p>this event has passed</p>
+				<% end %>
 			<!-- user is not logged in -->
 			<% else %>
 				<p> Please register to RSVP </p>
@@ -69,12 +74,15 @@
 				<% end %>    
 			    </div>
 			<% end %> 
-
+			<% if session[:user] %>
 			<form action="/comments" method="post">
 				<textarea class="commentInput" name='comment'></textarea><br>
 				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
 				<input type='submit' value="post comment">	
 			</form>
+			<% else %>
+			<p class="login-to-comment">please login to comment</p>
+			<% end %>
 		</div>
 
 			    <!-- The Modal -->

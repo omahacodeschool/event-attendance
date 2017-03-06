@@ -77,6 +77,32 @@ end
 
 
 
+RSpec.describe( Database, '#next_id') do 
+
+	it "finds the largest number, and returns it +1" do
+
+		# Setup
+		testcsv = [["number"],[1],[2]] 
+		CSV.open($database.table_path('events'), 'w') do |csv|
+			testcsv.each do |row|
+				csv << row
+			end
+		end
+
+		# Excersize
+		id = $database.next_id('events')
+
+		# Verify
+		expect(id).to eq(3)
+
+		# Teardown
+		CSV.open($database.table_path('events'), 'w') do |csv|
+			csv = ""
+		end
+
+	end
+
+end
 
 
 

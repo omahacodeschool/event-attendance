@@ -182,28 +182,42 @@ window.addEventListener("load", function (){
 		  return d;
 		}
 
+		var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
+		updateMeetupsButton.addEventListener("click", updateMeetups);
+
+		function updateMeetups() {
+			ourRequest = new XMLHttpRequest();
+			ourRequest.open('GET', "/updateMeetups", true);
+			ourRequest.send();
+		}
 	};
 
 
 	if (bodyHasClass("event_page")){
-		// var rsvpButton = document.getElementsByClassName("reservations")[0].children[1];
-		// var modalExit = document.getElementsByClassName("exit")[0]; 
-		// var modalWindow = document.getElementsByClassName("modal")[0];
+		
+		var modalExit = document.getElementsByClassName("exit")[0]; 
+		var modalWindow = document.getElementsByClassName("modal")[0];
+		editOptions = document.getElementsByClassName("editComment")
 
-		// modalExit.addEventListener("click", hideModal);
-		// rsvpButton.addEventListener("click", showModal);
+		modalExit.addEventListener("click", hideModal);
 
-		// // Sets the modal window's display to block.
-		// function showModal(){
-		// 	modalWindow.style.display = "block";
-		// };
+		for (i = 0; i <= editOptions.length -1; i++){
+			editOptions[i].addEventListener("click", showEditOptions);	
+		}
 
-		// // Set modal window's display to none.
-		// function hideModal(){
-		// 	modalWindow.style.display = "none";
-		// };
+		// Set modal window's display to none.
+		function hideModal(e){
+			modalWindow.style.display = "none";
+			e.preventDefault()
+		};
+
+		function showEditOptions(e){
+			modalWindow.style.display = "block";
+			document.getElementsByClassName("editText")[0].innerHTML = this.parentElement.childNodes[2].innerHTML
+			document.getElementsByClassName("commentId")[0].value = this.id
+			e.preventDefault()
+		};
 	};
-
 });
 
 

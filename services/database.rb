@@ -40,28 +40,37 @@ class Database
         filtered_rows.push(row.to_h)
       end
     end
-
     return filtered_rows
   end
 
   # Adds a new row to the database
   #
-  # array - an array containing three strings
-  def newRow(array, table, uniqId = nil)
-    if uniqId != nil 
-      array.insert(0, uniqId)
-    end
-
+  # array - an array containing strings
+  def newRow(array, table)
     CSV.open(table_path(table), "a") do |csv|
       csv << array
     end
   end
 
-  # turns a row from database based on params
+  # deletes a row of information from the given table using a filter
+  #
+  # table - String
+  # Proc with a conditional
+  def deleteRow(table, filter)
+    csv = CSV.table(table_path(table), headers:true)
+    csv.delete_if do |row|
+      filter.call(row)
+    end
+    File.open(table_path(table), 'w') do |row|
+      row.write(csv.to_csv)
+    end
+  end
+
+  # checks if info is already in database
   #
   # email - String, table - String, column - String
   #
-  # TODO
+  # returns Boolean
   def checkifUniq(email, table, column)
     CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
       if row[column] == email
@@ -84,21 +93,19 @@ class Database
     return uniqId
   end
 
-
-  # deletes a users entry given a table, event id and name
-  #
-  # table - String, Id = Int, username = String
-  def deleteRow(table, id, username)
-    csv = CSV.table(table_path(table), headers:true)
-
-    csv.delete_if do |row|
-  
-      row[:eventid] == id.to_i && row[:fullname] == username
-    end
-
-    File.open(table_path(table), 'w') do |row|
-      row.write(csv.to_csv)
-    end
+  # Sorts based on a column name.
+  # 
+  # table - String, columnName - String
+  # 
+  # doesn't return anything but overwrites the csv
+  #   with the sorted array or arrays
+  def sortContents(table, columnName)
+    csv = CSV.read table_path(table)
+    csv.sort! { |a, z| a[0].to_i <=> z[0].to_i }
+    File.open(table_path(table),'w'){ |f| f << csv.map(&:to_csv).join } 
   end
 
 end
+
+
+

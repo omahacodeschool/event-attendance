@@ -17,13 +17,10 @@ post "/logout" do
 end
 
 post "/login" do
-
   user = Login.valid(params["user"], params["pass"])
-
   if !user.nil?
     session[:user] = user
   end
-
   redirect("/")
 end
 
@@ -38,9 +35,10 @@ post "/addAttendee" do
   redirect("/event?id=" + params["eventId"])
 end
 
+
 post "/deleteRsvp" do
-  # TODO The controller shouldn't know about "Database"--move this into Event model.
-  $database.deleteRow("rsvps", params["eventId"], session[:user]["fullname"])
+  event = Event.new(params["eventId"])
+  event.deleteAttendee(session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
 end
 
@@ -53,8 +51,19 @@ post "/register" do
   redirect("/")
 end
 
+get "/updateMeetups" do
+  Event.updateMeetups()
+  redirect("/")
+end
+
 post "/comments" do
   event = Event.new(params["eventId"])
   event.createComment(params, session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
 end 
+
+post "/editComment" do
+  event = Event.new(params["eventId"])
+  event.editComment(params, session[:user]["fullname"])
+  redirect("/event?id=" + params["eventId"])
+end

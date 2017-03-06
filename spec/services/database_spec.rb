@@ -5,6 +5,8 @@ RSpec.describe(Database, '#newRow') do
 		table = "events"
 		CSV.open($database.table_path(table),'w') do |file|
 			file << ["id","group","title","date","time","location","address","link"]
+
+			# TODO Make this different from the row you'll be creating, or remove it.
 			file << ["test","test2","test3","test","test2","test3","test","test2"]
 		end
 		array = ["test","test2","test3","test","test2","test3","test","test2"]
@@ -27,6 +29,8 @@ RSpec.describe(Database, '#newRow') do
 	#exercise
 		$database.newRow(array,table)
 	#verify
+
+		# TODO File.readlines should give you an Array-like object to verify directly.
 		line_count = File.readlines($database.table_path(table)).size
 		count = 0
 		lastrow = []

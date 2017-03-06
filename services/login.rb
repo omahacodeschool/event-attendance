@@ -13,7 +13,6 @@ class Login
     end
 
     userArr = $database.all_with_filter("users", filter)
-    binding.pry
     return userArr[0]
   end
 

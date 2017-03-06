@@ -74,9 +74,6 @@ RSpec.describe( Database, '#table_path') do
 		# Verify
 		expect(path).to eq("panda/pie.csv")
 
-		# Teardown
-		testDatabase = nil
-
 	end
 
 end

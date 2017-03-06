@@ -9,18 +9,17 @@
 <%= erb :"assets/header" %>
 	<div class="page_body">	
 
-	<form class="Button" action="/">
-		<button type="submit"><< Back to Events</button>
+	<form class="Button events-nav" action="/">
+		<button type="submit">Back to Events</button>
 	</form>
 		
-		<div class="event">	
+		<div class="event info">	
 			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
-			<hr>
 			<div class="event_details">
 				<ul>
-					<li><%= @event.info['group'] %></li>
-					<li><%= @event.info['time'] %></li>
-					<li><%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
+					<li>Who: <%= @event.info['group'] %></li>
+					<li>When: <%= @event.info['time'] %></li>
+					<li>Where: <%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
 					<li>
 						<a href = <%= @event.info['link'].to_s %>>
 							Original Page.
@@ -29,26 +28,25 @@
 				</ul>	
 			</div>
 		</div>
-		<div class="reservations">
-			<h2>Attendees</h2>
+		<div class="reservations info">
+			<h2>Attendees (<%= @event.attendees.length %>)</h2>
 			<!-- user is logged in -->
 			<% if session[:user] %>
 				<div class="rsvp-actions">
 					<form class="rsvp-button" action="/addAttendee" method="post">
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly >
-						<input type="submit" value="RSVP!">
+						<button type="submit"> RSVP! </button>
 					</form>
 					<form class="rsvp-button" action="/deleteRsvp" method="post">
 						<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
-						<input type='submit' value="Remove RSVP">		
+						<button type='submit'> Remove RSVP </button>
 					</form>
 				</div>
 			<!-- user is not logged in -->
 			<% else %>
 				<p> Please register or sign in to RSVP </p>
 			<% end %>
-			<hr>
-			<div class="attendies">
+			<div class="attendees">
 				<ul>
 					<% @event.attendees.each do |name| %>
 					<%= "<li>" + name["fullname"] + "<br>" + "</li>"%> 
@@ -57,8 +55,8 @@
 			</div>
 		</div>
 
-		<div class="comments">
-			<h2>Comments</h2><br>
+		<div class="comments info">
+			<h2>Comments (<%= @event.comments.length %>)</h2><br>
 			<% @event.comments.each do |comment| %>
 				<%= "<div class='eachcomments'><span class='comment-name'>" + comment["fullname"] + "</span> " + 
 				"<span class='comment-text'>" + comment["comment"] + "</span> " +
@@ -76,7 +74,7 @@
 			<form action="/comments" method="post">
 				<textarea class="commentInput" name='comment'></textarea><br>
 				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
-				<input type='submit' value="post comment">	
+				<button type='submit'>post comment</button>
 			</form>
 		</div>
 

@@ -1,20 +1,17 @@
-# RSpec.describe(Event,"#info") do 
-# 	it "gets the event information" do
-# 		pending
-# 		# Setup
-# 		# Create the event.
-# 		# Capture ID.
-# 			# id = "1"
+RSpec.describe(Event,"#info") do 
+	it "gets the event information" do
+		id = '1'
+		event = Event.new(id)
+		expect(event.info["id"]).to eq(id)
+	end
 
-# 		# Exercise
-# 			event = Event.new(id)
+end
 
-# 		expect(event.info["id"]).to eq(id)
-# 	end
 
-# 	it "returns nil when no info found" do
-# 		event = Event.new("")
-# 		# Also refers to 'events.csv'
-# 		expect(event.info).not_to eq(nil)
-# 	end
-# end
+RSpec.describe(Event,"#createComment") do 
+
+	params = {"comment"=>"Hello World", "eventId"=>"1"}
+	event = Event.new(params["eventId"])
+	event.createComment(params, $database.table_path("comments"))
+
+end

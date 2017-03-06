@@ -24,7 +24,7 @@ class Event
   #
   # params - Hash, fullname = String
   def createComment(params, fullname)
-    values = [$database.all("comments").length + 1,@id, fullname, params[:comment].strip.split.join(" "),Time.now.to_i]
+    values = [$database.next_id("comments"), @id, fullname, params[:comment].strip.split.join(" "),Time.now.to_i]
     $database.newRow(values, "comments")
   end
 

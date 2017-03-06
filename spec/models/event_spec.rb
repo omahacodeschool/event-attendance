@@ -22,7 +22,6 @@ RSpec.describe(Event,"#info") do
 		expect(result.values).to eq(mockEvent[1])
 
 		# Teardown
-		event = nil
 		CSV.open($database.table_path("events"), 'w') do |csv|
 			csv = ""
 		end

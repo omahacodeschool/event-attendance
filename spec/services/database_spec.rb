@@ -15,7 +15,7 @@ RSpec.describe(Database, "#all_with_filter") do
 		expect(list).to include("1", "test 1")
 	end 
 
-	# TODO Add in this test, or add the assertion to the previous test
+	# TODO Add in this test, or add the assertion to the previous test case.
 	# it 'only gets the specified number of rows' do
 	# 	array = [["header1","header2"],["1","test 1"],["2","test 2"]]
 	# 	CSV.open($database.table_path("comments"), "wb") do |csv|
@@ -37,8 +37,8 @@ end
 RSpec.describe(Database, "#checkifUniq") do
 
 	it 'returns a True from database if email exists' do
-	array = [["username","password"],["email@a.com","test 1"],["email@b.com","test 2"]]
-	CSV.open($database.table_path("users"), "wb") do |csv|
+		array = [["username","password"],["email@a.com","test 1"],["email@b.com","test 2"]]
+		CSV.open($database.table_path("users"), "wb") do |csv|
 		array.each do |row|
 			csv << row
 		end

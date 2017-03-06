@@ -69,7 +69,7 @@ window.addEventListener("load", function (){
 		}
 
 		var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
-		updateMeetupsButton.addEventListener("click",updateMeetups);
+		updateMeetupsButton.addEventListener("click", updateMeetups);
 
 		function updateMeetups() {
 			ourRequest = new XMLHttpRequest();

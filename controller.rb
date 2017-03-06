@@ -23,7 +23,6 @@ post "/login" do
   if !user.nil?
     session[:user] = user
   end
-
   redirect("/")
 end
 

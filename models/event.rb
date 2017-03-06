@@ -40,10 +40,8 @@ class Event
       row_date = Date.parse(row["date"])
       beginningDate = Date.parse(date)
       endingDate = Date.parse(date) + 7
-
       (row_date >= beginningDate && row_date < endingDate)
     end
-
     weekdata = $database.all_with_filter("events", filter)
     sortEvents(weekdata)
   end

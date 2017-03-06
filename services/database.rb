@@ -44,8 +44,6 @@ class Database
     return filtered_rows
   end
 
-
-
   # Adds a new row to the database
   #
   # array - an array containing strings
@@ -54,7 +52,6 @@ class Database
       csv << array
     end
   end
-
 
   # deletes a row of information from the given table using a filter
   #
@@ -72,7 +69,6 @@ class Database
     end
   end
 
-
   # turns a row from database based on params
   #
   # email - String, table - String, column - String
@@ -88,7 +84,6 @@ class Database
     end
   end
 
-
   # Counts the number of rows in a table
   # 
   # table - string
@@ -100,6 +95,5 @@ class Database
     csv.close
     return uniqId
   end
-
 
 end

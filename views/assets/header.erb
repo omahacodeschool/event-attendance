@@ -3,9 +3,9 @@
 	<% if session[:user] %>
 
 		<!-- if logged in user is an admin -->
-		<% if session[:user][:admin] == "true" %>
+		<% if session[:user]["admin"] == "true" %>
 			<form class="loginForm" action="/logout" method="post">
-				<p class="welcome"> Welcome: <%= session[:user][:fullname] %>
+				<p class="welcome"> Welcome: <%= session[:user]["fullname"] %>
 				<button type="Submit" name="logout">Log Out</button></p>
 			</form>
 

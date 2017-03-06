@@ -22,7 +22,10 @@ EventList.prototype.setMondayDate = function() {
   if (this.monday == null) {
     this.getCurrentMonday();
   };
-  this.mondayISO = this.monday.toISOString().substr(0,10);
+  timezoneOffset = this.monday.getTimezoneOffset() / 60;
+  this.mondayISO = new Date(this.monday.getTime());
+  this.mondayISO.setHours(this.monday.getHours() - timezoneOffset);
+  this.mondayISO = this.mondayISO.toISOString().substr(0,10);
 };
 
 

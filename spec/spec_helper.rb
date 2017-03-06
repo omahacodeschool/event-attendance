@@ -11,6 +11,8 @@ require_relative "../services/login.rb"
 require_relative "../models/event.rb"
 require_relative "../models/user.rb"
 
+require_relative "support/database_helper.rb"
+
 # enable :sessions
 
 # require_relative "../controller.rb"

@@ -127,6 +127,14 @@ end
 
 
 
+RSpec.describe(Event,"#createComment") do 
+
+	params = {"comment"=>"Hello World", "eventId"=>"1"}
+	event = Event.new(params["eventId"])
+	event.createComment(params, $database.table_path("comments"))
+
+end
+
 RSpec.describe(Event,"#info") do 
 	
 	it "gets the event information associated with the id" do

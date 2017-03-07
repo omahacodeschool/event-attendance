@@ -1,6 +1,6 @@
 RSpec.describe(Login, '.valid') do
-	
-  it "validates correct username and password" do
+
+	it "validates correct username and password" do
   	#set-up
 		table = "users"
 		csvFiller=[["username","password","fullname","admin"],["admin@gmail.com","password","admin","true"]]
@@ -11,7 +11,7 @@ RSpec.describe(Login, '.valid') do
     	expect(login_attempt).to be_truthy
 	#teardown
 		DatabaseHelper.empty(table)
-  end
+	end
 
   it "validates incorrect username and password" do
     #set-up
@@ -25,5 +25,5 @@ RSpec.describe(Login, '.valid') do
 	#teardown
 		DatabaseHelper.empty(table)
   end
-
+  
 end

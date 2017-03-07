@@ -22,13 +22,7 @@ class Database
   # 
   # Returns Array of row Hashes.
   def all(table)
-    results = @conn.exec("SELECT * FROM #{table}")
-
-    list = []
-    CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
-      list.push(row.to_hash)
-    end
-    return list
+    return @conn.exec("SELECT * FROM #{table}").to_a
   end
 
   # Get all rows from a table, given some filter.
@@ -38,23 +32,25 @@ class Database
   # 
   # Returns Array of row Hashes in the week of interest
   def all_with_filter(table, filter)
-    all_rows = all(table)
-    filtered_rows = []
-    all_rows.each do |row|
-      if filter.call(row)
-        filtered_rows.push(row.to_h)
-      end
-    end
-    return filtered_rows
+    return @conn.exec("SELECT * FROM #{table} WHERE #{filter}").to_a
   end
 
+
+  def updateRow(table, column1,column2, id, newValue)
+
+    @conn.exec("UPDATE #{table} SET #{column1}=#{newValue} WHERE #{column2} = #{id}")
+
+
+  end
   # Adds a new row to the database
   #
   # array - an array containing strings
   def newRow(array, table)
-    CSV.open(table_path(table), "a") do |csv|
-      csv << array
-    end
+
+    valuesString = array.join("','")
+
+    @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
+
   end
 
   # deletes a row of information from the given table using a filter
@@ -62,13 +58,9 @@ class Database
   # table - String
   # Proc with a conditional
   def deleteRow(table, filter)
-    csv = CSV.table(table_path(table), headers:true)
-    csv.delete_if do |row|
-      filter.call(row)
-    end
-    File.open(table_path(table), 'w') do |row|
-      row.write(csv.to_csv)
-    end
+
+     @conn.exec("DELETE FROM #{table} WHERE #{filter}")
+
   end
 
   # checks if info is already in database
@@ -77,12 +69,8 @@ class Database
   #
   # returns Boolean
   def checkifUniq(email, table, column)
-    CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
-      if row[column] == email
-        return true
-      else
-        next
-      end
+    if @conn.exec("SELECT FROM #{table} WHERE #{column}=#{email}").to_a.length = 0
+      return false
     end
   end
 
@@ -92,25 +80,6 @@ class Database
   # 
   # return Integer
   def next_id(table)
-    csv = File.open(table_path(table), "r")
-    uniqId = csv.readlines.size
-    csv.close
-    return uniqId
+    @conn.exec("SELECT COUNT(*) FROM #{table}").to_a[0]["count"].to_i
   end
-
-  # Sorts based on a column name.
-  # 
-  # table - String, columnName - String
-  # 
-  # doesn't return anything but overwrites the csv
-  #   with the sorted array or arrays
-  def sortContents(table, columnName)
-    csv = CSV.read table_path(table)
-    csv.sort! { |a, z| a[0].to_i <=> z[0].to_i }
-    File.open(table_path(table),'w'){ |f| f << csv.map(&:to_csv).join } 
-  end
-
 end
-
-
-

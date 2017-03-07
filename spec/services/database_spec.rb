@@ -1,46 +1,32 @@
 RSpec.describe(Database, '#newRow') do
 	
-	it 'length increases by 1' do
+	it 'increases csv by 1' do
 	#set-up
 		table = "events"
-		CSV.open($database.table_path(table),'w') do |file|
-			file << ["id","group","title","date","time","location","address","link"]
-
-			# TODO Make this different from the row you'll be creating, or remove it.
-			file << ["test","test2","test3","test","test2","test3","test","test2"]
-		end
-		array = ["test","test2","test3","test","test2","test3","test","test2"]
+		csvFiller = [["header1","header2"],["info1","info2"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
+		testRow = ["test","test2"]
 	#exercise
-		$database.newRow(array,table)
+		$database.newRow(testRow,table)
 	#verify
 		expect(File.open($database.table_path("events"), "r").readlines.size).to eq(3)
 	#teardown
-		system 'cp databases/events.csv spec/databases/events.csv'
+		DatabaseHelper.empty(table)
 	end
 
-	it 'last line is what was added' do
+	it 'adds a specific line to the end of the csv' do
 	#set-up
 		table = "events"
-		CSV.open($database.table_path(table),'w') do |file|
-			file << ["id","group","title","date","time","location","address","link"]
-			file << ["test","test2","test3","test","test2","test3","test","test2"]
-		end
-		array = ["test","test2","test3","test","test2","test3","test","test2"]
+		csvFiller = [["header1","header2"],["info1","info2"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
+		testRow = ["test1","test2"]
 	#exercise
-		$database.newRow(array,table)
+		$database.newRow(testRow,table)
 	#verify
-
-		# TODO File.readlines should give you an Array-like object to verify directly.
-		line_count = File.readlines($database.table_path(table)).size
-		count = 0
-		lastrow = []
-		CSV.foreach($database.table_path(table)) do |row|
-			count += 1
-  			if count == line_count then lastrow = row end
-  		end
-		expect(lastrow).to eq(array)
+		lines = File.readlines($database.table_path(table))
+		expect(lines[-1]).to include(testRow[0] && testRow[1])
 	#teardown
-		system 'cp databases/events.csv spec/databases/events.csv'
+		DatabaseHelper.empty(table)
 	end
 end
 
@@ -50,45 +36,35 @@ RSpec.describe(Database, '#deleteRow') do
 	it 'length decreases by 1' do
 	#set-up
 		table = "events"
-		CSV.open($database.table_path(table),'w') do |file|
-			file << ["id","group","title","date","time","location","address","link"]
-			file << ["test","test2","test3","test","test2","test3","test","test2"]
-		end
+		csvFiller = [["header1","header2"],["info1","info2"],["test1","test2"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
 		filter = Proc.new do |row|
-      		row[:id] == "test"
+      		row[:header1] == "info1"
     	end
 	#exercise
 		$database.deleteRow(table,filter)
 	#verify
-		expect(File.open($database.table_path("events"), "r").readlines.size).to eq(1)
+		expect(File.open($database.table_path("events"), "r").readlines.size).to eq(2)
 	#teardown
-		system 'cp databases/events.csv spec/databases/events.csv'
+		DatabaseHelper.empty(table)
 	end
 
 	it 'last line is no longer in file' do
 	#set-up
 		table = "events"
-		array = ["test","test2","test3","test","test2","test3","test","test2"]
-		CSV.open($database.table_path(table),'w') do |file|
-			file << ["id","group","title","date","time","location","address","link"]
-			file << array
-		end
+		csvFiller = [["header1","header2"],["info1","info2"],["test1","test2"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
 		filter = Proc.new do |row|
-      		row[:id] == "test"
+      		row[:header1] == "info1"
     	end
 	#exercise
 		$database.deleteRow(table,filter)
 	#verify
-		line_count = File.readlines($database.table_path(table)).size
-		count = 0
-		lastrow = []
-		CSV.foreach($database.table_path(table)) do |row|
-			count += 1
-  			if count == line_count then lastrow = row end
-  		end
-		expect(lastrow).not_to eq(array)
+		lines = File.readlines($database.table_path(table))
+		expect(lines[-1]).not_to include("info1")
 	#teardown
-		system 'cp databases/events.csv spec/databases/events.csv'
+		DatabaseHelper.empty(table)
+	end
 
 end
 

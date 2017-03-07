@@ -1,29 +1,131 @@
 RSpec.describe(Event, '.week') do
-	
-	it 'length increases by 1' do
+
+	it 'returns an empty hash when there are no events for the week' do
 	#set-up
 		table = "events"
-		CSV.open($database.table_path(table),'w') do |file|
-			file << ["id","group","title","date","time","location","address","link"]
-			file << ["test","test2","test3","test","test2","test3","test","test2"]
-		end
-		array = ["test","test2","test3","test","test2","test3","test","test2"]
+		csvFiller = [["id","group","title","date","time","location","address","link"],
+			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
 	#exercise
-		$database.newRow(array,table)
+		result = Event.week("2017-03-13")
 	#verify
-		expect(File.open($database.table_path("events"), "r").readlines.size).to eq(3)
+		expect(result).to eq({})
 	#teardown
-		system 'cp databases/events.csv spec/databases/events.csv'
+		DatabaseHelper.empty(table)
 	end
 
-	# pieces to test
-	# returns empty hash when there are no events for the week
-	# returns hash with weekdays as keys
-	# returns hash where value is an array
-	# returns hash where value in an array and each element is event info + rsvps
-	# does not return events from outside of the week
+	it 'returns a hash with weekdays as keys' do
+	#set-up
+		table = "events"
+		csvFiller = [["id","group","title","date","time","location","address","link"],
+			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
+	#exercise
+		result = Event.week("2017-02-27")
+	#verify
+		expect(result["Tuesday"]).to be_truthy
+	#teardown
+		DatabaseHelper.empty(table)
+	end
+
+	it 'returns a hash where values are arrays' do
+	#set-up
+		table = "events"
+		csvFiller = [["id","group","title","date","time","location","address","link"],
+			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
+	#exercise
+		result = Event.week("2017-02-27")
+	#verify
+		expect(result["Tuesday"]).to respond_to :each
+	#teardown
+		DatabaseHelper.empty(table)
+	end
+
+	it 'returns a hash where values are arrays containing event info' do
+	#set-up
+		table = "events"
+		csvFiller = [["id","group","title","date","time","location","address","link"],
+			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
+	#exercise
+		result = Event.week("2017-02-27")
+	#verify
+		expect(result["Tuesday"][0].values).to include("eventName")
+		expect(result["Tuesday"][0].keys).to include("link")
+	#teardown
+		DatabaseHelper.empty(table)
+	end
+
+	it 'returns events only for the week of interest' do
+	#set-up
+		table = "events"
+		csvFiller = [["id","group","title","date","time","location","address","link"],
+			["1","groupName1","eventName1","2017-02-28","02:00pm","venue1","address1","https://www.meetup.com"],
+			["2","groupName2","eventName2","2017-02-26","02:00pm","venue2","address2","https://www.meetup.com"],
+			["3","groupName3","eventName3","2017-03-06","02:00pm","venue3","address3","https://www.meetup.com"]]
+		DatabaseHelper.writeCsv(csvFiller,table)
+	#exercise
+		result = Event.week("2017-02-27")
+	#verify
+		expect(result.length).to eq(1)
+		expect(result["Tuesday"][0]["id"]).to eq("1")
+	#teardown
+		DatabaseHelper.empty(table)
+	end
+
+	it 'returns events for all days of the week' do
+	#set-up
+		table = "events"
+		csvFiller = [["id","group","title","date","time","location","address","link"],
+			["1","groupName1","eventName1","2017-02-27","02:00pm","venue1","address1","https://www.meetup.com"],
+			["2","groupName2","eventName2","2017-02-28","02:00pm","venue2","address2","https://www.meetup.com"],
+			["3","groupName3","eventName3","2017-03-01","02:00pm","venue3","address3","https://www.meetup.com"],
+			["4","groupName1","eventName1","2017-03-02","02:00pm","venue1","address1","https://www.meetup.com"],
+			["5","groupName2","eventName2","2017-03-03","02:00pm","venue2","address2","https://www.meetup.com"],
+			["6","groupName3","eventName3","2017-03-04","02:00pm","venue3","address3","https://www.meetup.com"],
+			["7","groupName3","eventName3","2017-03-05","02:00pm","venue3","address3","https://www.meetup.com"],
+		]
+		DatabaseHelper.writeCsv(csvFiller,table)
+	#exercise
+		result = Event.week("2017-02-27")
+	#verify
+		expect(result.length).to eq(7)
+	#teardown
+		DatabaseHelper.empty(table)
+	end
 
 end
+
+
+
+RSpec.describe(Event, '.updateMeetups') do
+
+	it '' do
+	#set-up
+		# getString = Proc.new do |uri|  end
+			system 'pwd'
+			string = File.open('spec/support/test.txt', 'r') { |file| file.read }
+			binding.pry
+
+	#exercise
+		
+	#verify
+		
+	#teardown
+		
+	end
+
+end
+
+
+
+
+
+
+
+
+
 
 RSpec.describe(Event,"#info") do 
 	

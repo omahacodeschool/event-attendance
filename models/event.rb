@@ -178,14 +178,16 @@ class Event
   # meetups - array of hashes
   #
   # returns an array of events, each event is a hash of the event info
-  def Event.collectAllEvents(meetups)
+  def Event.collectAllEvents(meetups,getString = Proc.new do |uri| Net::HTTP.get(uri) end)
     allMeetupEvents = []
       meetups.each do |row|
         url = row["url"]
         uri = URI('https://api.meetup.com/' + url + '/events')
-        stringresult = Net::HTTP.get(uri) # => String
-        jsonresult = JSON.parse(stringresult)
+        stringresult = getString.call(uri)
+        File.open(yourfile, 'w') { |file| file.write(stringresult) }
         binding.pry
+        # stringresult = Net::HTTP.get(uri)
+        jsonresult = JSON.parse(stringresult)
         jsonresult.each do |event|
           eventInfo = collectEventInfo(event)
           allMeetupEvents.push(eventInfo)

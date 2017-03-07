@@ -20,7 +20,23 @@ RSpec.describe( User, '.create') do
 
 	end
 
-	# it "adds the new user to the database" do
-	# end
+	it "adds the new user to the database" do
+
+		# Setup
+		email = "bat@man.com"
+		pass = "Bruce"
+		fullname = "Bruce Wayne"
+
+		# Excercise
+		newUser = User.create(email, pass, fullname)
+		csvFirstRow = CSV.read($database.table_path('users'))[0]
+
+		# Verify
+		expect(csvFirstRow).to include(fullname)
+
+		# Teardown
+		DatabaseHelper.empty('users')
+
+	end
 
 end

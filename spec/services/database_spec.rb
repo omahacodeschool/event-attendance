@@ -19,11 +19,7 @@ RSpec.describe(Database, '#all') do
 		
 		# Setup
 		testcsv = [["header1", "header2"], ["line", "cell"], ["line", "cell"]]
-		CSV.open($database.table_path('events'), 'w') do |csv|
-			testcsv.each do |row|
-				csv << row
-			end
-		end
+		DatabaseHelper.addRows('events', testcsv)
 
 		# Excersize
 		list = $database.all("events")
@@ -38,22 +34,22 @@ RSpec.describe(Database, '#all') do
 
 
 
-	it 'returns an array from a table' do
+	it 'returns something from a table that responds to the each method' do
 		
+		# Setup
+		testcsv = [['thing'], ["thing2"]]
+		DatabaseHelper.addRows('events', testcsv)
+
+		# Excercise
 		list = $database.all("events")
 
-		expect(list.class).to eq(Array)
-		# expect(list).to respond_to(:each)
+		# Verify
+		expect(list).to respond_to(:each)
+
+		# Teardown
+		DatabaseHelper.empty('events')
+
 	end
-
-	# TODO - Consider testing the innards of $database.all.
-	# 
-	# it 'returns an array of hashes from a table' do
-		
-	# 	list = $database.all("events")
-
-	# 	expect(list.first.class).to eq(Hash)
-	# end
 
 end
 
@@ -86,11 +82,7 @@ RSpec.describe( Database, '#next_id') do
 
 		# Setup
 		testcsv = [["number"],[1],[2]] 
-		CSV.open($database.table_path('events'), 'w') do |csv|
-			testcsv.each do |row|
-				csv << row
-			end
-		end
+		DatabaseHelper.addRows('events', testcsv)
 
 		# Excersize
 		id = $database.next_id('events')
@@ -99,9 +91,7 @@ RSpec.describe( Database, '#next_id') do
 		expect(id).to eq(3)
 
 		# Teardown
-		CSV.open($database.table_path('events'), 'w') do |csv|
-			csv = ""
-		end
+		DatabaseHelper.empty('events')
 
 	end
 

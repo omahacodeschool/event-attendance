@@ -1,5 +1,5 @@
-RSpec.describe(Event, "#info") do 
-	
+RSpec.describe(Event,"#info") do 
+
 	it "gets the event information associated with the id" do
 		
 		# Setup

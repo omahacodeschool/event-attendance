@@ -35,12 +35,15 @@ class Event
   #   then sorts the comments based on Id so they appear in
   #   the same spot as before edit
   def editComment(params, user)
-    filter = Proc.new do |row|
-      (row["commentid"] == params["commentId"]) & (row["eventid"] == @id) & (row["fullname"] == user)
-    end
+
+    filter = "commentid = #{params["commentId"]} AND eventid  = #{@id} AND fullname = #{user}"
+    updateRow(table, column1,params["commentId"],@id,newValue)
+
+
+
     if $database.all_with_filter("comments", filter)
       deleteComment(params["commentId"], "comments")
-      values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" "),Time.now.to_i]
+      values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" "),Time.now.to_i*1000]
       $database.newRow(values, "comments")
       $database.sortContents("comments", "commentid")
     end
@@ -50,9 +53,7 @@ class Event
   # 
   # info - String, table = String
   def deleteComment(commentId, table)
-    filter = Proc.new do |row|
-      row[:commentid] == commentId.to_i
-    end
+    filter = "commentid = #{commentId}"
     $database.deleteRow(table,filter)
   end
 
@@ -60,9 +61,7 @@ class Event
   # 
   # name - String of full name
   def deleteAttendee(name)
-    filter = Proc.new do |row|
-        (row[:eventid] == @id.to_i && row[:fullname] == name)
-      end
+    filter = "eventid = #{@id} AND fullname = '#{name}'"
     $database.deleteRow("rsvps",filter)
   end
 
@@ -73,12 +72,8 @@ class Event
   # 
   # Returns the events as a Hash of weekday -> array of events
   def Event.week(date)
-    filter = Proc.new do |row|
-      row_date = Date.parse(row["date"])
-      beginningDate = Date.parse(date)
-      endingDate = Date.parse(date) + 7
-      (row_date >= beginningDate && row_date < endingDate)
-    end
+    endingDate = Date.parse(date) + 7
+    filter = "date >= '#{date}' AND date < '#{endingDate}'"
     weekdata = $database.all_with_filter("events", filter)
     weekdata = Event.getRsvps(weekdata)
     sortEvents(weekdata)
@@ -91,9 +86,7 @@ class Event
   # returns data as Hash with the rsvps added
   def Event.getRsvps(data)
     data.each do |each|
-      filter = Proc.new do |row|
-        (row["eventid"] == each["id"])
-      end
+      filter = "eventid = '#{each['id']}'"
       rsvps = $database.all_with_filter("rsvps", filter).length
       each.merge!("rsvps" => rsvps.to_s)
     end
@@ -105,9 +98,7 @@ class Event
   # Returns a Hash of the event's info (or an error).
   def info
     if @info.nil?
-      filter = Proc.new do |row|
-        (row["id"]==@id)
-      end
+      filter = "id = '#{@id}'"
       @info = $database.all_with_filter("events", filter)[0].to_h
     else
       @info
@@ -119,10 +110,7 @@ class Event
   #
   # name - key value pair of parameters
   def addAttendee(name)
-    filter = Proc.new do |row|
-      row["eventid"]==@id && row["fullname"] == name
-    end
-   
+    filter = "eventid = #{@id} AND fullname = '#{name}'"
     if $database.all_with_filter("rsvps", filter).length < 1
       $database.newRow([@id] + [name], "rsvps")
     end
@@ -187,9 +175,7 @@ class Event
   # allMeetupEvents - array of events, each event is a hash of the event info
   def Event.createMeetups(allMeetupEvents)
     allMeetupEvents.each do |event|
-      filter = Proc.new do |row|
-        (row[:id].to_s == event["id"])
-      end
+      filter = "id = '#{event['id']}'"
       $database.deleteRow("events",filter)
       values = [event["id"],event["groupName"],event["eventTitle"],
                 event["date"],event["time"],event["venue"],

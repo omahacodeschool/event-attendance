@@ -1,7 +1,10 @@
+# TODO Example:
+# results = @conn.exec("SELECT * FROM users WHERE admin = 'true'").to_a
+
 class Database
 
-  def initialize(database_path="databases")
-    @database_path = database_path
+  def initialize(database_name="event_attendance_development")
+    @conn = PG.connect( dbname: database_name )
   end
 
   # Get path to database table.
@@ -10,7 +13,7 @@ class Database
   # 
   # Returns String
   def table_path(table)
-    "#{@database_path}/#{table}.csv"
+    table
   end
 
   # Get all rows from a table.
@@ -19,6 +22,8 @@ class Database
   # 
   # Returns Array of row Hashes.
   def all(table)
+    results = @conn.exec("SELECT * FROM #{table}")
+
     list = []
     CSV.foreach(table_path(table), {headers: true, return_headers: false}) do |row|
       list.push(row.to_hash)

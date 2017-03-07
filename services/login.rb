@@ -7,10 +7,8 @@ class Login
   # 
   # Returns Hash of user's information, or Nil.
   def Login.valid(username, password)
-
-    filter = Proc.new do |row|
-      (row["username"] == username) && (row["password"] == password)
-    end
+    
+    filter = "username = '#{username}' AND password = '#{password}'"
 
     userArr = $database.all_with_filter("users", filter)
     return userArr[0]

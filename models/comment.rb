@@ -9,9 +9,7 @@ class Comment
   end
 
   def Comment.for_event(eventid)
-    idFilter = Proc.new do |row|
-      row["eventid"] == eventid
-    end
+    idFilter = "eventid = '#{eventid}'"
     $database.all_with_filter("comments", idFilter)
   end
 end

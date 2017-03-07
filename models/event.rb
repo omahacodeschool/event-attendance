@@ -90,8 +90,6 @@ class Event
   # 
   # returns data as Hash with the rsvps added
   def Event.getRsvps(data)
-    RSVP.for_event(data)
-
     data.each do |each|
       filter = Proc.new do |row|
         (row["eventid"] == each["id"])

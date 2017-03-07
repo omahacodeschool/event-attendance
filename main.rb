@@ -1,3 +1,4 @@
+require 'pg'
 require 'sinatra'
 require 'pry'
 require 'csv'

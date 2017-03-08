@@ -56,7 +56,7 @@ class Event
     endingDate = Date.parse(date) + 7
     filter = "date >= '#{date}' AND date < '#{endingDate}'"
     weekdata = $database.all_with_filter("events", filter)
-    weekdata = Event.addRSVPstoEventInfo(weekdata)
+    weekdata = addRSVPstoEventInfo(weekdata)
     sortEvents(weekdata)
   end
 
@@ -66,9 +66,8 @@ class Event
   # will go through all meetups listed in the meetups.csv
   def Event.updateMeetups()
     meetups = Meetups.new
-    meetups = $database.all("meetups")
-    allMeetupEvents = collectAllEvents(meetups)
-    createMeetups(allMeetupEvents)
+    meetups.collectAllEvents()
+    meetups.addToEvents()
   end
 
 
@@ -106,101 +105,6 @@ class Event
       each.merge!("rsvps" => rsvps.to_s)
     end
       return data
-  end
-
-  # Gets all the events
-  # 
-  # meetups - array of hashes
-  #
-  # returns an array of events, each event is a hash of the event info
-  def Event.collectAllEvents(meetups,getString = Proc.new do |uri| Net::HTTP.get(uri) end)
-    allMeetupEvents = []
-      meetups.each do |row|
-        url = row["url"]
-        uri = URI('https://api.meetup.com/' + url + '/events')
-        stringresult = getString.call(uri)
-        # stringresult = stringresult.gsub(/'/,"\\\\'")
-        # File.open('spec/support/fake_meetupAPIresult.txt', 'w') { |file| file << stringresult}
-        # binding.pry
-        # stringresult = Net::HTTP.get(uri)
-        jsonresult = JSON.parse(stringresult)
-        jsonresult.each do |event|
-          eventInfo = collectEventInfo(event)
-          allMeetupEvents.push(eventInfo)
-        end
-    end
-    return allMeetupEvents
-  end
-
-  # First removes the original info from the database, then adds the new info
-  #
-  # allMeetupEvents - array of events, each event is a hash of the event info
-  def Event.createMeetups(allMeetupEvents)
-    allMeetupEvents.each do |event|
-      filter = "id = '#{event['id']}'"
-      $database.deleteRow("events",filter)
-      values = [event["id"],event["groupName"],event["eventTitle"],
-                event["date"],event["time"],event["venue"],
-                event["address"],event["link"]]
-      $database.newRow(values, "events")
-    end
-  end
-
-  # Gets all info about an event formatted and collected
-  #
-  # event - hash json result from meetup api
-  # 
-  # returns Hash of all the event info
-  def Event.collectEventInfo(event)
-    date = setDate(event)
-    venue = setVenue(event)
-    link = setLink(event)
-    eventInfo = {
-      "groupName" => event["group"]["name"], "eventTitle" => event["name"],
-      "date" => date["date"], "time" => date["time"],
-      "venue" => venue["venue"], "address" => venue["address"],
-      "link" => link, "id" => event["id"],
-      "description" => event["description"]
-    }
-    return eventInfo
-  end
-
-  # sets the link address
-  # 
-  # event - hash json result from meetup api
-  #
-  # returns a link to the event's meetup site as a String
-  def Event.setLink(event)
-    return "https://www.meetup.com/" + event["group"]["urlname"]
-  end
-
-  # sets the date and time for the event
-  # 
-  # event - hash json result from meetup api
-  #
-  # returns a hash with date -> "yyyy-mm-dd", time -> "hh:mm am/pm"
-  def Event.setDate(event)
-    d = Time.at(event["time"]/1000)
-    time = d.strftime('%I:%M %p')
-    date = d.strftime('%F')
-    return {"date" => date, "time" => time}
-  end
-
-  # sets the venue name and address
-  # 
-  # event - hash json result from meetup api
-  #
-  # returns a Hash with date -> String, time -> String
-  def Event.setVenue(event)
-    venueCheck = event["venue"]
-    if venueCheck == nil
-      venue = "TBA"
-      address = ""
-    else
-      venue = event["venue"]["name"]
-      address = event["venue"]["address_1"]
-    end
-    return {"venue" => venue, "address" => address}
   end
 
 end

@@ -9,6 +9,7 @@ class User
 
     # if email is not in database - then adds new user row
     if $database.checkExistenceOf(email, "users", "username")
+
       userInfo = [email, pass, fullname, admin]
       $database.newRow(userInfo, "users")
 

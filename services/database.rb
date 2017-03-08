@@ -5,6 +5,7 @@ class Database
 
   def initialize(database_name="event_attendance_development")
     @conn = PG.connect( dbname: database_name )
+
   end
 
   # Get path to database table.
@@ -45,7 +46,8 @@ class Database
   # array - an array containing strings
   def newRow(array, table)
 
-    valuesString = array.join("','")
+
+    valuesString = array.join("','")  
     @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
 
   end
@@ -62,11 +64,19 @@ class Database
 
   # checks if info is already in database
   #
-  # email - String, table - String, column - String
+  # email  - String
+  # table  - String
+  # column - String
   #
+<<<<<<< HEAD
+  # returns Boolean, true if unique
+  def checkExistenceOf(email, table, column)
+    if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'").to_a.length == 0
+=======
   # returns Boolean, true if email isn't in database
   def checkExistenceOf(email, table, column)
     if @conn.exec("SELECT * FROM #{table} WHERE #{column} = '#{email}'").to_a.length == 0
+>>>>>>> master
       return true
     end
   end

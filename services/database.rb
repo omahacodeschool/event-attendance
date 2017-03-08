@@ -46,7 +46,6 @@ class Database
   def newRow(array, table)
 
     valuesString = array.join("','")
-
     @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
 
   end
@@ -65,10 +64,10 @@ class Database
   #
   # email - String, table - String, column - String
   #
-  # returns Boolean
-  def checkifUniq(email, table, column)
-    if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'")
-      return false
+  # returns Boolean, true if email isn't in database
+  def checkExistenceOf(email, table, column)
+    if @conn.exec("SELECT * FROM #{table} WHERE #{column} = '#{email}'").to_a.length == 0
+      return true
     end
   end
 

@@ -5,7 +5,7 @@ require 'date'
 
 require_relative "../services/database.rb"
 # Use fake databases instead.
-$database = Database.new("spec/databases")
+$database = Database.new("event_attendance_test")
 
 require_relative "../services/login.rb"
 require_relative "../models/event.rb"

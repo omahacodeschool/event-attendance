@@ -8,7 +8,7 @@ class Event
   # 
   # params - Hash
   def Event.create(params)
-    values = [$database.next_id("events"),params[:group],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address]]
+    values = [$database.next_id("events"),params[:group_name],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address]]
     $database.newRow(values, "events")
   end
 
@@ -159,8 +159,9 @@ class Event
         url = row["url"]
         uri = URI('https://api.meetup.com/' + url + '/events')
         stringresult = getString.call(uri)
-        File.open(yourfile, 'w') { |file| file.write(stringresult) }
-        binding.pry
+        # stringresult = stringresult.gsub(/'/,"\\\\'")
+        # File.open(yourfile, 'w') { |file| file.write(stringresult) }
+        # binding.pry
         # stringresult = Net::HTTP.get(uri)
         jsonresult = JSON.parse(stringresult)
         jsonresult.each do |event|

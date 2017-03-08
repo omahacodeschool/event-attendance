@@ -72,35 +72,34 @@ RSpec.describe(Event, ".create") do
 
 		# Excercise
 		Event.create(eventDetails)
-		binding.pry
-
+		results = $sql.exec('SELECT * FROM events').to_a
 
 		# Verify
-		expect(csvFirstRow.length).to be_truthy
+		expect(results).not_to be_empty
 
 		# Teardown
 		DatabaseHelper.empty('events')
 
 	end
 
-# 	it "saves the information of the event" do
+	it "saves the information of the event" do
 
-# 		# Setup
-# 		eventDetails = {:'group' => 'Panda Express pandas', :'title' => 'Orange Chicken', 
-# 		:'date' => '12-01-2016', :'time' => '4:00pm', :'location' => 'panda express', 
-# 		:'address' => 's72nd st'}
+		# Setup
+		eventDetails = {:'group' => 'Panda Express pandas', :'title' => 'Orange Chicken', 
+		:'date' => '12-01-2016', :'time' => '4:00pm', :'location' => 'panda express', 
+		:'address' => 's72nd st', :'link' => 'http://pandaexpress.com'}
 
-# 		# Excersize
+		# Excersize
 
-# 		Event.create(eventDetails)
-# 		csvFirstRow = CSV.read($database.table_path('events'))[0]
+		Event.create(eventDetails)
+		results = $sql.exec("SELECT * FROM events").to_a[0]
 
-# 		# Verify
-# 		expect(csvFirstRow).to include(eventDetails.values)
+		# Verify
+		expect(results.values).to include(eventDetails[:title])
 
-# 		# Teardown
-# 		DatabaseHelper.empty('events')
+		# Teardown
+		DatabaseHelper.empty('events')
 
-# 	end
+	end
 
 end

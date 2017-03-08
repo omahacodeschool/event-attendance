@@ -1,5 +1,4 @@
 class Comment
-  
   # creates a comment and adds it to database
   #
   # params - Hash, fullname = String

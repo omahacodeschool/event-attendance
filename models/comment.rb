@@ -4,6 +4,7 @@ class Comment
   # params - Hash, fullname = String
   def Comment.create(params, fullname, event_id)
     values = [$database.next_id("comments"), event_id, fullname, params[:comment].strip.split.join(" "),Time.now.to_i]
+    binding.pry
     $database.newRow(values, "comments")
   end
 

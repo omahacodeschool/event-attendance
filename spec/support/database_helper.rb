@@ -1,17 +1,11 @@
 class DatabaseHelper
 
   def DatabaseHelper.empty(table)
-    CSV.open($database.table_path(table), 'w') do |csv|
-        csv = ''
-    end
+    $database.returnConn.exec("DELETE FROM #{table}")
   end
 
-  def DatabaseHelper.writeCsv(array,table)
-  		CSV.open($database.table_path(table),'w') do |csv|
-			array.each do |row|
-				csv << row
-			end
-		end
+  def DatabaseHelper.writeTable(valuesString,table)
+  		$database.returnConn.exec("INSERT INTO #{table} VALUES #{valuesString}")
   end
 
 end

@@ -7,6 +7,10 @@ class Database
     @conn = PG.connect( dbname: database_name )
   end
 
+  def returnConn
+    return @conn
+  end
+
   # Get path to database table.
   # 
   # table - String table name.
@@ -36,11 +40,9 @@ class Database
   end
 
 
-  def updateRow(table, column1,column2, id, newValue)
-
-    @conn.exec("UPDATE #{table} SET #{column1}=#{newValue} WHERE #{column2} = #{id}")
-
-
+  def updateRow(table, column, newValue, filter)
+    @conn.exec("UPDATE #{table} SET #{column} = '#{newValue}' WHERE #{filter}")
+      # set comment = new-comment WHERE commentid = commentid and fullname = fullname
   end
   # Adds a new row to the database
   #
@@ -69,7 +71,7 @@ class Database
   #
   # returns Boolean
   def checkifUniq(email, table, column)
-    if @conn.exec("SELECT FROM #{table} WHERE #{column}=#{email}").to_a.length = 0
+    if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'")
       return false
     end
   end

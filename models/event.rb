@@ -28,18 +28,8 @@ class Event
   #   then sorts the comments based on Id so they appear in
   #   the same spot as before edit
   def editComment(params, user)
-
-    filter = "commentid = #{params["commentId"]} AND eventid  = #{@id} AND fullname = #{user}"
-    updateRow(table, column1,params["commentId"],@id,newValue)
-
-
-
-    if $database.all_with_filter("comments", filter)
-      deleteComment(params["commentId"], "comments")
-      values = [params["commentId"],@id, user, params["textContent"].strip.split.join(" "),Time.now.to_i*1000]
-      $database.newRow(values, "comments")
-      $database.sortContents("comments", "commentid")
-    end
+    filter = "id = '#{params["commentId"]}' AND fullname = '#{user}'"
+    $database.updateRow("comments","comment",params["textContent"],filter)
   end
 
 
@@ -47,7 +37,7 @@ class Event
   # 
   # name - String of full name
   def deleteAttendee(name)
-    filter = "eventid = #{@id} AND fullname = '#{name}'"
+    filter = "eventid = '#{@id}' AND fullname = '#{name}'"
     $database.deleteRow("rsvps",filter)
   end
 
@@ -83,7 +73,7 @@ class Event
   #
   # name - key value pair of parameters
   def addAttendee(name)
-    filter = "eventid = #{@id} AND fullname = '#{name}'"
+    filter = "eventid = '#{@id}' AND fullname = '#{name}'"
     if $database.all_with_filter("rsvps", filter).length < 1
       $database.newRow([@id] + [name], "rsvps")
     end
@@ -160,7 +150,7 @@ class Event
         uri = URI('https://api.meetup.com/' + url + '/events')
         stringresult = getString.call(uri)
         # stringresult = stringresult.gsub(/'/,"\\\\'")
-        # File.open(yourfile, 'w') { |file| file.write(stringresult) }
+        # File.open('spec/support/fake_meetupAPIresult.txt', 'w') { |file| file << stringresult}
         # binding.pry
         # stringresult = Net::HTTP.get(uri)
         jsonresult = JSON.parse(stringresult)

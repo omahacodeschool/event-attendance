@@ -1,26 +1,26 @@
-RSpec.describe( User, '.create') do 
+# RSpec.describe( User, '.create') do 
 
-	it "returns a Hash with the newly created user's info" do 
+# 	it "returns a Hash with the newly created user's info" do 
 
-		# Setup
-		email = "foobar@foo.com"
-		pass = "banana"
-		fullname = "Mr. Kiwi"
+# 		# Setup
+# 		email = "foobar@foo.com"
+# 		pass = "banana"
+# 		fullname = "Mr. Kiwi"
 
-		# Excersize
-		newUser = User.create(email, pass, fullname)
+# 		# Excersize
+# 		newUser = User.create(email, pass, fullname)
 
-		# Verify
-		expect(newUser).to eq({"username"=>email,"fullname"=>fullname, "admin" => "false"})
+# 		# Verify
+# 		expect(newUser).to eq({"username"=>email,"fullname"=>fullname, "admin" => "false"})
 
-		# Teardown
-		CSV.open($database.table_path('users'), 'w') do |csv|
-			csv = ''
-		end
+# 		# Teardown
+# 		CSV.open($database.table_path('users'), 'w') do |csv|
+# 			csv = ''
+# 		end
 
-	end
+# 	end
 
-	# it "adds the new user to the database" do
-	# end
+# 	# it "adds the new user to the database" do
+# 	# end
 
-end
+# end

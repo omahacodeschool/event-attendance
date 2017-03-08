@@ -58,7 +58,6 @@ end
 
 post "/comments" do
   Comment.create(params, session[:user]["fullname"], params["eventId"])
-
   redirect("/event?id=" + params["eventId"])
 end 
 

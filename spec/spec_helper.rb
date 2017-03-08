@@ -1,7 +1,9 @@
+require 'pg'
 require 'pry'
 require 'csv'
 require 'json'
 require 'date'
+require 'time'
 
 require_relative "../services/database.rb"
 # Use fake databases instead.

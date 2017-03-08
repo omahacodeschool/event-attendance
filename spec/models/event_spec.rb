@@ -3,9 +3,8 @@ RSpec.describe(Event, '.week') do
 	it 'returns an empty hash when there are no events for the week' do
 	#set-up
 		table = "events"
-		csvFiller = [["id","group","title","date","time","location","address","link"],
-			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
-		DatabaseHelper.writeCsv(csvFiller,table)
+		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
+		DatabaseHelper.writeTable(dataFiller,table)
 	#exercise
 		result = Event.week("2017-03-13")
 	#verify
@@ -17,9 +16,8 @@ RSpec.describe(Event, '.week') do
 	it 'returns a hash with weekdays as keys' do
 	#set-up
 		table = "events"
-		csvFiller = [["id","group","title","date","time","location","address","link"],
-			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
-		DatabaseHelper.writeCsv(csvFiller,table)
+		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
+		DatabaseHelper.writeTable(dataFiller,table)
 	#exercise
 		result = Event.week("2017-02-27")
 	#verify
@@ -31,9 +29,8 @@ RSpec.describe(Event, '.week') do
 	it 'returns a hash where values are arrays' do
 	#set-up
 		table = "events"
-		csvFiller = [["id","group","title","date","time","location","address","link"],
-			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
-		DatabaseHelper.writeCsv(csvFiller,table)
+		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
+		DatabaseHelper.writeTable(dataFiller,table)
 	#exercise
 		result = Event.week("2017-02-27")
 	#verify
@@ -45,9 +42,8 @@ RSpec.describe(Event, '.week') do
 	it 'returns a hash where values are arrays containing event info' do
 	#set-up
 		table = "events"
-		csvFiller = [["id","group","title","date","time","location","address","link"],
-			["1","groupName","eventName","2017-02-28","02:00pm","venue","address1","https://www.meetup.com"]]
-		DatabaseHelper.writeCsv(csvFiller,table)
+		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
+		DatabaseHelper.writeTable(dataFiller,table)
 	#exercise
 		result = Event.week("2017-02-27")
 	#verify
@@ -60,11 +56,10 @@ RSpec.describe(Event, '.week') do
 	it 'returns events only for the week of interest' do
 	#set-up
 		table = "events"
-		csvFiller = [["id","group","title","date","time","location","address","link"],
-			["1","groupName1","eventName1","2017-02-28","02:00pm","venue1","address1","https://www.meetup.com"],
-			["2","groupName2","eventName2","2017-02-26","02:00pm","venue2","address2","https://www.meetup.com"],
-			["3","groupName3","eventName3","2017-03-06","02:00pm","venue3","address3","https://www.meetup.com"]]
-		DatabaseHelper.writeCsv(csvFiller,table)
+		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com'),
+						('2','groupName2','eventName2','2017-02-26','02:00pm','venue2','address2','https://www.meetup.com'),
+						('3','groupName3','eventName3','2017-03-06','02:00pm','venue3','address3','https://www.meetup.com')"
+		DatabaseHelper.writeTable(dataFiller,table)
 	#exercise
 		result = Event.week("2017-02-27")
 	#verify
@@ -77,16 +72,14 @@ RSpec.describe(Event, '.week') do
 	it 'returns events for all days of the week' do
 	#set-up
 		table = "events"
-		csvFiller = [["id","group","title","date","time","location","address","link"],
-			["1","groupName1","eventName1","2017-02-27","02:00pm","venue1","address1","https://www.meetup.com"],
-			["2","groupName2","eventName2","2017-02-28","02:00pm","venue2","address2","https://www.meetup.com"],
-			["3","groupName3","eventName3","2017-03-01","02:00pm","venue3","address3","https://www.meetup.com"],
-			["4","groupName1","eventName1","2017-03-02","02:00pm","venue1","address1","https://www.meetup.com"],
-			["5","groupName2","eventName2","2017-03-03","02:00pm","venue2","address2","https://www.meetup.com"],
-			["6","groupName3","eventName3","2017-03-04","02:00pm","venue3","address3","https://www.meetup.com"],
-			["7","groupName3","eventName3","2017-03-05","02:00pm","venue3","address3","https://www.meetup.com"],
-		]
-		DatabaseHelper.writeCsv(csvFiller,table)
+		dataFiller = "('1','groupName','eventName','2017-02-27','02:00pm','venue','address1','https://www.meetup.com'),
+				('2','groupName2','eventName2','2017-02-28','02:00pm','venue2','address2','https://www.meetup.com'),
+				('3','groupName3','eventName3','2017-03-01','02:00pm','venue3','address3','https://www.meetup.com'),
+				('4','groupName4','eventName4','2017-03-02','02:00pm','venue4','address4','https://www.meetup.com'),
+				('5','groupName5','eventName5','2017-03-03','02:00pm','venue5','address5','https://www.meetup.com'),
+				('6','groupName6','eventName6','2017-03-04','02:00pm','venue6','address6','https://www.meetup.com'),
+				('7','groupName7','eventName7','2017-03-05','02:00pm','venue7','address7','https://www.meetup.com')"
+		DatabaseHelper.writeTable(dataFiller,table)
 	#exercise
 		result = Event.week("2017-02-27")
 	#verify
@@ -99,21 +92,46 @@ end
 
 
 
-RSpec.describe(Event, '.updateMeetups') do
+RSpec.describe(Event, '.collectAllEvents') do
 
-	it '' do
+	it 'returns an array if there are events' do
 	#set-up
-		# getString = Proc.new do |uri|  end
-			system 'pwd'
-			string = File.open('spec/support/test.txt', 'r') { |file| file.read }
-			binding.pry
-
+		getString = Proc.new do |uri| 
+			File.open('spec/support/fake_meetupAPIresult.txt', 'r') { |file| file.read} 
+		end
+		meetups = ["url"=>"test"]
 	#exercise
-		
+		result = Event.collectAllEvents(meetups,getString)
 	#verify
-		
+		expect(result).to respond_to :each
+	#teardown	
+	end
+
+	it 'returns an array in which each element is a hash of event info' do
+	#set-up
+		getString = Proc.new do |uri| 
+			File.open('spec/support/fake_meetupAPIresult.txt', 'r') { |file| file.read} 
+		end
+		meetups = ["url"=>"test"]
+	#exercise
+		result = Event.collectAllEvents(meetups,getString)
+	#verify
+		expect(result[0]).to respond_to :each
+		expect(result[0]["eventTitle"]).to be_truthy
 	#teardown
-		
+	end
+
+	it 'returns an empty array if no events' do
+	#set-up
+		getString = Proc.new do |uri| 
+			File.open('spec/support/fake_emptymeetupAPIresult.txt', 'r') { |file| file.read} 
+		end
+		meetups = ["url"=>"test"]
+	#exercise
+		result = Event.collectAllEvents(meetups,getString)
+	#verify
+		expect(result).to eq([])
+	#teardown
 	end
 
 end
@@ -127,42 +145,42 @@ end
 
 
 
-RSpec.describe(Event,"#createComment") do 
+# RSpec.describe(Event,"#createComment") do 
 
-	params = {"comment"=>"Hello World", "eventId"=>"1"}
-	event = Event.new(params["eventId"])
-	event.createComment(params, $database.table_path("comments"))
+# 	params = {"comment"=>"Hello World", "eventId"=>"1"}
+# 	event = Event.new(params["eventId"])
+# 	event.createComment(params, $database.table_path("comments"))
 
-end
+# end
 
-RSpec.describe(Event,"#info") do 
+# RSpec.describe(Event,"#info") do 
 	
-	it "gets the event information associated with the id" do
+# 	it "gets the event information associated with the id" do
 		
-		# Setup
-		mockEvent = [['id', 'group', 'title', 'date', 'time', 'location', 'address', 'link'],
-		['4', 'test group', 'testing functions', '02-02-2017', "11:00pm", 'Alley way', 
-		'88873', 'http://.com']]
+# 		# Setup
+# 		mockEvent = [['id', 'group', 'title', 'date', 'time', 'location', 'address', 'link'],
+# 		['4', 'test group', 'testing functions', '02-02-2017', "11:00pm", 'Alley way', 
+# 		'88873', 'http://.com']]
 
-		CSV.open($database.table_path("events"), 'w') do |csv|
-			mockEvent.each do |row|
-				csv << row
-			end
-		end
+# 		CSV.open($database.table_path("events"), 'w') do |csv|
+# 			mockEvent.each do |row|
+# 				csv << row
+# 			end
+# 		end
 		
-		event = Event.new("4")
+# 		event = Event.new("4")
 
-		# Excersize
-		result = event.info
+# 		# Excersize
+# 		result = event.info
 
-		#Verify
-		expect(result.values).to eq(mockEvent[1])
+# 		#Verify
+# 		expect(result.values).to eq(mockEvent[1])
 
-		# Teardown
-		CSV.open($database.table_path("events"), 'w') do |csv|
-			csv = ""
-		end
+# 		# Teardown
+# 		CSV.open($database.table_path("events"), 'w') do |csv|
+# 			csv = ""
+# 		end
 
-	end
+# 	end
 
-end
+# end

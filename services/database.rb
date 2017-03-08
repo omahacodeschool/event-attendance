@@ -63,9 +63,11 @@ class Database
 
   # checks if info is already in database
   #
-  # email - String, table - String, column - String
+  # email  - String
+  # table  - String
+  # column - String
   #
-  # returns Boolean
+  # returns Boolean, true if unique
   def checkifUniq(email, table, column)
     if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'")
       return false

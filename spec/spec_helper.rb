@@ -1,12 +1,10 @@
-require 'pg'
-require 'pry'
-require 'csv'
+require "rubygems"
+require "bundler"
+Bundler.require(:default)
+
 require 'json'
 require 'date'
 require 'time'
-
-require 'time'
-require 'pg'
 
 require_relative "../services/database.rb"
 require_relative "support/database_helper.rb"

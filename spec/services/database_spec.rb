@@ -55,9 +55,7 @@ end
 
 RSpec.describe( Database, '#next_id') do 
 
-	it "finds and return the number of lines in the csv" do
-
-		# TODO change testcsv to testsql
+	it "finds and returns the number rows" do
 
 		# Setup
 		testsql = ["'0'",1,2] 

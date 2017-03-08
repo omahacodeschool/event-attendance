@@ -46,8 +46,8 @@ class Database
   # array - an array containing strings
   def newRow(array, table)
 
+
     valuesString = array.join("','")  
-    binding.pry
     @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
 
   end
@@ -68,9 +68,15 @@ class Database
   # table  - String
   # column - String
   #
+<<<<<<< HEAD
   # returns Boolean, true if unique
   def checkExistenceOf(email, table, column)
     if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'").to_a.length == 0
+=======
+  # returns Boolean, true if email isn't in database
+  def checkExistenceOf(email, table, column)
+    if @conn.exec("SELECT * FROM #{table} WHERE #{column} = '#{email}'").to_a.length == 0
+>>>>>>> master
       return true
     end
   end

@@ -68,6 +68,7 @@ class Database
   # table  - String
   # column - String
   #
+
   # returns Boolean, true if email isn't in database
   def checkExistenceOf(email, table, column)
     if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'").to_a.length == 0

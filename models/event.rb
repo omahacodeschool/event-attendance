@@ -15,7 +15,7 @@ class Event
   # 
   # params - Hash
   def Event.create(params)
-    values = [$database.next_id("events"),params[:group],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address]]
+    values = [$database.next_id("events"),params[:group],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address],params[:link]]
     $database.newRow(values, "events")
   end
 

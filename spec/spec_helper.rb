@@ -2,10 +2,14 @@ require 'pry'
 require 'csv'
 require 'json'
 require 'date'
+require 'pg'
 
 require_relative "../services/database.rb"
 # Use fake databases instead.
 $database = Database.new("spec/databases")
+
+$database = Database.new("event_attendance_test")
+$sql = $database.instance_variable_get(:@conn)
 
 require_relative "../services/login.rb"
 require_relative "../models/event.rb"

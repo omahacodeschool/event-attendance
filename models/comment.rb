@@ -9,7 +9,7 @@ class Comment
   end
 
   def Comment.for_event(eventid)
-    idFilter = "eventid = '#{eventid}'"
+    idFilter = "eventid = '#{eventid}' ORDER BY id"
     $database.all_with_filter("comments", idFilter)
   end
 end

@@ -25,7 +25,25 @@ class Meetups
           @allMeetupEvents.push(eventInfo)
         end
     end
+    return @allMeetupEvents
   end
+
+
+  # First removes the original info from the database, then adds the new info
+  #
+  # allMeetupEvents - array of events, each event is a hash of the event info
+  def addToEvents
+    @allMeetupEvents.each do |event|
+      filter = "id = '#{event['id']}'"
+      $database.deleteRow("events",filter)
+      values = [event["id"],event["groupName"],event["eventTitle"],
+                event["date"],event["time"],event["venue"],
+                event["address"],event["link"]]
+      $database.newRow(values, "events")
+    end
+  end
+
+  private
 
   # Gets all info about an event formatted and collected
   #
@@ -45,22 +63,6 @@ class Meetups
     }
     return eventInfo
   end
-
-  # First removes the original info from the database, then adds the new info
-  #
-  # allMeetupEvents - array of events, each event is a hash of the event info
-  def addToEvents
-    @allMeetupEvents.each do |event|
-      filter = "id = '#{event['id']}'"
-      $database.deleteRow("events",filter)
-      values = [event["id"],event["groupName"],event["eventTitle"],
-                event["date"],event["time"],event["venue"],
-                event["address"],event["link"]]
-      $database.newRow(values, "events")
-    end
-  end
-
-  private
 
   # sets the link address
   # 

@@ -62,6 +62,6 @@ post "/comments" do
 end 
 
 post "/editComment" do
-  Comment.edit(params["commentId"], session[:user]["fullname"])
+  Comment.edit(params, session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
 end

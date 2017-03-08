@@ -5,6 +5,7 @@ class Database
 
   def initialize(database_name="event_attendance_development")
     @conn = PG.connect( dbname: database_name )
+
   end
 
   # Get path to database table.
@@ -68,9 +69,9 @@ class Database
   # column - String
   #
   # returns Boolean, true if unique
-  def checkifUniq(email, table, column)
-    if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'")
-      return false
+  def checkExistenceOf(email, table, column)
+    if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'").to_a.length == 0
+      return true
     end
   end
 

@@ -1,114 +1,117 @@
 RSpec.describe(Database, "#all_with_filter") do
 	it 'gets a specified row' do
-		array = [["header1","header2"],["1","test 1"],["2","test 2"]]
-		CSV.open($database.table_path("comments"), "wb") do |csv|
-			array.each do |row|
-     		csv << row
-     		end
-   		end
 
-   		filter = Proc.new do |row|
-     		row["header1"] == "1"
-   		end
+		# Setup
+		DatabaseHelper.empty("comments")
+		array = ["'Person 1','comment 1'","'Person 2','comment 2'"]
+		DatabaseHelper.add_row_with_attributes("comments", "fullname, comment", array)
 
+		# Exercise
+   		filter = "fullname = 'Person 1'"
+   		
+   		# Verify
 		list = $database.all_with_filter("comments", filter)
-		expect(list).to include("1", "test 1")
+		expect(list[0]).to include("fullname" => "Person 1")
+
+		# TearDown
+		DatabaseHelper.empty("comments")
+
 	end 
 
-	# TODO Add in this test, or add the assertion to the previous test case.
-	# it 'only gets the specified number of rows' do
-	# 	array = [["header1","header2"],["1","test 1"],["2","test 2"]]
-	# 	CSV.open($database.table_path("comments"), "wb") do |csv|
-	# 		array.each do |row|
- #     		csv << row
- #     		end
- #   		end
-
- #   		filter = Proc.new do |row|
- #     		row["header1"] == "1"
- #   		end
-
-	# 	list = $database.all_with_filter("comments", filter)
-	# 	expect(list.length).to eq(1)
-	# end 
-
-end 
-
-RSpec.describe(Database, '#all') do
-	
-	it 'returns 0 for an empty table' do
+	it 'gets a specified row' do
 
 		# Setup
-		DatabaseHelper.empty("events")
+		DatabaseHelper.empty("comments")
+		array = ["'name','comment'","'name','comment'"]
+		DatabaseHelper.add_row_with_attributes("comments", "fullname, comment", array)
 
-		# Excersize
-		list = $database.all("events")
+		# Exercise
+   		filter = "id > -1"
 
-		# Verify
-		expect(list.length).to eq(0)
-
-	end
-
-
-
-	it 'returns correct value for a non-empty table' do
-		
-		# Setup
-		testcsv = ["'line', 'cell'", "'line', 'cell'"]
-		DatabaseHelper.addRows('events', testcsv)
-
-		# Excersize
-		list = $database.all("events")
-
-		# Verify
+   		# Verify
+		list = $database.all_with_filter("comments", filter)
 		expect(list.length).to eq(2)
 
-		# Teardown
-		DatabaseHelper.empty("events")
+		# TearDown
+		DatabaseHelper.empty("comments")
+	end 
+end 
 
-	end
+# RSpec.describe(Database, '#all') do
+	
+# 	it 'returns 0 for an empty table' do
+
+# 		# Setup
+# 		DatabaseHelper.empty("events")
+
+# 		# Excersize
+# 		list = $database.all("events")
+
+# 		# Verify
+# 		expect(list.length).to eq(0)
+
+# 	end
 
 
 
-	it 'returns something from a table that responds to the each method' do
+# 	it 'returns correct value for a non-empty table' do
 		
-		# Setup
-		testcsv = ["'thing'", "'thing2'"]
-		DatabaseHelper.addRows('events', testcsv)
+# 		# Setup
+# 		testcsv = ["'line', 'cell'", "'line', 'cell'"]
+# 		DatabaseHelper.addRows('events', testcsv)
 
-		# Excercise
-		list = $database.all("events")
+# 		# Excersize
+# 		list = $database.all("events")
 
-		# Verify
-		expect(list).to respond_to(:each)
+# 		# Verify
+# 		expect(list.length).to eq(2)
 
-		# Teardown
-		DatabaseHelper.empty('events')
+# 		# Teardown
+# 		DatabaseHelper.empty("events")
 
-	end
+# 	end
 
-end
 
-RSpec.describe( Database, '#next_id') do 
 
-	it "finds and return the number of lines in the csv" do
+# 	it 'returns something from a table that responds to the each method' do
+		
+# 		# Setup
+# 		testcsv = ["'thing'", "'thing2'"]
+# 		DatabaseHelper.addRows('events', testcsv)
 
-		# TODO change testcsv to testsql
+# 		# Excercise
+# 		list = $database.all("events")
 
-		# Setup
-		testcsv = ["'0'",1,2] 
-		DatabaseHelper.addRows('events', testcsv)
+# 		# Verify
+# 		expect(list).to respond_to(:each)
 
-		# Excersize
-		id = $database.next_id('events')
+# 		# Teardown
+# 		DatabaseHelper.empty('events')
 
-		# Verify
-		expect(id).to eq(3)
+# 	end
 
-		# Teardown
-		DatabaseHelper.empty('events')
+# end
 
-	end
+# RSpec.describe( Database, '#next_id') do 
 
-end
+# 	it "finds and return the number of lines in the csv" do
+
+# 		# TODO change testcsv to testsql
+
+# 		# Setup
+# 		testcsv = ["'0'",1,2] 
+# 		DatabaseHelper.addRows('events', testcsv)
+
+# 		# Excersize
+# 		id = $database.next_id('events')
+
+# 		# Verify
+# 		expect(id).to eq(3)
+
+# 		# Teardown
+# 		DatabaseHelper.empty('events')
+
+# 	end
+
+# end
 

@@ -10,12 +10,13 @@ require "pg"
 # # When you need to set up the database, just UNCOMMENT the below.
 # # Remember to comment it back out when you're done.
 
-# conn = PG.connect( dbname: 'postgres' )
+conn = PG.connect( dbname: 'postgres' )
 
 # app_name = "event_attendance"
 
 # conn.exec("CREATE DATABASE #{app_name}_development")
 # conn.exec("CREATE DATABASE #{app_name}_test")
+
 
 #conn = PG.connect( dbname: 'event_attendance_test' )
 conn = PG.connect( dbname: 'event_attendance_development' )

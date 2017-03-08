@@ -1,4 +1,4 @@
-class Event
+class Meetups
 
   def initialize
     @meetups = $database.all("meetups")
@@ -46,8 +46,6 @@ class Event
     return eventInfo
   end
 
-
-
   # First removes the original info from the database, then adds the new info
   #
   # allMeetupEvents - array of events, each event is a hash of the event info
@@ -61,7 +59,6 @@ class Event
       $database.newRow(values, "events")
     end
   end
-
 
   private
 

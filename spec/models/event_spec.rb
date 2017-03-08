@@ -61,26 +61,27 @@ RSpec.describe(Event, "#addAttendee") do
 
 end
 
-# RSpec.describe(Event, ".create") do
+RSpec.describe(Event, ".create") do
 
-# 	it "adds a new event to an empty database" do
+	it "adds a new event to an empty database" do
 
-# 		# Setup
-# 		eventDetails = {:'group' => 'test', :'title' => 'test', 
-# 		:'date' => 'test', :'time' => '10:00pm', :'location' => 'test', 
-# 		:'address' => 'test'}
+		# Setup
+		eventDetails = {:'group' => 'test', :'title' => 'test', 
+		:'date' => '03-08-2017', :'time' => '10:00pm', :'location' => 'test', 
+		:'address' => 'test', :'link' => 'http://google.com'}
 
-# 		# Excercise
-# 		Event.create(eventDetails)
-# 		csvFirstRow = CSV.read($database.table_path('events'))[0]
+		# Excercise
+		Event.create(eventDetails)
+		binding.pry
 
-# 		# Verify
-# 		expect(csvFirstRow.length).to be_truthy
 
-# 		# Teardown
-# 		DatabaseHelper.empty('events')
+		# Verify
+		expect(csvFirstRow.length).to be_truthy
 
-# 	end
+		# Teardown
+		DatabaseHelper.empty('events')
+
+	end
 
 # 	it "saves the information of the event" do
 
@@ -102,4 +103,4 @@ end
 
 # 	end
 
-# end
+end

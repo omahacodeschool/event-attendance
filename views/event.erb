@@ -15,9 +15,10 @@
 		
 		<div class="event info">	
 			<h2><%= @event.info['title'] %></h2>
+	
 			<div class="event_details">
 				<ul>
-					<li>Who: <%= @event.info['group'] %></li>
+					<li>Who: <%= @event.info['group_name'] %></li>
 					<li>When: <%= (Time.parse(@event.info['date']).strftime('%a %d %b %Y')) + " @ " + @event.info['time'] %></li>			     <li>Where: <%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
 					<li>
 						<a href = <%= @event.info['link'].to_s %>>

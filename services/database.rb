@@ -67,7 +67,7 @@ class Database
   #
   # returns Boolean
   def checkifUniq(email, table, column)
-    if @conn.exec("SELECT FROM #{table} WHERE #{column}=#{email}").to_a.length = 0
+    if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'")
       return false
     end
   end

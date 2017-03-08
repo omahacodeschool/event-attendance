@@ -110,7 +110,7 @@ class Event
   #
   # name - key value pair of parameters
   def addAttendee(name)
-    filter = "eventid = #{@id} AND fullname = '#{name}'"
+    filter = "eventid = '#{@id}' AND fullname = '#{name}'"
     if $database.all_with_filter("rsvps", filter).length < 1
       $database.newRow([@id] + [name], "rsvps")
     end

@@ -12,50 +12,6 @@ class Event
     $database.newRow(values, "events")
   end
 
-  def getComments
-    Comment.for_event(@id)
-  end
-
-  def getRSVPs
-    RSVP.for_event(@id)
-  end
-
-  # Edits a comment. 
-  # 
-  # params - Hash, user = String
-  # 
-  # no return but deletes a comment, writes the new version
-  #   then sorts the comments based on Id so they appear in
-  #   the same spot as before edit
-  def editComment(params, user)
-    filter = "id = '#{params["commentId"]}' AND fullname = '#{user}'"
-    $database.updateRow("comments","comment",params["textContent"],filter)
-  end
-
-
-  # deletes a row. 
-  # 
-  # name - String of full name
-  def deleteAttendee(name)
-    filter = "eventid = '#{@id}' AND fullname = '#{name}'"
-    $database.deleteRow("rsvps",filter)
-  end
-
-
-  # Get one weeks events.
-  # 
-  # date - String date of interest in YYYY-MM-DD format
-  # 
-  # Returns the events as a Hash of weekday -> array of events
-  def Event.week(date)
-    endingDate = Date.parse(date) + 7
-    filter = "date >= '#{date}' AND date < '#{endingDate}'"
-    weekdata = $database.all_with_filter("events", filter)
-    weekdata = Event.getRsvps(weekdata)
-    sortEvents(weekdata)
-  end
-
-
   # Gets event info.
   #
   # Returns a Hash of the event's info (or an error).
@@ -68,15 +24,40 @@ class Event
     end
   end
 
+  def getComments
+    Comment.for_event(@id)
+  end
+
+  def getRSVPs
+    RSVP.for_event(@id)
+  end
+
+  # deletes a row. 
+  # 
+  # name - String of full name
+  def deleteAttendee(name)
+    RSVP.delete(@id,name)
+  end
+
   # Adds a new attendee to the list of attendees if there is no prior rsvp
   #     for that event by that user
   #
   # name - key value pair of parameters
   def addAttendee(name)
-    filter = "eventid = '#{@id}' AND fullname = '#{name}'"
-    if $database.all_with_filter("rsvps", filter).length < 1
-      $database.newRow([@id] + [name], "rsvps")
-    end
+    RSVP.add(@id,name)
+  end
+
+  # Get one weeks events.
+  # 
+  # date - String date of interest in YYYY-MM-DD format
+  # 
+  # Returns the events as a Hash of weekday -> array of events
+  def Event.week(date)
+    endingDate = Date.parse(date) + 7
+    filter = "date >= '#{date}' AND date < '#{endingDate}'"
+    weekdata = $database.all_with_filter("events", filter)
+    weekdata = Event.addRSVPstoEventInfo(weekdata)
+    sortEvents(weekdata)
   end
 
   # update local info of meetups from the meetup api
@@ -84,6 +65,7 @@ class Event
   # will update all events and add any new ones
   # will go through all meetups listed in the meetups.csv
   def Event.updateMeetups()
+    meetups = Meetups.new
     meetups = $database.all("meetups")
     allMeetupEvents = collectAllEvents(meetups)
     createMeetups(allMeetupEvents)
@@ -91,15 +73,6 @@ class Event
 
 
   private
-
-
-  # deletes a comment. 
-  # 
-  # info - String, table = String
-  def deleteComment(commentId, table)
-    filter = "commentid = #{commentId}"
-    $database.deleteRow(table,filter)
-  end
 
 
   # Sort the events by weekday
@@ -118,17 +91,15 @@ class Event
         sortedEvents[weekday] = [row]
       end
     end
-    
     return sortedEvents
   end
-
 
   # Adds rsvps to the events being requested by the AJAX
   # 
   # data - Hash of events
   # 
   # returns data as Hash with the rsvps added
-  def Event.getRsvps(data)
+  def Event.addRSVPstoEventInfo(data)
     data.each do |each|
       filter = "eventid = '#{each['id']}'"
       rsvps = $database.all_with_filter("rsvps", filter).length
@@ -136,7 +107,6 @@ class Event
     end
       return data
   end
-
 
   # Gets all the events
   # 

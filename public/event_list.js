@@ -5,10 +5,17 @@
 // returns 12 hour time as string
 function getAmPmTime(time){
   var time = (time).split(":")
-  if ((time[0]) > 12){
-    return (time[0] - 12) + ":" + time[1] + "pm"
+  var hour = time[0]
+  if (time[0] >= 12){
+    var ampm = 'pm'
   } else {
-    return time[0] + ":" + time[1] + "am"
+    var ampm = 'am'
+  }
+
+  if (time[0] > 12){
+    return (time[0] - 12) + ":" + time[1] + ampm
+  } else {
+    return time[0] + ":" + time[1] + ampm
   }
 }
 

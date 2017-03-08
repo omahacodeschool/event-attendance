@@ -82,6 +82,26 @@ RSpec.describe(Event, ".create") do
 
 	end
 
+	it "adds a event into a table with events already existing" do
+
+		# Setup
+		$sql.exec("INSERT INTO events VALUES('fake','fake')")
+		secondEvent = {:'group' =>'another one', :'title' => 'one', :'date' => '03-08-2017', 
+		:'time' => '10:43pm', :'location' => 'please work now', :'address' => '1234 Desperate rd.',
+		:'link' => 'google.com/help'}
+
+		# Excercise
+		Event.create(secondEvent)
+		results = $sql.exec('SELECT * FROM events').to_a.length
+
+		# Verify
+		expect(results).to eq(2)
+
+		# Teardown
+		DatabaseHelper.empty('events')
+
+	end
+
 	it "saves the information of the event" do
 
 		# Setup

@@ -1,6 +1,6 @@
 RSpec.describe(Database, '#all') do
 	
-	it 'returns 0 for an empty table' do
+	it 'returns 0 rows for an empty table' do
 
 		# Setup
 		DatabaseHelper.empty("events")
@@ -15,11 +15,11 @@ RSpec.describe(Database, '#all') do
 
 
 
-	it 'returns correct value for a non-empty table' do
+	it 'returns correct number of rows for a non-empty table' do
 		
 		# Setup
-		testcsv = ["'line', 'cell'", "'line', 'cell'"]
-		DatabaseHelper.addRows('events', testcsv)
+		testsql = ["'line', 'cell'", "'line', 'cell'"]
+		DatabaseHelper.addRows('events', testsql)
 
 		# Excersize
 		list = $database.all("events")
@@ -37,8 +37,8 @@ RSpec.describe(Database, '#all') do
 	it 'returns something from a table that responds to the each method' do
 		
 		# Setup
-		testcsv = ["'thing'", "'thing2'"]
-		DatabaseHelper.addRows('events', testcsv)
+		testsql = ["'thing'", "'thing2'"]
+		DatabaseHelper.addRows('events', testsql)
 
 		# Excercise
 		list = $database.all("events")
@@ -60,8 +60,8 @@ RSpec.describe( Database, '#next_id') do
 		# TODO change testcsv to testsql
 
 		# Setup
-		testcsv = ["'0'",1,2] 
-		DatabaseHelper.addRows('events', testcsv)
+		testsql = ["'0'",1,2] 
+		DatabaseHelper.addRows('events', testsql)
 
 		# Excersize
 		id = $database.next_id('events')

@@ -1,9 +1,7 @@
 class DatabaseHelper
 
   def DatabaseHelper.empty(table)
-    CSV.open($database.table_path(table), 'w') do |csv|
-        csv = ''
-    end
+    $sql.exec( "DELETE FROM #{table}" )
   end
 
   # Writes rows to a table
@@ -11,11 +9,11 @@ class DatabaseHelper
   # table - name of file
   # content - array
   def DatabaseHelper.addRows(table, content)
-  	CSV.open($database.table_path( table ), 'w') do |csv|
-  		content.each do |row|
-  			csv << row
-  		end
-  	end
+    content.each do |chunkOfContent|
+
+      $sql.exec( "INSERT INTO #{table} VALUES (#{chunkOfContent})")
+    end
+
   end
 
 end

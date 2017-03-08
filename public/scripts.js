@@ -1,5 +1,7 @@
 window.addEventListener("load", function (){
 
+
+
 	if (window.innerWidth < 570){
 		var lastButtonClicked = "";
 		checkForDropDownMenus();

@@ -1,19 +1,29 @@
-# RSpec.describe(Login, '.valid') do
-	
-#   it "validates correct username and password" do
+RSpec.describe(Login, '.valid') do
 
-#   	pending
-#     login_attempt = Login.valid("admin", "password")
+	it "validates correct username and password" do
+  	#set-up
+		table = "users"
+		dataFiller="('admin@gmail.com','password','admin','true')"
+		DatabaseHelper.writeTable(dataFiller,table)
+	#exercise
+    	login_attempt = Login.valid("admin@gmail.com", "password")
+	#verify
+    	expect(login_attempt).to be_truthy
+	#teardown
+		DatabaseHelper.empty(table)
+	end
 
-#     expect(login_attempt).to eq(true)
-#   end
-
-#   it "validates incorrect username and password" do
-
-#   	pending
-#     login_attempt = Login.valid("admin", "wrong")
-
-#     expect(login_attempt).to eq(false)
-#   end
-
-# end
+  it "validates incorrect username and password" do
+    #set-up
+		table = "users"
+		dataFiller="('admin@gmail.com','password','admin','true')"
+		DatabaseHelper.writeTable(dataFiller,table)
+	#exercise
+    	login_attempt = Login.valid("admin@gmail.com", "wrong")
+	#verify
+    	expect(login_attempt).to be_falsey
+	#teardown
+		DatabaseHelper.empty(table)
+  end
+  
+end

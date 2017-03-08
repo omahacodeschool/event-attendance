@@ -58,12 +58,10 @@ end
 
 post "/comments" do
   Comment.create(params, session[:user]["fullname"], params["eventId"])
-
   redirect("/event?id=" + params["eventId"])
 end 
 
 post "/editComment" do
-  event = Event.new(params["eventId"])
-  event.editComment(params, session[:user]["fullname"])
+  Comment.edit(params, session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
 end

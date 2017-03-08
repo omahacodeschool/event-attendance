@@ -5,6 +5,7 @@ class Database
 
   def initialize(database_name="event_attendance_development")
     @conn = PG.connect( dbname: database_name )
+
   end
 
   # Get path to database table.
@@ -36,19 +37,17 @@ class Database
   end
 
 
-  def updateRow(table, column1,column2, id, newValue)
-
-    @conn.exec("UPDATE #{table} SET #{column1}=#{newValue} WHERE #{column2} = #{id}")
-
-
+  def updateRow(table, column, newValue, filter)
+    @conn.exec("UPDATE #{table} SET #{column} = '#{newValue}' WHERE #{filter}")
+      # set comment = new-comment WHERE commentid = commentid and fullname = fullname
   end
   # Adds a new row to the database
   #
   # array - an array containing strings
   def newRow(array, table)
 
-    valuesString = array.join("','")
 
+    valuesString = array.join("','")  
     @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
 
   end
@@ -69,10 +68,10 @@ class Database
   # table  - String
   # column - String
   #
-  # returns Boolean, true if unique
-  def checkifUniq(email, table, column)
 
-    if @conn.exec("SELECT #{column} FROM #{table} WHERE #{column} = '#{email}'").to_a.length == 0
+  # returns Boolean, true if email isn't in database
+  def checkExistenceOf(email, table, column)
+    if @conn.exec("SELECT * FROM #{table} WHERE #{column}='#{email}'").to_a.length == 0
       return true
     end
   end

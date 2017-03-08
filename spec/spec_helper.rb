@@ -1,11 +1,13 @@
-require 'pry'
-require 'csv'
+require "rubygems"
+require "bundler"
+Bundler.require(:default)
+
 require 'json'
 require 'date'
 require 'time'
-require 'pg'
 
 require_relative "../services/database.rb"
+require_relative "support/database_helper.rb"
 # Use fake databases instead.
 $database = Database.new("event_attendance_test")
 $sql = $database.instance_variable_get(:@conn)
@@ -14,7 +16,7 @@ require_relative "../services/login.rb"
 require_relative "../models/event.rb"
 require_relative "../models/user.rb"
 
-require_relative "support/database_helper.rb"
+
 
 # enable :sessions
 

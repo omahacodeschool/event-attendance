@@ -46,8 +46,8 @@ class Database
   # array - an array containing strings
   def newRow(array, table)
 
-    valuesString = array.join("','")
-
+    valuesString = array.join("','")  
+    binding.pry
     @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
 
   end

@@ -1,3 +1,17 @@
+// turns 24 hour time into 12 hour AM/PM Time
+// 
+// time = 24 hour time as string
+// 
+// returns 12 hour time as string
+function getAmPmTime(time){
+  var time = (time).split(":")
+  if ((time[0]) > 12){
+    return (time[0] - 12) + ":" + time[1] + "pm"
+  } else {
+    return time[0] + ":" + time[1] + "am"
+  }
+}
+
 // javascript 'class' for creating the homepage html
 //
 // date - Date object for a Monday
@@ -108,7 +122,7 @@ EventList.prototype.createHTMLForEachEvent = function (daysEvents) {
   for (var j=0; j<daysEvents.length;j++) {
     this.htmlToInsert += "<li>" + "<a class='event-description' href='/event?id=";
     this.htmlToInsert += daysEvents[j]["id"] + "'>";
-    this.htmlToInsert += daysEvents[j]["time"] + " - ";
+    this.htmlToInsert += getAmPmTime(daysEvents[j]["time"]) + " - ";
     this.htmlToInsert += daysEvents[j]["group_name"] + " - ";
     this.htmlToInsert += daysEvents[j]["title"] + "<br>";
     this.htmlToInsert += "<span class='event-details'><span class='highlight'>";

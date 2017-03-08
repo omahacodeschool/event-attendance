@@ -1,7 +1,9 @@
+require 'pg'
 require 'pry'
 require 'csv'
 require 'json'
 require 'date'
+require 'time'
 
 require 'time'
 require 'pg'
@@ -9,7 +11,6 @@ require 'pg'
 require_relative "../services/database.rb"
 require_relative "support/database_helper.rb"
 # Use fake databases instead.
-
 $database = Database.new("event_attendance_test")
 $sql = $database.instance_variable_get(:@conn)
 

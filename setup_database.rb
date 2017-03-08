@@ -17,7 +17,9 @@ conn = PG.connect( dbname: 'postgres' )
 # conn.exec("CREATE DATABASE #{app_name}_development")
 # conn.exec("CREATE DATABASE #{app_name}_test")
 
-conn = PG.connect( dbname: 'event_attendance_test' )
+
+#conn = PG.connect( dbname: 'event_attendance_test' )
+conn = PG.connect( dbname: 'event_attendance_development' )
 
 # And create tables...
 conn.exec("CREATE TABLE events (id VARCHAR(255), group_name VARCHAR(255), title VARCHAR(255), date DATE, time TIME, location VARCHAR(255), address VARCHAR(255), link TEXT)")

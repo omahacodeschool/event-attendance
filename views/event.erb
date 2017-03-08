@@ -12,14 +12,16 @@
 	<form class="Button events-nav" action="/">
 		<button type="submit">Back to Events</button>
 	</form>
-		
-		<div class="event info">
 
-			<h2><%= @event.info['title'] %> (<%= @event.info['date'] %>)</h2>
+		<div class="event info">	
+			<h2><%= @event.info['title'] %></h2>
+	
 			<div class="event_details">
 				<ul>
 					<li>Who: <%= @event.info['group_name'] %></li>
-					<li>When: <%= @event.info['time'] %></li>
+					<li>When: <%= (Time.parse(@event.info['date']).strftime('%a %d %b %Y')) + " @ " + 
+					(Time.parse(@event.info['time']).strftime('%l:%M''%P')) %>
+					</li>	
 					<li>Where: <%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
 					<li>
 						<a href = <%= @event.info['link'].to_s %>>
@@ -71,7 +73,7 @@
 				<% if session[:user] %>
 
 					<% if comment['fullname'] == session[:user]['fullname'] && (Time.now.to_i - comment['timestamp'].to_i) < 1800 %>
-						<button class="editComment" id=<%= comment["commentid"] %>>edit</button>
+						<button class="editComment" id=<%= comment["id"] %>>edit</button>
 				    <% end %> 
 				<% end %>    
 			    </div>

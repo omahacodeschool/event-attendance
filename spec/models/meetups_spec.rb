@@ -6,10 +6,13 @@ RSpec.describe(Meetups, '#collectAllEvents') do
 			File.open('spec/support/fake_meetupAPIresult.txt', 'r') { |file| file.read} 
 		end
 		meetups = ["url"=>"test"]
+
 		#exercise
 		result = Event.collectAllEvents(meetups,getString)
+
 		#verify
 		expect(result).to respond_to :each
+
 		#teardown	
 	end
 
@@ -19,11 +22,14 @@ RSpec.describe(Meetups, '#collectAllEvents') do
 			File.open('spec/support/fake_meetupAPIresult.txt', 'r') { |file| file.read} 
 		end
 		meetups = ["url"=>"test"]
+
 		#exercise
 		result = Event.collectAllEvents(meetups,getString)
+
 		#verify
 		expect(result[0]).to respond_to :each
 		expect(result[0]["eventTitle"]).to be_truthy
+
 		#teardown
 	end
 
@@ -33,10 +39,13 @@ RSpec.describe(Meetups, '#collectAllEvents') do
 			File.open('spec/support/fake_emptymeetupAPIresult.txt', 'r') { |file| file.read} 
 		end
 		meetups = ["url"=>"test"]
+		
 		#exercise
 		result = Event.collectAllEvents(meetups,getString)
+		
 		#verify
 		expect(result).to eq([])
+		
 		#teardown
 	end
 end

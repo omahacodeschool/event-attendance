@@ -5,13 +5,10 @@ RSpec.describe(Event, '.week') do
 		table = "events"
 		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
 		DatabaseHelper.writeTable(dataFiller,table)
-
 		#exercise
 		result = Event.week("2017-03-13")
-
 		#verify
 		expect(result).to eq({})
-
 		#teardown
 		DatabaseHelper.empty(table)
 	end
@@ -183,7 +180,6 @@ RSpec.describe(Event, ".create") do
 		expect(results).to eq(2)
 		# Teardown
 		DatabaseHelper.empty('events')
-
 	end
 
 	it "saves the information of the event" do

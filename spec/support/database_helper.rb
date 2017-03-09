@@ -29,24 +29,16 @@ class DatabaseHelper
   # table        - name of file as String
   # valuesString - String like "(value1,value2),(value3,value4)"
   def DatabaseHelper.writeTable(valuesString,table)
-      $sql.exec("INSERT INTO #{table} VALUES #{valuesString}")
+    $sql.exec("INSERT INTO #{table} VALUES #{valuesString}")
   end
 
-  # Writes rows to a table
-  #
-  # table - name of file
-  # content - array
-  def DatabaseHelper.addRows(table, content)
-    content.each do |chunkOfContent|
-
-      $sql.exec( "INSERT INTO #{table} VALUES (#{chunkOfContent})")
-    end
-  end
-
-  def DatabaseHelper.add_row_with_attributes(table, attributes, content)
-    content.each do |each|
-      $sql.exec( "INSERT INTO #{table}(#{attributes}) VALUES (#{each})" )
-    end
+  # Counts the number of lines in a table
+  # 
+  # table = String name of table to check
+  # 
+  # Returns Int of row count
+  def DatabaseHelper.count(table)
+    $sql.exec("SELECT COUNT(*) FROM #{table}").to_a[0]["count"].to_i
   end
 
 end

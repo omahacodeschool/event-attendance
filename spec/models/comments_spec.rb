@@ -2,74 +2,62 @@ RSpec.describe(Comment,".create") do
 
 	it "checks to see if a new line was written to comments csv" do
 		# Setup
-		array = [["commentid","eventid","fullname","comment","timestamp"],["1","1","User 1","Hello World","1488756156"]]
-		DatabaseHelper.write_to("comments", array)
-
-		params = {"comment"=>"Hello World"}
-		eventId = '1'
-		fullName = "User 1"
+		DatabaseHelper.empty("comments")
+		columns = "(eventid, fullname, comment, timestamp)"
+		content = "('1','Rabbit','Hello Turtle','1488756156')"
+		DatabaseHelper.writeToTable("comments", content,  columns)
 
 		# Exercise
-		Comment.create(params,fullName,eventId)
-		lines = DatabaseHelper.lines_in_file("comments")
+		Comment.create({:comment=>"Hello Rabbit"},"Turtle","1")
+		lines = DatabaseHelper.count("comments")
 
 		# Verify
-		expect(lines).to eq(3) # header + 2 new lines
+		expect(lines).to eq(2)
 	
 		# Teardown
 		DatabaseHelper.empty("comments")
 	end
+end
 
-	it "checks to see if id of last comment equals '2'" do
+RSpec.describe(Comment,".for_event") do 
+
+	it "gets list of comments by criteria" do
 		# Setup
-		array = [["commentid","eventid","fullname","comment","timestamp"],["1","1","User 1","Hello World","1488756156"]]
-		DatabaseHelper.write_to("comments", array)
-
-		params = {"comment"=>"Hello World"}
-		eventId = '1'
-		fullName = "User 1"
+		DatabaseHelper.empty("comments")
+		columns = "(eventid, fullname, comment)"
+		fakeRows = "('1','Allen', 'My comment.'), ('2', 'Allen','Another comment.'), ('2', 'Spencer','My thoughts.')"
+		DatabaseHelper.writeToTable("comments", fakeRows, columns)
 
 		# Exercise
-		Comment.create(params,fullName,eventId)
-		lastLine = File.readlines($database.table_path("comments")).last(1)
-		firstValue = lastLine[0].to_s.chars.first
+		comments = Comment.for_event(2).to_a.length
 
 		# Verify
-		expect(firstValue).to eq("2")
+		expect(comments).to eq(2)
 	
 		# Teardown
 		DatabaseHelper.empty("comments")
 	end
+end
+
+RSpec.describe(Comment,".edit") do
 
 	it "checks to see if last lines of comments contains proper information" do
 		# Setup
-		array = [["commentid","eventid","fullname","comment","timestamp"],["1","1","User 1","Hello World","1488756156"]]
-		DatabaseHelper.write_to("comments", array)
-
-		params = {"comment"=>"Hello Moon"}
-		eventId = '1'
-		fullName = "User 2"
+		DatabaseHelper.empty("comments")
+		columns = "(id, eventid, fullname, comment)"
+		fakeRows = "(1, '1', 'Rabbit', 'Hello Turtle.'), (2, '1', 'Turtle','Hello Rabbit')"
+		DatabaseHelper.writeToTable("comments", fakeRows,  columns)
 
 		# Exercise
-		Comment.create(params,fullName,eventId)
-		lastLine = File.readlines($database.table_path("comments")).last(1)
+		params = {'textContent'=>'Goodbye Rabbit.', 'commentId'=> '2'}
+		fullName = "Turtle"
+		Comment.edit(params,fullName)
 
 		# Verify
-		expect(lastLine).to contain("User 2", "Hello Moon")
+		editedLine = $sql.exec("SELECT * FROM comments WHERE id = 2").to_a
+		expect(editedLine[0]).to include("comment" => "Goodbye Rabbit.")
 	
 		# Teardown
 		DatabaseHelper.empty("comments")
 	end
-end
-
-RSpec.describe(Comment, '.for_event') do
-
-	pending
-
-end
-
-RSpec.describe(Comment, '.edit') do
-
-	pending
-
 end

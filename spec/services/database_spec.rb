@@ -27,7 +27,6 @@ RSpec.describe(Database, '#all') do
 	end
 
 	it 'returns correct number of rows for a non-empty table' do
-		
 		# Setup
 		testsql = ["'line', 'cell'", "'line', 'cell'"]
 		DatabaseHelper.addRows('events', testsql)
@@ -44,17 +43,17 @@ RSpec.describe(Database, '#all') do
 end
 
 RSpec.describe(Database, "#all_with_filter") do
+	
 	it 'gets a specified row' do
-
 		# Setup
 		DatabaseHelper.empty("comments")
 		array = ["'Person 1','comment 1'","'Person 2','comment 2'"]
 		DatabaseHelper.add_row_with_attributes("comments", "fullname, comment", array)
 
 		# Exercise
-   	filter = "fullname = 'Person 1'"
+	   	filter = "fullname = 'Person 1'"
    		
-   	# Verify
+	   	# Verify
 		list = $database.all_with_filter("comments", filter)
 		expect(list[0]).to include("fullname" => "Person 1")
 
@@ -63,7 +62,6 @@ RSpec.describe(Database, "#all_with_filter") do
 	end 
 	
 	it 'gets a specified row' do
-
 		# Setup
 		DatabaseHelper.empty("comments")
 		array = ["'name','comment'","'name','comment'"]
@@ -84,31 +82,37 @@ end
 RSpec.describe(Database, '#newRow') do
 	
 	it 'increases table by 1' do
-	#set-up
+		#set-up
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6')"
 		DatabaseHelper.writeTable(dataFiller,table)
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
-	#exercise
+
+		#exercise
 		$database.newRow(testRow,table)
-	#verify
+
+		#verify
 		length = $sql.exec("SELECT COUNT(*) FROM #{table}").to_a[0]["count"].to_i
 		expect(length).to eq(2)
-	#teardown
+
+		#teardown
 		DatabaseHelper.empty(table)
 	end
 
 	it 'adds a specific line to the end of the csv' do
-	#set-up
+		#set-up
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6')"
 		DatabaseHelper.writeTable(dataFiller,table)
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
-	#exercise
+
+		#exercise
 		$database.newRow(testRow,table)
-	#verify
+
+		#verify
 		expect($sql.exec("SELECT * FROM #{table} WHERE id='test1'")).to be_truthy
-	#teardown
+
+		#teardown
 		DatabaseHelper.empty(table)
 	end
 end
@@ -116,33 +120,39 @@ end
 RSpec.describe(Database, '#deleteRow') do
 	
 	it 'length decreases by 1' do
-	#set-up
+		#set-up
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6'),
-						('test1', 'test2', 'test3', '2017-12-12', '02:00 PM', 'test4', 'test5', 'test6')"
+			('test1', 'test2', 'test3', '2017-12-12', '02:00 PM', 'test4', 'test5', 'test6')"
 		DatabaseHelper.writeTable(dataFiller,table)
 		filter = "id = 'info1'"
-	#exercise
+
+		#exercise
 		$database.deleteRow(table,filter)
-	#verify
+
+		#verify
 		length = $sql.exec("SELECT COUNT(*) FROM #{table}").to_a[0]["count"].to_i
 		expect(length).to eq(1)
-	#teardown
+
+		#teardown
 		DatabaseHelper.empty(table)
 	end
 
 	it 'removes the line from the file' do
-	#set-up
+		#set-up
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6'),
 						('test1', 'test2', 'test3', '2017-12-12', '02:00 PM', 'test4', 'test5', 'test6')"
 		DatabaseHelper.writeTable(dataFiller,table)
 		filter = "id = 'info1'"
-	#exercise
+
+		#exercise
 		$database.deleteRow(table,filter)
-	#verify
+
+		#verify
 		expect($sql.exec("SELECT * FROM #{table} WHERE id='info1'").to_a).to be_empty
-	#teardown
+
+		#teardown
 		DatabaseHelper.empty(table)
 	end
 
@@ -151,7 +161,6 @@ end
 RSpec.describe(Database, '#next_id') do 
 
 	it "finds and returns the number rows" do
-
 		# Setup
 		testsql = ["'0'",1,2] 
 		DatabaseHelper.addRows('events', testsql)
@@ -164,7 +173,6 @@ RSpec.describe(Database, '#next_id') do
 
 		# Teardown
 		DatabaseHelper.empty('events')
-
 	end
 
 end

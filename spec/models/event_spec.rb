@@ -26,7 +26,7 @@ RSpec.describe(Event, '.week') do
 		result = Event.week("2017-02-27")
 
 		#verify
-		expect(result["Tuesday"]).to be_truthy
+		expect(result).to include("Tuesday")
 
 		#teardown
 		DatabaseHelper.empty(table)
@@ -51,14 +51,22 @@ RSpec.describe(Event, '.week') do
 	it 'returns a hash where values are arrays containing event info' do
 		#set-up
 		table = "events"
-		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
+		dataFiller = "('1', 'Omaha Coding Women', 'Learning Node', '2017-02-28', '02:00pm', 'venue', 'address1', 'https://www.meetup.com')"
 		DatabaseHelper.writeToTable(table,dataFiller)
 
 		#exercise
 		result = Event.week("2017-02-27")
 
 		#verify
-		expect(result["Tuesday"][0].values).to include("eventName")
+
+		# TODO Use a more comprehensive assertion:
+		# expect(result["Tuesday"][0]).to include({
+		# 	"id" => 1,
+		# 	"groupName" => "Omaha Code Women",
+		# 	...
+		# })
+
+		expect(result["Tuesday"][0].values).to include("Learning Node")
 		expect(result["Tuesday"][0].keys).to include("link")
 
 		#teardown

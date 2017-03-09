@@ -26,8 +26,7 @@ class DatabaseHelper
 
 
   def DatabaseHelper.add_row_with_attributes(table, attributes, content)
-    connection = $database
-    content.each do |each|
+    $sql.each do |each|
       connection.exec( "INSERT INTO #{table}(#{attributes}) VALUES (#{each})" )
     end
   end

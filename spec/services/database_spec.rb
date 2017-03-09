@@ -67,8 +67,8 @@ RSpec.describe(Database, "#all_with_filter") do
 	it 'gets multiple rows that match the filter' do
 		# Setup
 		DatabaseHelper.empty("comments")
-		fakeRows = "('Allen', 'My comment.'), ('Allen','Another comment.'), ('Spencer','My thoughts.')"
-		DatabaseHelper.writeToTable("comments", fakeRows, "(fullname, comment)")
+		fakeRows = "('1', 'Allen', 'My comment.'), ('2', 'Allen', 'different comment.'), ('2', 'Spencer','My thoughts.')"
+		DatabaseHelper.writeToTable("comments", fakeRows, "(eventid, fullname, comment)")
 
 		# Exercise
 

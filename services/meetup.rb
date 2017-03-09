@@ -72,6 +72,14 @@ class Meetup
     time = d.strftime('%I:%M %p')
   end
 
+  def location
+    if @event_info["venue"]["name"]
+      return @event_info["venue"]["name"]
+    else 
+      return "TBD"
+    end
+  end
+
   def address
     if @event_info["venue"]["address_1"]
        return @event_info["venue"]["address_1"]
@@ -80,20 +88,16 @@ class Meetup
     end
   end
 
-   def location
-    if @event_info["venue"]["name"]
-      return @event_info["venue"]["name"]
-    else 
-      return "TBD"
-    end
-  end
-
   def link
     @event_info["link"]
   end
 
-  # TODO
   def description
-    @event_info["description"]
+    description = @event_info["description"]
+    #remove htmltags
+    cleanDescription = description.gsub(/<(.*?)>/, '')
+    #choose only the first two sentences
+    shortDescription = cleanDescription.match(/\A[^.||!||?]+[.||!||?][^.||!||?]+[.||!||?]/)
+    return shortDescription[0]
   end
 end

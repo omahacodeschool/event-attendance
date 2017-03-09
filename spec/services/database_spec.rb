@@ -1,10 +1,14 @@
+# TODO Add a single line between each stage of a test (setup, exercise, etc).
+
 RSpec.describe(Database, '#all') do
 
 	it 'returns 0 for an empty table' do
 		# Setup
 		DatabaseHelper.empty("events")
+
 		# Excersize
 		list = $database.all("events")
+
 		# Verify
 		expect(list.length).to eq(0)
 	end
@@ -13,10 +17,13 @@ RSpec.describe(Database, '#all') do
 		# Setup
 		testsql = "('thing', 'thing2')"
 		DatabaseHelper.writeToTable("events", testsql)
+
 		# Exercise
 		list = $database.all("events")
+
 		# Verify
 		expect(list).to respond_to(:each)
+
 		# Teardown
 		DatabaseHelper.empty("events")
 	end
@@ -25,10 +32,13 @@ RSpec.describe(Database, '#all') do
 		# Setup
 		testsql = "('line', 'cell'), ('line', 'cell')"
 		DatabaseHelper.writeToTable('events', testsql)
+
 		# Excersize
 		list = $database.all("events")
+
 		# Verify
 		expect(list.length).to eq(2)
+
 		# Teardown
 		DatabaseHelper.empty("events")
 	end
@@ -41,23 +51,27 @@ RSpec.describe(Database, "#all_with_filter") do
 		DatabaseHelper.empty("comments")
 		fakeRows = "('Person 1','comment 1'), ('Person 2','comment 2')"
 		DatabaseHelper.writeToTable("comments",  fakeRows, "(fullname, comment)")
+
 		# Exercise
-	   	filter = "fullname = 'Person 1'"
-	   	# Verify
+		filter = "fullname = 'Person 1'"
+
+		# Verify
 		list = $database.all_with_filter("comments", filter)
 		expect(list[0]).to include("fullname" => "Person 1")
+
 		# TearDown
 		DatabaseHelper.empty("comments")
 	end 
 	
-	it 'gets a specified row' do
+	# TODO Name this test accurately.
+	it 'gets multiple rows that match the filter' do
 		# Setup
 		DatabaseHelper.empty("comments")
-		fakeRows = "('name','comment'), ('name','comment')"
+		fakeRows = "('Allen', 'My comment.'), ('Allen','Another comment.'), ('Spencer','My thoughts.')"
 		DatabaseHelper.writeToTable("comments", fakeRows, "(fullname, comment)")
 		# Exercise
-   		filter = "id > -1"
-   		# Verify
+		filter = "fullname = 'Allen'"
+		# Verify
 		list = $database.all_with_filter("comments", filter)
 		expect(list.length).to eq(2)
 		# TearDown
@@ -136,7 +150,7 @@ RSpec.describe(Database, '#next_id') do
 
 	it "finds and returns the number rows" do
 		# Setup
-		testsql = "('0'),(1),(2)" 
+		testsql = "(0),(1),(2)" 
 		DatabaseHelper.writeToTable('events', testsql)
 		# Excersize
 		id = $database.next_id('events')

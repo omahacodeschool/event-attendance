@@ -89,7 +89,7 @@ RSpec.describe(Event, '.week') do
 	end
 end
 
-
+# TODO: Move into meetups_spec.rb
 RSpec.describe(Event, '.collectAllEvents') do
 
 	it 'returns an array if there are events' do
@@ -131,7 +131,6 @@ RSpec.describe(Event, '.collectAllEvents') do
 		expect(result).to eq([])
 		#teardown
 	end
-
 end
 
 RSpec.describe(Event,"#info") do 
@@ -148,7 +147,6 @@ RSpec.describe(Event,"#info") do
 		# Teardown
 		DatabaseHelper.empty('events')
 	end
-
 end
 
 RSpec.describe(Event, ".create") do

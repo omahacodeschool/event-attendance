@@ -1,6 +1,7 @@
-require 'pg'
-require 'sinatra'
-require 'pry'
+require "rubygems"
+require "bundler"
+Bundler.require(:default)
+
 require 'csv'
 require 'json'
 require 'net/http'

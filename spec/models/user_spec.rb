@@ -29,8 +29,8 @@ RSpec.describe( User, '.create') do
 
 	it "doesn't add a user if the email is taken" do
 		# Setup
-		firstUser = ["'Test@nothing.edu', 'password123', 'Email Thief'"]
-		DatabaseHelper.addRows('users', firstUser)
+		firstUser = "('Test@nothing.edu', 'password123', 'Email Thief')"
+		DatabaseHelper.writeToTable('users', firstUser)
 		# Excercise
 		newUser = User.create("Test@nothing.edu", "security", "Smart T.")
 		numberOfUsers = $sql.exec("SELECT * FROM users").to_a.length

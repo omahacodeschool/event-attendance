@@ -11,8 +11,8 @@ RSpec.describe(Database, '#all') do
 
 	it 'returns an array from a table' do
 		# Setup
-		testsql = ["'thing'", "'thing2'"]
-		DatabaseHelper.addRows("events", testsql)
+		testsql = "('thing', 'thing2')"
+		DatabaseHelper.writeToTable("events", testsql)
 		# Exercise
 		list = $database.all("events")
 		# Verify
@@ -23,8 +23,8 @@ RSpec.describe(Database, '#all') do
 
 	it 'returns correct number of rows for a non-empty table' do
 		# Setup
-		testsql = ["'line', 'cell'", "'line', 'cell'"]
-		DatabaseHelper.addRows('events', testsql)
+		testsql = "('line', 'cell'), ('line', 'cell')"
+		DatabaseHelper.writeToTable('events', testsql)
 		# Excersize
 		list = $database.all("events")
 		# Verify
@@ -39,8 +39,8 @@ RSpec.describe(Database, "#all_with_filter") do
 	it 'gets a specified row' do
 		# Setup
 		DatabaseHelper.empty("comments")
-		array = ["'Person 1','comment 1'","'Person 2','comment 2'"]
-		DatabaseHelper.add_row_with_attributes("comments", "fullname, comment", array)
+		fakeRows = "('Person 1','comment 1'), ('Person 2','comment 2')"
+		DatabaseHelper.writeToTable("comments",  fakeRows, "(fullname, comment)")
 		# Exercise
 	   	filter = "fullname = 'Person 1'"
 	   	# Verify
@@ -53,8 +53,8 @@ RSpec.describe(Database, "#all_with_filter") do
 	it 'gets a specified row' do
 		# Setup
 		DatabaseHelper.empty("comments")
-		array = ["'name','comment'","'name','comment'"]
-		DatabaseHelper.add_row_with_attributes("comments", "fullname, comment", array)
+		fakeRows = "('name','comment'), ('name','comment')"
+		DatabaseHelper.writeToTable("comments", fakeRows, "(fullname, comment)")
 		# Exercise
    		filter = "id > -1"
    		# Verify
@@ -71,7 +71,7 @@ RSpec.describe(Database, '#newRow') do
 		#set-up
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
 		#exercise
 		$database.newRow(testRow,table)
@@ -86,7 +86,7 @@ RSpec.describe(Database, '#newRow') do
 		#set-up
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
 		#exercise
 		$database.newRow(testRow,table)
@@ -104,7 +104,7 @@ RSpec.describe(Database, '#deleteRow') do
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6'),
 			('test1', 'test2', 'test3', '2017-12-12', '02:00 PM', 'test4', 'test5', 'test6')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		filter = "id = 'info1'"
 		#exercise
 		$database.deleteRow(table,filter)
@@ -120,7 +120,7 @@ RSpec.describe(Database, '#deleteRow') do
 		table = "events"
 		dataFiller = "('info1', 'info2', 'info3', '2017-12-12', '02:00 PM', 'info4', 'info5', 'info6'),
 			('test1', 'test2', 'test3', '2017-12-12', '02:00 PM', 'test4', 'test5', 'test6')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		filter = "id = 'info1'"
 		#exercise
 		$database.deleteRow(table,filter)
@@ -136,8 +136,8 @@ RSpec.describe(Database, '#next_id') do
 
 	it "finds and returns the number rows" do
 		# Setup
-		testsql = ["'0'",1,2] 
-		DatabaseHelper.addRows('events', testsql)
+		testsql = "('0'),(1),(2)" 
+		DatabaseHelper.writeToTable('events', testsql)
 		# Excersize
 		id = $database.next_id('events')
 		# Verify
@@ -145,4 +145,18 @@ RSpec.describe(Database, '#next_id') do
 		# Teardown
 		DatabaseHelper.empty('events')
 	end
+end
+
+# TODO
+
+RSpec.describe(Database, '#checkExistenceOf') do
+
+	pending
+
+end
+
+RSpec.describe(Database, '#updateRow') do
+
+	pending
+
 end

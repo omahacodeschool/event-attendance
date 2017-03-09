@@ -4,7 +4,7 @@ RSpec.describe(Event, '.week') do
 		#set-up
 		table = "events"
 		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
 		result = Event.week("2017-03-13")
 		#verify
@@ -17,7 +17,7 @@ RSpec.describe(Event, '.week') do
 		#set-up
 		table = "events"
 		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
 		result = Event.week("2017-02-27")
 		#verify
@@ -30,7 +30,7 @@ RSpec.describe(Event, '.week') do
 		#set-up
 		table = "events"
 		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
 		result = Event.week("2017-02-27")
 		#verify
@@ -43,7 +43,7 @@ RSpec.describe(Event, '.week') do
 		#set-up
 		table = "events"
 		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
 		result = Event.week("2017-02-27")
 		#verify
@@ -59,7 +59,7 @@ RSpec.describe(Event, '.week') do
 		dataFiller = "('1','groupName','eventName','2017-02-28','02:00pm','venue','address1','https://www.meetup.com'),
 			('2','groupName2','eventName2','2017-02-26','02:00pm','venue2','address2','https://www.meetup.com'),
 			('3','groupName3','eventName3','2017-03-06','02:00pm','venue3','address3','https://www.meetup.com')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
 		result = Event.week("2017-02-27")
 		#verify
@@ -79,7 +79,7 @@ RSpec.describe(Event, '.week') do
 			('5','groupName5','eventName5','2017-03-03','02:00pm','venue5','address5','https://www.meetup.com'),
 			('6','groupName6','eventName6','2017-03-04','02:00pm','venue6','address6','https://www.meetup.com'),
 			('7','groupName7','eventName7','2017-03-05','02:00pm','venue7','address7','https://www.meetup.com')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
 		result = Event.week("2017-02-27")
 		#verify
@@ -89,56 +89,12 @@ RSpec.describe(Event, '.week') do
 	end
 end
 
-# TODO: Move into meetups_spec.rb
-RSpec.describe(Event, '.collectAllEvents') do
-
-	it 'returns an array if there are events' do
-		#set-up
-		getString = Proc.new do |uri| 
-			File.open('spec/support/fake_meetupAPIresult.txt', 'r') { |file| file.read} 
-		end
-		meetups = ["url"=>"test"]
-		#exercise
-		result = Event.collectAllEvents(meetups,getString)
-		#verify
-		expect(result).to respond_to :each
-		#teardown	
-	end
-
-	it 'returns an array in which each element is a hash of event info' do
-		#set-up
-		getString = Proc.new do |uri| 
-			File.open('spec/support/fake_meetupAPIresult.txt', 'r') { |file| file.read} 
-		end
-		meetups = ["url"=>"test"]
-		#exercise
-		result = Event.collectAllEvents(meetups,getString)
-		#verify
-		expect(result[0]).to respond_to :each
-		expect(result[0]["eventTitle"]).to be_truthy
-		#teardown
-	end
-
-	it 'returns an empty array if no events' do
-		#set-up
-		getString = Proc.new do |uri| 
-			File.open('spec/support/fake_emptymeetupAPIresult.txt', 'r') { |file| file.read} 
-		end
-		meetups = ["url"=>"test"]
-		#exercise
-		result = Event.collectAllEvents(meetups,getString)
-		#verify
-		expect(result).to eq([])
-		#teardown
-	end
-end
-
 RSpec.describe(Event,"#info") do 
 
 	it "gets the event information associated with the id" do
 		# Setup
-		mockEvent =["'4', 'test group', 'testing functions', '02-02-2017', '11:00pm', 'Alley way', '88873', 'http://.com'"]
-		DatabaseHelper.addRows('events', mockEvent)
+		mockEvent ="('4', 'test group', 'testing functions', '02-02-2017', '11:00pm', 'Alley way', '88873', 'http://.com')"
+		DatabaseHelper.writeToTable('events', mockEvent)
 		event = Event.new("4")
 		# Excercise
 		result = event.info
@@ -222,4 +178,30 @@ RSpec.describe(Event, "#addAttendee") do
 		# Teardown
 		DatabaseHelper.empty('rsvps')
 	end
+end
+
+# TODO
+
+RSpec.describe(Event, '#getComments') do
+
+	pending
+
+end
+
+RSpec.describe(Event, '#getRSVPs') do
+
+	pending
+
+end
+
+RSpec.describe(Event, '#deleteAttendee') do
+
+	pending
+
+end
+
+RSpec.describe(Event, '.updateMeetups') do
+
+	pending
+
 end

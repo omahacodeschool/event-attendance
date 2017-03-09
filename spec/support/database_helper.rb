@@ -24,7 +24,7 @@ class DatabaseHelper
     $sql.exec("INSERT INTO #{table} #{columns} VALUES #{content}")
   end
 
-  # Writes rows to a table --!important( this replaces addRows )
+  # Writes rows to a table
   #
   # table        - name of file as String
   # valuesString - String like "(value1,value2),(value3,value4)"

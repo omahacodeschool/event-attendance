@@ -17,6 +17,7 @@ require_relative "../models/event.rb"
 require_relative "../models/user.rb"
 require_relative "../models/comment.rb"
 require_relative "../models/rsvp.rb"
+require_relative "../models/meetups.rb"
 
 
 # enable :sessions

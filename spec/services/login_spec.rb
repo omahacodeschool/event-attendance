@@ -4,7 +4,7 @@ RSpec.describe(Login, '.valid') do
 	  	#set-up
 		table = "users"
 		dataFiller="('admin@gmail.com','password','admin','true')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
     	login_attempt = Login.valid("admin@gmail.com", "password")
 		#verify
@@ -17,7 +17,7 @@ RSpec.describe(Login, '.valid') do
 	    #set-up
 		table = "users"
 		dataFiller="('admin@gmail.com','password','admin','true')"
-		DatabaseHelper.writeTable(dataFiller,table)
+		DatabaseHelper.writeToTable(table,dataFiller)
 		#exercise
     	login_attempt = Login.valid("admin@gmail.com", "wrong")
 		#verify

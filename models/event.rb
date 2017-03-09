@@ -8,11 +8,12 @@ class Event
   # 
   # params - Hash
   def Event.create(params)
-    values = [$database.next_id("events"),params[:group_name],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address]]
+    id = params[:id] || $database.next_id("events")
+    values = [id,params[:group_name],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address], params[:link]]
     $database.newRow(values, "events")
   end
 
-  # Gets event info.
+  # Gets event info
   #
   # Returns a Hash of the event's info (or an error).
   def info
@@ -60,19 +61,7 @@ class Event
     sortEvents(weekdata)
   end
 
-  # update local info of meetups from the meetup api
-  #
-  # will update all events and add any new ones
-  # will go through all meetups listed in the meetups.csv
-  def Event.updateMeetups()
-    meetups = Meetups.new
-    meetups.collectAllEvents()
-    meetups.addToEvents()
-  end
-
-
   private
-
 
   # Sort the events by weekday
   # 

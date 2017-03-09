@@ -3,16 +3,52 @@
 # database--handling transformation of data as needed.
 
 class Meetup
+
   def initialize(event_info)
-    @event_info = event_info
+    @event_info = event_info  
+    overwriteEntry
+    save_to_events
   end
 
-  # def save_to_events
-  #   Event.create({
-  #     "title" => title,
-  #     # ... etc
-  #   })
-  # end
+  def Meetup.groups
+    meetups = $database.all("meetups")
+    meetups.each do |group|
+      events(group["url"])
+    end
+  end
+
+  def Meetup.events(group)
+    response_as_array = JSON.parse(Meetup.response(group))
+    response_as_array.map do |e|
+      Meetup.new(e)
+    end
+  end
+
+  def Meetup.response(group)
+    uri = URI('https://api.meetup.com/' + group + '/events')
+    Net::HTTP.get(uri)
+  end
+
+  def overwriteEntry
+    if $database.checkExistenceOf("events", "id" , id)
+      $database.deleteRow("events", "id = '#{id}'")
+    end
+  end
+
+  def save_to_events
+    Event.create({
+
+      :id => id,
+      :title => title,
+      :group_name => group_name,
+      :time => time,
+      :address => address,
+      :location => location,
+      :link => link,
+      :date => date,
+      :description => description
+    })
+  end
 
   def id
     @event_info["id"]
@@ -59,18 +95,5 @@ class Meetup
   # TODO
   def description
     @event_info["description"]
-  end
-
-  def Meetup.events(group)
-    response_as_array = JSON.parse(Meetup.response(group))
-
-    response_as_array.map do |e|
-      Meetup.new(e)
-    end
-  end
-
-  def Meetup.response(group)
-    uri = URI('https://api.meetup.com/' + group + '/events')
-    Net::HTTP.get(uri)
   end
 end

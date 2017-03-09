@@ -51,7 +51,7 @@ RSpec.describe Meetup, '#group_name' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.group_name).to eq("05:15:")
+    expect(event.group_name).to eq("Women in Technology of the Heartland")
   end
 end
 
@@ -63,7 +63,7 @@ RSpec.describe Meetup, '#id' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.id).to eq("How is Omaha is progressing on gender equality, diversity, and inclusion in tech")
+    expect(event.id).to eq("238195771")
   end
 end
 
@@ -87,7 +87,7 @@ RSpec.describe Meetup, '#location' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.location).to eq("How is Omaha is progressing on gender equality, diversity, and inclusion in tech")
+    expect(event.location).to eq("Client Resources Inc")
   end
 end
 
@@ -99,7 +99,7 @@ RSpec.describe Meetup, '#address' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.address).to eq("How is Omaha is progressing on gender equality, diversity, and inclusion in tech")
+    expect(event.address).to eq("2120 S 72nd St # 1300")
   end
 end
 
@@ -111,6 +111,6 @@ RSpec.describe Meetup, '#link' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.link).to eq("How is Omaha is progressing on gender equality, diversity, and inclusion in tech")
+    expect(event.link).to eq("https://www.meetup.com/witheartland/events/238195771/")
   end
 end

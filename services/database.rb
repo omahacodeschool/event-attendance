@@ -96,28 +96,4 @@ class Database
 
   end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end

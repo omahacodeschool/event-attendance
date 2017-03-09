@@ -65,7 +65,21 @@
 				</ul>
 			</div>
 		</div>
-
+		<div class="recommend-info">
+			<h2>Recommend (<%= @recommends %>)</h2><br>
+			<form class="recommend-form" action="/recommend" method="post">
+				<button class="recommend-button">RECOMMEND <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+				<input type="hidden" name="group_name" value= <%= @event.info["link"].split("meetup.com/")[1] %>>
+				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+				<input type="hidden" name="recommend" value="yes">
+			</form>
+			<form class="recommend-form" action="/recommend" method="post">
+				<button class="recommend-button">NOT RECOMMEND <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>
+				<input type="hidden" name="group_name" value= <%= @event.info["link"].split("meetup.com/")[1] %>>
+				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+				<input type="hidden" name="recommend" value="no">
+			</form>
+		</div><br>
 		<div class="comments">
 			<h2>Comments</h2><br>
 			<% @event.getComments.each do |comment| %>

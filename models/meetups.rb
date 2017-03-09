@@ -55,7 +55,8 @@ class Meetups
       $database.deleteRow("events",filter)
       values = [event["id"],event["groupName"],event["eventTitle"],
                 event["date"],event["time"],event["venue"],
-                event["address"],event["link"]]
+                event["address"],event["link"],
+                event["link"].split("meetup.com/")[1]]
       $database.newRow(values, "events")
     end
   end

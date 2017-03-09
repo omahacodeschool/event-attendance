@@ -19,6 +19,7 @@ button{
 	cursor: pointer;
 	outline: none;
 }
+
 input{
 	outline: none
 }
@@ -153,6 +154,20 @@ ul{
 	width: 70%;
 }
 
+/*.recommend-button{
+    text-align: center;
+    cursor: default;
+    color: buttontext;
+    background-color: buttonface;
+    box-sizing: border-box;
+    padding: 2px 6px 3px;
+    margin-bottom: 10px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonface;
+    border-image: initial;
+}*/
+
 @media screen and (max-width: 569px){
 	.header_title{
 		align-items: flex-end; 
@@ -271,5 +286,9 @@ ul{
 	margin: 150px auto;
 	text-align: center;
 	padding: 26px;
+}
+
+.fa-thumbs-o-up{
+	font-size: 12em;
 }
 

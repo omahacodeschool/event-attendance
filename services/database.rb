@@ -83,4 +83,16 @@ class Database
   def next_id(table)
     @conn.exec("SELECT COUNT(*) FROM #{table}").to_a[0]["count"].to_i
   end
+
+  def increment_value(table, column_increment,filter)
+  
+    @conn.exec("UPDATE #{table} SET #{column_increment} WHERE #{filter}")
+  end
+
+  def find_column_value(value, table, filter)
+
+    @conn.exec("SELECT #{value} FROM #{table} WHERE #{filter}")
+
+  end
+
 end

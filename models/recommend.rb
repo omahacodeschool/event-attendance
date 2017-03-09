@@ -1,8 +1,15 @@
 class Recommend
 
   def Recommend.update(params, fullname)
+
+    if params[:recommend] == "yes"
+      calc = '+'
+    else
+      calc = '-'
+    end
+
     filter = "LOWER(url) = LOWER ('#{params[:group_name]}')"
-    column_increment = "recommends = recommends::int + 1"
+    column_increment = "recommends = recommends::int #{calc} 1"
     $database.increment_value("meetups", column_increment, filter)
   end
 

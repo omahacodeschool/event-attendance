@@ -53,7 +53,6 @@ class Meetups
     @allMeetupEvents.each do |event|
       filter = "id = '#{event['id']}'"
       $database.deleteRow("events",filter)
-      binding.pry
       values = [event["id"],event["groupName"],event["eventTitle"],
                 event["date"],event["time"],event["venue"],
                 event["address"],event["link"],

@@ -154,11 +154,7 @@ ul{
 	width: 70%;
 }
 
-.recommend-statement{
-	padding-bottom: 5px;
-	margin-bottom: 0px;
-}
-.recommend-button{
+/*.recommend-button{
     text-align: center;
     cursor: default;
     color: buttontext;
@@ -170,7 +166,7 @@ ul{
     border-style: outset;
     border-color: buttonface;
     border-image: initial;
-}
+}*/
 
 @media screen and (max-width: 569px){
 	.header_title{

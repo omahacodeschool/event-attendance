@@ -5,6 +5,7 @@ Bundler.require(:default)
 require 'json'
 require 'date'
 require 'time'
+require 'pg'
 
 require_relative "../services/database.rb"
 require_relative "support/database_helper.rb"
@@ -13,11 +14,13 @@ $database = Database.new("event_attendance_test")
 $sql = $database.instance_variable_get(:@conn)
 
 require_relative "../services/login.rb"
+require_relative "../services/meetup.rb"
 require_relative "../models/event.rb"
 require_relative "../models/user.rb"
 require_relative "../models/comment.rb"
 require_relative "../models/rsvp.rb"
-require_relative "../models/meetups.rb"
+
+
 
 
 # enable :sessions

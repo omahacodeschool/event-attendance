@@ -24,7 +24,7 @@ conn = PG.connect( dbname: 'event_attendance_development' )
 # And create tables...
 conn.exec("CREATE TABLE events (id VARCHAR(255), group_name VARCHAR(255), title VARCHAR(255), date DATE, time TIME, location VARCHAR(255), address VARCHAR(255), link TEXT)")
 
-conn.exec("CREATE TABLE comments (id SERIAL PRIMARY KEY, eventid VARCHAR(255), fullname VARCHAR(255), comment TEXT, timestamp TIMESTAMP)")
+conn.exec("CREATE TABLE comments (id SERIAL PRIMARY KEY, eventid VARCHAR(255), fullname VARCHAR(255), comment TEXT, timestamp INTEGER )")
 
 conn.exec("CREATE TABLE meetups (url VARCHAR(255))")
 

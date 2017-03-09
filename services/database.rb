@@ -27,17 +27,20 @@ class Database
     return @conn.exec("SELECT * FROM #{table} WHERE #{filter}").to_a
   end
 
-
+  # Updates a columns value with a condition.
+  #
+  # table    - Table name of String.
+  # column   - String of columns name.
+  # newValue - A new value to be written String.
+  # filter   - String to determine a condition.
   def updateRow(table, column, newValue, filter)
     @conn.exec("UPDATE #{table} SET #{column} = '#{newValue}' WHERE #{filter}")
-      # set comment = new-comment WHERE commentid = commentid and fullname = fullname
   end
+
   # Adds a new row to the database
   #
   # array - an array containing strings
   def newRow(array, table)
-
-
     valuesString = array.join("','")  
     @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
 
@@ -48,9 +51,7 @@ class Database
   # table - String
   # Proc with a conditional
   def deleteRow(table, filter)
-
      @conn.exec("DELETE FROM #{table} WHERE #{filter}")
-
   end
 
   # checks if info is already in database

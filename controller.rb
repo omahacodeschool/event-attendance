@@ -52,7 +52,7 @@ post "/register" do
 end
 
 get "/updateMeetups" do
-  Event.updateMeetups()
+  Meetup.groups()
   redirect("/")
 end
 

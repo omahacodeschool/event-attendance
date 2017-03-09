@@ -39,7 +39,7 @@ RSpec.describe Meetup, '#date' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.date).to eq("How is Omaha is progressing on gender equality, diversity, and inclusion in tech")
+    expect(event.date).to eq("2017-03-21")
   end
 end
 
@@ -51,7 +51,7 @@ RSpec.describe Meetup, '#group_name' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.group_name).to eq("How is Omaha is progressing on gender equality, diversity, and inclusion in tech")
+    expect(event.group_name).to eq("05:15:")
   end
 end
 
@@ -75,7 +75,7 @@ RSpec.describe Meetup, '#time' do
     event = events[0]
 
     # Exercise/Verify
-    expect(event.time).to eq("How is Omaha is progressing on gender equality, diversity, and inclusion in tech")
+    expect(event.time).to eq("05:15 PM")
   end
 end
 

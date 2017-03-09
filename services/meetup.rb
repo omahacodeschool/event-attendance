@@ -14,8 +14,51 @@ class Meetup
   #   })
   # end
 
-  def title
+  def id
+    @event_info["id"]
+  end
+
+  def group_name
+    @event_info["group"]["name"]
+  end
+
+   def title
     @event_info["name"]
+  end
+
+   def date
+    d = Time.at(@event_info["time"]/1000)
+    date = d.strftime('%F')
+  end
+
+   def time
+    d = Time.at(@event_info["time"]/1000)
+    time = d.strftime('%I:%M %p')
+  end
+
+  def address
+    if @event_info["venue"]["address_1"]
+       return @event_info["venue"]["address_1"]
+    else 
+      return ""
+    end
+  end
+
+   def location
+    if @event_info["venue"]["name"]
+      return @event_info["venue"]["name"]
+    else 
+      return "TBD"
+    end
+  end
+
+  def link
+    @event_info["link"]
+  end
+
+  # TODO
+  def description
+    @event_info["description"]
   end
 
   def Meetup.events(group)

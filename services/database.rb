@@ -8,15 +8,6 @@ class Database
 
   end
 
-  # Get path to database table.
-  # 
-  # table - String table name.
-  # 
-  # Returns String
-  def table_path(table)
-    table
-  end
-
   # Get all rows from a table.
   # 
   # table - Table name String.

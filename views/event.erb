@@ -66,6 +66,25 @@
 			</div>
 		</div>
 
+
+
+
+
+		<div class="recommend-info">
+			<h2>Recommendations</h2>
+	
+			<p class="recommend-statement">do you recommend events by <strong><%= @event.info['group_name'] %>?</strong></p>
+			<form class="recommend-form" action="/recommend" method="post">
+				<button class="recommend-button">RECOMMEND <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+				<input type="hidden" name="group_name" value= <%= @event.info["link"].split("meetup.com/")[1] %>>
+				<input type="hidden" name="eventId" value=<%= @event.info["id"] %>>
+			</form>
+		</div>
+
+
+
+
+
 		<div class="comments">
 			<h2>Comments</h2><br>
 			<% @event.getComments.each do |comment| %>

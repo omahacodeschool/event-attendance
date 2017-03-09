@@ -4,6 +4,8 @@ end
 
 get "/event" do
   @event = Event.new(params["id"])
+  binding.pry
+  @recommends = Recommend.findGroup(params["id"])
   erb :event
 end
 
@@ -65,3 +67,9 @@ post "/editComment" do
   Comment.edit(params, session[:user]["fullname"])
   redirect("/event?id=" + params["eventId"])
 end
+
+post "/recommend" do
+  Recommend.update(params, session[:user]["fullname"])
+  redirect("/event?id=" + params["eventId"])
+end
+

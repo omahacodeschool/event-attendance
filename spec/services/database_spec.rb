@@ -1,5 +1,3 @@
-# TODO Add a single line between each stage of a test (setup, exercise, etc).
-
 RSpec.describe(Database, '#all') do
 
 	it 'returns 0 for an empty table' do
@@ -83,6 +81,43 @@ RSpec.describe(Database, "#all_with_filter") do
 	end 
 end 
 
+RSpec.describe(Database, '#updateRow') do
+
+	it "writes a new value to a cell in the table" do
+		# Setup
+		fakeRow = "('live@sokol.com', 'Sokol Auditorium', 'secret12*', 'false')"
+		columns = "(username, fullname, password, admin)"
+		DatabaseHelper.writeToTable("users", fakeRow, columns)
+
+		# Excercise
+		$database.updateRow("users", "admin", "true", "username = 'live@sokol.com'")
+		adminStatus = $sql.exec("SELECT admin FROM users WHERE username = 'live@sokol.com'").to_a[0]['admin']
+
+		# Verify
+		expect(adminStatus).to eq('true')
+
+		# Teardown
+		DatabaseHelper.empty("users")
+	end
+
+	it "only affects tables the filter selects" do 
+		# Setup
+		fakeRows = "('ramm@stein.com', 'ohne', 'Till Lindemann', 'false'),
+			('smash@mouth.com', 'allstar', 'Steve Harwell', 'false')"
+		DatabaseHelper.writeToTable("users", fakeRows)
+
+		# Excercise
+		$database.updateRow("users", "admin", "true", "username = 'ramm@stein.com'")
+		otherUsersAdmin = $sql.exec("SELECT admin FROM users WHERE username = 'smash@mouth.com'").to_a[0]['admin']
+
+		# Verify
+		expect(otherUsersAdmin).to eq('false')
+
+		# Teardown
+		DatabaseHelper.empty("users")
+	end
+end
+
 RSpec.describe(Database, '#newRow') do
 	
 	it 'increases table by 1' do
@@ -161,6 +196,28 @@ RSpec.describe(Database, '#deleteRow') do
 	end
 
 end
+
+RSpec.describe(Database, '#checkExistenceOf') do
+
+	it "returns true if not found" do
+		# Excercise
+		bool = $database.checkExistenceOf("users", "fullname", "Steve")
+
+		# Verify
+		expect(bool).to be_truthy
+	end
+
+	it "returns false if found" do 
+		# Setup
+		DatabaseHelper.writeToTable("users", "('bo@t.com', '401klbs', 'Stan', 'false')")
+
+		# Excercise
+		bool = $database.checkExistenceOf("users", "fullname", "Stan")
+
+		# Verify
+		expect(bool).to be_falsey
+	end
+end
 		
 RSpec.describe(Database, '#next_id') do 
 
@@ -178,18 +235,4 @@ RSpec.describe(Database, '#next_id') do
 		# Teardown
 		DatabaseHelper.empty('events')
 	end
-end
-
-# TODO
-
-RSpec.describe(Database, '#checkExistenceOf') do
-
-	pending
-
-end
-
-RSpec.describe(Database, '#updateRow') do
-
-	pending
-
 end

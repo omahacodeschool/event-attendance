@@ -1,3 +1,77 @@
+RSpec.describe(Event, ".create") do
+
+	it "adds a new event to an empty database" do
+		# Setup
+		eventDetails = {:'group' => 'test', :'title' => 'test', 
+		:'date' => '03-08-2017', :'time' => '10:00pm', :'location' => 'test', 
+		:'address' => 'test', :'link' => 'http://google.com'}
+
+		# Excercise
+		Event.create(eventDetails)
+		results = $sql.exec('SELECT * FROM events').to_a
+
+		# Verify
+		expect(results).not_to be_empty
+
+		# Teardown
+		DatabaseHelper.empty('events')
+	end
+
+	it "adds a event into a table with events already existing" do
+		# Setup
+		$sql.exec("INSERT INTO events VALUES('fake','fake')")
+		secondEvent = {:'group' =>'another one', :'title' => 'one', :'date' => '03-08-2017', 
+		:'time' => '10:43pm', :'location' => 'please work now', :'address' => '1234 Desperate rd.',
+		:'link' => 'google.com/help'}
+
+		# Excercise
+		Event.create(secondEvent)
+		results = $sql.exec('SELECT * FROM events').to_a.length
+
+		# Verify
+		expect(results).to eq(2)
+
+		# Teardown
+		DatabaseHelper.empty('events')
+	end
+
+	it "saves the information of the event" do
+		# Setup
+		eventDetails = {:'group' => 'Panda Express pandas', :'title' => 'Orange Chicken', 
+		:'date' => '12-01-2016', :'time' => '4:00pm', :'location' => 'panda express', 
+		:'address' => 's72nd st', :'link' => 'http://pandaexpress.com'}
+
+		# Excersize
+		Event.create(eventDetails)
+		results = $sql.exec("SELECT * FROM events").to_a[0]
+
+		# Verify
+		expect(results.values).to include(eventDetails[:title])
+
+		# Teardown
+		DatabaseHelper.empty('events')
+	end
+end
+
+RSpec.describe(Event,"#info") do 
+
+	it "gets the event information associated with the id" do
+		# Setup
+		mockEvent ="('4', 'test group', 'testing functions', '02-02-2017', '11:00pm', 'Alley way', '88873', 'http://.com')"
+		DatabaseHelper.writeToTable('events', mockEvent)
+
+		event = Event.new("4")
+		# Excercise
+		result = event.info
+
+		#Verify
+		expect(result.values).to include("4" && "test group")
+
+		# Teardown
+		DatabaseHelper.empty('events')
+	end
+end
+
 RSpec.describe(Event, '.week') do
 
 	it 'returns an empty hash when there are no events for the week' do
@@ -113,139 +187,4 @@ RSpec.describe(Event, '.week') do
 		#teardown
 		DatabaseHelper.empty(table)
 	end
-end
-
-RSpec.describe(Event,"#info") do 
-
-	it "gets the event information associated with the id" do
-		# Setup
-		mockEvent ="('4', 'test group', 'testing functions', '02-02-2017', '11:00pm', 'Alley way', '88873', 'http://.com')"
-		DatabaseHelper.writeToTable('events', mockEvent)
-
-		event = Event.new("4")
-		# Excercise
-		result = event.info
-
-		#Verify
-		expect(result.values).to include("4" && "test group")
-
-		# Teardown
-		DatabaseHelper.empty('events')
-	end
-end
-
-RSpec.describe(Event, ".create") do
-
-	it "adds a new event to an empty database" do
-		# Setup
-		eventDetails = {:'group' => 'test', :'title' => 'test', 
-		:'date' => '03-08-2017', :'time' => '10:00pm', :'location' => 'test', 
-		:'address' => 'test', :'link' => 'http://google.com'}
-
-		# Excercise
-		Event.create(eventDetails)
-		results = $sql.exec('SELECT * FROM events').to_a
-
-		# Verify
-		expect(results).not_to be_empty
-
-		# Teardown
-		DatabaseHelper.empty('events')
-	end
-
-	it "adds a event into a table with events already existing" do
-		# Setup
-		$sql.exec("INSERT INTO events VALUES('fake','fake')")
-		secondEvent = {:'group' =>'another one', :'title' => 'one', :'date' => '03-08-2017', 
-		:'time' => '10:43pm', :'location' => 'please work now', :'address' => '1234 Desperate rd.',
-		:'link' => 'google.com/help'}
-
-		# Excercise
-		Event.create(secondEvent)
-		results = $sql.exec('SELECT * FROM events').to_a.length
-
-		# Verify
-		expect(results).to eq(2)
-
-		# Teardown
-		DatabaseHelper.empty('events')
-	end
-
-	it "saves the information of the event" do
-		# Setup
-		eventDetails = {:'group' => 'Panda Express pandas', :'title' => 'Orange Chicken', 
-		:'date' => '12-01-2016', :'time' => '4:00pm', :'location' => 'panda express', 
-		:'address' => 's72nd st', :'link' => 'http://pandaexpress.com'}
-
-		# Excersize
-		Event.create(eventDetails)
-		results = $sql.exec("SELECT * FROM events").to_a[0]
-
-		# Verify
-		expect(results.values).to include(eventDetails[:title])
-
-		# Teardown
-		DatabaseHelper.empty('events')
-	end
-end
-
-RSpec.describe(Event, "#addAttendee") do
-	
-	it "adds a new attendee to an event" do
-		# Setup
-		event = Event.new("9")
-		newRsvp = "Dan Gheesling"
-
-		# Excercise
-		event.addAttendee(newRsvp)
-		sqlNames = $sql.exec("SELECT fullname FROM rsvps").to_a
-
-		# Verify
-		expect(sqlNames.to_s).to include(newRsvp)
-
-		# Teardown
-		DatabaseHelper.empty("rsvps")
-	end
-
-	it "stores the correct events id with the new rsvper" do
-		# Setup
-		event = Event.new("25")
-		newRsvp = "Bugs Bunny"
-		
-		# Excercise
-		event.addAttendee(newRsvp)
-		sqlResult = $sql.exec("SELECT eventid FROM rsvps WHERE fullname='#{newRsvp}'").to_a
-		
-		# Verify
-		expect(sqlResult[0]['eventid']).to eq("25")
-		
-		# Teardown
-		DatabaseHelper.empty('rsvps')
-	end
-end
-
-# TODO
-
-RSpec.describe(Event, '#getComments') do
-
-	pending
-
-end
-
-RSpec.describe(Event, '#getRSVPs') do
-
-	pending
-
-end
-
-RSpec.describe(Event, '#deleteAttendee') do
-
-	pending
-
-end
-
-RSpec.describe(Event, '.updateMeetups') do
-
-	pending
-
 end

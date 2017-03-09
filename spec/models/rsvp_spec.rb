@@ -1,6 +1,62 @@
 RSpec.describe(RSVP, '.for_event') do
 
-	pending
+	it "returns an array" do
+		# Setup
+	  	DatabaseHelper.writeToTable("rsvps", "('9','Mickey Mouse')","(eventid,fullname)")
+
+		# Exercise
+		result = RSVP.for_event('9')
+		
+		# Verify
+		expect(result).to respond_to :each
+
+		# Teardown
+		DatabaseHelper.empty("rsvps")
+	end
+
+	it "returns an array of hashes with fullnames" do
+		# Setup
+		DatabaseHelper.writeToTable("rsvps", "('9','Mickey Mouse')","(eventid,fullname)")
+
+		# Exercise
+		result = RSVP.for_event('9')
+		
+		# Verify
+		expect(result[0]).to eq({'eventid' => '9','fullname' => 'Mickey Mouse'})
+
+		# Teardown
+		DatabaseHelper.empty("rsvps")
+	end
+
+	it "returns all rsvps for an eventId" do
+		# Setup
+		values = "('9', 'Mickey Mouse'), ('9', 'Minnie Mouse')"
+	  	DatabaseHelper.writeToTable("rsvps", values, "(eventid,fullname)")
+		
+		# Exercise
+		result = RSVP.for_event('9')
+		
+		# Verify
+		expect(result.length).to eq(2)
+
+		# Teardown
+		DatabaseHelper.empty("rsvps")
+	end
+
+	it "returns only rsvps for the eventId specified" do
+		# Setup
+		values = "('9', 'Mickey Mouse'), ('10', 'Minnie Mouse')"
+	  	DatabaseHelper.writeToTable("rsvps", values, "(eventid,fullname)")
+		
+		# Exercise
+		result = RSVP.for_event('9')
+		
+		# Verify
+		expect(result.length).to eq(1)
+
+		# Teardown
+		DatabaseHelper.empty("rsvps")
+	end
 
 end
 

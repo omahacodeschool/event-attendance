@@ -31,7 +31,7 @@ class Database
   # table  - Table name String.
   # filter - Proc of the filter function to call.
   # 
-  # Returns Array of row Hashes in the week of interest
+  # Returns Array of Hashes
   def all_with_filter(table, filter)
     return @conn.exec("SELECT * FROM #{table} WHERE #{filter}").to_a
   end

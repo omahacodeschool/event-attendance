@@ -1,4 +1,10 @@
 class RSVP
+
+  # Gets all rsvps, as fullnames for a specified eventId
+  # 
+  # eventId - String 
+  #
+  # Returns Array of Hashes
   def RSVP.for_event(eventId)
     idFilter = "eventid = '#{eventId}'"
     $database.all_with_filter("rsvps", idFilter)

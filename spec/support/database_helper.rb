@@ -7,6 +7,23 @@ class DatabaseHelper
     $sql.exec( "DELETE FROM #{table}" )
   end
 
+  # Writes rows to a table
+  #
+  # table - name of file as String
+  # content - String of values to add
+  # columns - String used to specify column names
+  #
+  # Example
+  #
+  #   DatabaseHelper.writeToTable("events", "('Test group', 'Testing')")
+  #   # => "INSERT INTO events VALUES ('Test group', 'Testing')"
+  #
+  #   DatabaseHelper.writeToTable("events", "('13th st', 'Refactoring')", "(address, title)")
+  #   # => "INSERT INTO events (address, title) VALUES ('13th st', 'Refactoring')"
+  def DatabaseHelper.writeToTable(table, content,  columns = nil)
+    $sql.exec("INSERT INTO #{table} #{columns} VALUES #{content}")
+  end
+
   # Writes rows to a table --!important( this replaces addRows )
   #
   # table        - name of file as String

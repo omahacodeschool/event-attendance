@@ -92,8 +92,31 @@ class Meetup
     @event_info["link"]
   end
 
-  # TODO
   def description
-    @event_info["description"]
+    cleanDescription
+
+
+    return shorten(@event_info["description"])
+
+  end
+
+private
+
+  def cleanDescription
+    # Replaces all html tags
+    @event_info["description"].gsub!(/<(.*?)>/, "")
+    # Replaces unicode
+    @event_info["description"].gsub!(/\\u\d{4}/, "")
+    # Replaces ' 
+    @event_info["description"].gsub!("'","") 
+  end
+
+  def shorten(string)
+    # Gets the first two sentences
+    return string.slice!(/\A[^.||!||?]+[.||!||?][^.||!||?]+[.||!||?]/)
   end
 end
+
+
+
+

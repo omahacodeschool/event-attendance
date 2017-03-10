@@ -199,15 +199,7 @@ end
 
 RSpec.describe(Database, '#checkExistenceOf') do
 
-	it "returns true if not found" do
-		# Excercise
-		bool = $database.checkExistenceOf("users", "fullname", "Steve")
-
-		# Verify
-		expect(bool).to be_truthy
-	end
-
-	it "returns false if found" do 
+	it "returns true if found" do
 		# Setup
 		DatabaseHelper.writeToTable("users", "('bo@t.com', '401klbs', 'Stan', 'false')")
 
@@ -215,7 +207,16 @@ RSpec.describe(Database, '#checkExistenceOf') do
 		bool = $database.checkExistenceOf("users", "fullname", "Stan")
 
 		# Verify
-		expect(bool).to be_falsey
+		expect(bool).to be(true)
+	end
+
+	it "returns false if not found" do 
+
+		# Excercise
+		bool = $database.checkExistenceOf("users", "fullname", "Steve")
+
+		# Verify
+		expect(bool).to be(false)
 	end
 end
 		

@@ -1,13 +1,9 @@
 window.addEventListener("load", function (){
-
-
-
 	if (window.innerWidth < 570){
 		var lastButtonClicked = "";
 		checkForDropDownMenus();
-	}
-	else{
-		
+
+	}else{
 		var modalWindow = document.getElementsByClassName("modal")[0];
 
 		if (modalWindow != undefined){
@@ -47,7 +43,7 @@ window.addEventListener("load", function (){
 		};
 	};
 
-	// Determines the drop downs from how many thier are
+	// Determines the drop downs from how many their are
 	//
 	// numOfMenus - integer
 	function determineDropMenus(numOfMenus){
@@ -62,7 +58,6 @@ window.addEventListener("load", function (){
 	// Adds eventlistener to show the admin's addevent drop menu
 	function setAdminDrops(){
 		var addEventButton = document.getElementsByClassName("addEvent Button")[0];
-
 		addEventButton.addEventListener("click", dropMenuDown);
 	};
 
@@ -70,7 +65,6 @@ window.addEventListener("load", function (){
 	function setNoUserDrops(){
 		var loginButton = document.getElementsByClassName("login Button")[0];
 		var signupButton = document.getElementsByClassName("signup Button")[0];
-
 		loginButton.addEventListener("click", dropMenuDown);
 		signupButton.addEventListener("click", dropMenuDown);
 	};
@@ -129,6 +123,7 @@ window.addEventListener("load", function (){
 		return window.body.classList.contains(className);
 	};
 
+	// only run for indexpage
 	if (bodyHasClass("index_page")){
 
 		// displays events for the current week upon initial page load
@@ -197,9 +192,11 @@ window.addEventListener("load", function (){
 		}
 	};
 
-
+	// only for single event page
 	if (bodyHasClass("event_page")){
-		
+
+
+		// modal for editing comments
 		var modalCommentExit = document.getElementsByClassName("exit")[0]; 
 		var modalCommentWindow = document.getElementsByClassName("editComment_modal")[0];
 		editOptions = document.getElementsByClassName("editComment")

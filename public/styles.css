@@ -273,3 +273,12 @@ ul{
 	padding: 26px;
 }
 
+.message_login{
+	color: red;
+	font-size: 12px;
+	position: absolute;
+    top: 5px;
+    right: 200px;
+    z-index: 2;
+    font-weight:200;
+}

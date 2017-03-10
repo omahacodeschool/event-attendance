@@ -8,6 +8,7 @@ get "/event" do
 end
 
 get "/" do 
+  session[:message] = ""
   erb :index
 end
 
@@ -20,6 +21,9 @@ post "/login" do
   user = Login.valid(params["user"], params["pass"])
   if !user.nil?
     session[:user] = user
+    session[:message] = ""
+  else
+    session[:message] = "Incorrect email or password."
   end
   redirect("/")
 end
@@ -46,7 +50,9 @@ post "/register" do
   user = User.create(params["email"], params["pass"], params["fullname"])
   if user
     session[:user] = user
+    session[:message] = ""
   else 
+    session[:message] = "Check if inputs are valid. Or email already registered."
   end
   redirect("/")
 end

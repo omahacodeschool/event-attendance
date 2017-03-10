@@ -40,9 +40,9 @@ class Database
   # Adds a new row to the database
   #
   # array - an array containing strings
-  def newRow(array, table)
-    valuesString = array.join("','")  
-    @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
+  def newRow(table, columns, values)
+    values = values.join("','")  
+    @conn.exec("INSERT INTO #{table}(#{columns}) VALUES ('#{values}')")
 
   end
 

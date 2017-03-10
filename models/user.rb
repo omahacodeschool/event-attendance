@@ -11,7 +11,7 @@ class User
     if $database.checkExistenceOf("users", "username", email)==false
 
       userInfo = [email, pass, fullname, admin]
-      $database.newRow(userInfo, "users")
+      $database.newRow("users", "username, password, fullname, admin", userInfo)
 
       return {"username" => email, "fullname" => fullname, "admin" => admin}
     end

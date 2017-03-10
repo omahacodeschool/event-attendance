@@ -20,7 +20,6 @@ class Comment
   #   then sorts the comments based on Id so they appear in
   #   the same spot as before edit
   def Comment.edit(params, user_fullname)
-    binding.pry
     filter = "id = '#{params["commentId"]}' AND fullname = '#{user_fullname}'"
     $database.updateRow("comments","comment",params["textContent"],filter)
   end

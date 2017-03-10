@@ -1,5 +1,3 @@
-# TODO Add a single line between each stage of a test (setup, exercise, etc).
-
 RSpec.describe(Database, '#all') do
 
 	it 'returns 0 for an empty table' do
@@ -67,8 +65,8 @@ RSpec.describe(Database, "#all_with_filter") do
 	it 'gets multiple rows that match the filter' do
 		# Setup
 		DatabaseHelper.empty("comments")
-		fakeRows = "('Allen', 'My comment.'), ('Allen','Another comment.'), ('Spencer','My thoughts.')"
-		DatabaseHelper.writeToTable("comments", fakeRows, "(fullname, comment)")
+		fakeRows = "('1', 'Allen', 'My comment.'), ('2', 'Allen', 'different comment.'), ('2', 'Spencer','My thoughts.')"
+		DatabaseHelper.writeToTable("comments", fakeRows, "(eventid, fullname, comment)")
 
 		# Exercise
 
@@ -83,6 +81,43 @@ RSpec.describe(Database, "#all_with_filter") do
 	end 
 end 
 
+RSpec.describe(Database, '#updateRow') do
+
+	it "writes a new value to a cell in the table" do
+		# Setup
+		fakeRow = "('live@sokol.com', 'Sokol Auditorium', 'secret12*', 'false')"
+		columns = "(username, fullname, password, admin)"
+		DatabaseHelper.writeToTable("users", fakeRow, columns)
+
+		# Excercise
+		$database.updateRow("users", "admin", "true", "username = 'live@sokol.com'")
+		adminStatus = $sql.exec("SELECT admin FROM users WHERE username = 'live@sokol.com'").to_a[0]['admin']
+
+		# Verify
+		expect(adminStatus).to eq('true')
+
+		# Teardown
+		DatabaseHelper.empty("users")
+	end
+
+	it "only affects tables the filter selects" do 
+		# Setup
+		fakeRows = "('ramm@stein.com', 'ohne', 'Till Lindemann', 'false'),
+			('smash@mouth.com', 'allstar', 'Steve Harwell', 'false')"
+		DatabaseHelper.writeToTable("users", fakeRows)
+
+		# Excercise
+		$database.updateRow("users", "admin", "true", "username = 'ramm@stein.com'")
+		otherUsersAdmin = $sql.exec("SELECT admin FROM users WHERE username = 'smash@mouth.com'").to_a[0]['admin']
+
+		# Verify
+		expect(otherUsersAdmin).to eq('false')
+
+		# Teardown
+		DatabaseHelper.empty("users")
+	end
+end
+
 RSpec.describe(Database, '#newRow') do
 	
 	it 'increases table by 1' do
@@ -93,7 +128,7 @@ RSpec.describe(Database, '#newRow') do
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
 
 		#exercise
-		$database.newRow(testRow,table)
+		$database.newRow(table, "id, group_name, title, date, time, location, address, link", testRow)
 
 		#verify
 		length = $sql.exec("SELECT COUNT(*) FROM #{table}").to_a[0]["count"].to_i
@@ -111,7 +146,7 @@ RSpec.describe(Database, '#newRow') do
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
 
 		#exercise
-		$database.newRow(testRow,table)
+		$database.newRow(table, "id, group_name, title, date, time, location, address, link", testRow)
 
 		#verify
 		expect($sql.exec("SELECT * FROM #{table} WHERE id='test1'")).to be_truthy
@@ -161,6 +196,29 @@ RSpec.describe(Database, '#deleteRow') do
 	end
 
 end
+
+RSpec.describe(Database, '#checkExistenceOf') do
+
+	it "returns true if found" do
+		# Setup
+		DatabaseHelper.writeToTable("users", "('bo@t.com', '401klbs', 'Stan', 'false')")
+
+		# Excercise
+		bool = $database.checkExistenceOf("users", "fullname", "Stan")
+
+		# Verify
+		expect(bool).to be(true)
+	end
+
+	it "returns false if not found" do 
+
+		# Excercise
+		bool = $database.checkExistenceOf("users", "fullname", "Steve")
+
+		# Verify
+		expect(bool).to be(false)
+	end
+end
 		
 RSpec.describe(Database, '#next_id') do 
 
@@ -178,18 +236,4 @@ RSpec.describe(Database, '#next_id') do
 		# Teardown
 		DatabaseHelper.empty('events')
 	end
-end
-
-# TODO
-
-RSpec.describe(Database, '#checkExistenceOf') do
-
-	pending
-
-end
-
-RSpec.describe(Database, '#updateRow') do
-
-	pending
-
 end

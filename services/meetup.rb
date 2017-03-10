@@ -4,8 +4,10 @@
 
 class Meetup
 
+
   def initialize(event_info)
-    @event_info = event_info  
+    @event_info = event_info
+    @id = @event_info["id"]  
     overwriteEntry
     save_to_events
   end
@@ -19,8 +21,10 @@ class Meetup
 
   def Meetup.events(group)
     response_as_array = JSON.parse(Meetup.response(group))
-    response_as_array.map do |e|
-      Meetup.new(e)
+    if response_as_array != []
+      response_as_array.map do |e|
+        Meetup.new(e)
+      end
     end
   end
 
@@ -30,15 +34,14 @@ class Meetup
   end
 
   def overwriteEntry
-    if $database.checkExistenceOf("events", "id" , id)
-      $database.deleteRow("events", "id = '#{id}'")
+    if $database.checkExistenceOf("events", "id" , @id)
+      $database.deleteRow("events", "id = '#{@id}'")
     end
   end
 
   def save_to_events
     Event.create({
-
-      :id => id,
+      :id => @id,
       :title => title,
       :group_name => group_name,
       :time => time,
@@ -50,12 +53,9 @@ class Meetup
     })
   end
 
-  def id
-    @event_info["id"]
-  end
-
   def group_name
-    @event_info["group"]["name"]
+    name = @event_info["group"]["name"]
+    name.gsub(/'/, "")
   end
 
    def title
@@ -73,7 +73,7 @@ class Meetup
   end
 
   def location
-    if @event_info["venue"]["name"]
+    if @event_info["venue"]
       return @event_info["venue"]["name"]
     else 
       return "TBD"
@@ -81,7 +81,7 @@ class Meetup
   end
 
   def address
-    if @event_info["venue"]["address_1"]
+    if @event_info["venue"]
        return @event_info["venue"]["address_1"]
     else 
       return ""
@@ -93,11 +93,31 @@ class Meetup
   end
 
   def description
-    description = @event_info["description"]
-    #remove htmltags
-    cleanDescription = description.gsub(/<(.*?)>/, '')
-    #choose only the first two sentences
-    shortDescription = cleanDescription.match(/\A[^.||!||?]+[.||!||?][^.||!||?]+[.||!||?]/)
-    return shortDescription[0]
+    cleanDescription
+    return shorten(@event_info["description"])
+  end
+
+private
+
+  def cleanDescription
+    # Replaces all html tags
+    if @event_info['description']
+      @event_info["description"].gsub!(/<(.*?)>/, "")
+      # Replaces unicode
+      @event_info["description"].gsub!(/\\u\d{4}/, "")
+      # Replaces ' 
+      @event_info["description"].gsub!("'","") 
+    else
+      @event_info["description"] = "No description"
+    end
+  end
+
+  def shorten(string)
+    # Gets the first two sentences
+    return string.slice!(/\A[^.||!||?]+[.||!||?][^.||!||?]+[.||!||?]/)
   end
 end
+
+
+
+

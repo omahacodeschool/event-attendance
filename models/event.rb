@@ -9,8 +9,8 @@ class Event
   # params - Hash
   def Event.create(params)
     id = params[:id] || $database.next_id("events")
-    values = [id,params[:group_name],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address], params[:link]]
-    $database.newRow(values, "events")
+    values = [id,params[:group_name],params[:title],params[:date],Time.parse(params[:time]).strftime("%I:%M %p"),params[:location],params[:address], params[:link], params[:description]]
+    $database.newRow("events", "id, group_name, title, date, time, location, address, link, description", values)
   end
 
   # Gets event info

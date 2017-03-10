@@ -25,7 +25,7 @@ class RSVP
   def RSVP.add(eventId,name)
     filter = "eventid = '#{eventId}' AND fullname = '#{name}'"
     if $database.all_with_filter("rsvps", filter).length < 1
-      $database.newRow([eventId] + [name], "rsvps")
+      $database.newRow("rsvps", "eventid, fullname", [eventId] + [name])
     end
   end
 end

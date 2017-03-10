@@ -4,8 +4,9 @@ class Comment
   # params - Hash, fullname = String
   def Comment.create(params, fullname, event_id)
     values = [$database.next_id("comments"), event_id, fullname, params[:comment].strip.split.join(" "),Time.now.to_i]
-    $database.newRow(values, "comments")
+    $database.newRow("comments", "id, eventid, fullname, comment, timestamp", values)
   end
+
 
   def Comment.for_event(eventid)
     idFilter = "eventid = '#{eventid}' ORDER BY id"
@@ -20,7 +21,6 @@ class Comment
   #   then sorts the comments based on Id so they appear in
   #   the same spot as before edit
   def Comment.edit(params, user_fullname)
-    binding.pry
     filter = "id = '#{params["commentId"]}' AND fullname = '#{user_fullname}'"
     $database.updateRow("comments","comment",params["textContent"],filter)
   end

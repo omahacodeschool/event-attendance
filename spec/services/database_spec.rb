@@ -128,7 +128,7 @@ RSpec.describe(Database, '#newRow') do
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
 
 		#exercise
-		$database.newRow(testRow,table)
+		$database.newRow(table, "id, group_name, title, date, time, location, address, link", testRow)
 
 		#verify
 		length = $sql.exec("SELECT COUNT(*) FROM #{table}").to_a[0]["count"].to_i
@@ -146,7 +146,7 @@ RSpec.describe(Database, '#newRow') do
 		testRow = ["test1", "test2", "test3", "2017-12-12", "02:00 PM", "test4", "test5", "test6"]
 
 		#exercise
-		$database.newRow(testRow,table)
+		$database.newRow(table, "id, group_name, title, date, time, location, address, link", testRow)
 
 		#verify
 		expect($sql.exec("SELECT * FROM #{table} WHERE id='test1'")).to be_truthy

@@ -4,6 +4,7 @@
 
 class Meetup
 
+
   def initialize(event_info)
     @event_info = event_info  
     overwriteEntry
@@ -92,7 +93,6 @@ class Meetup
     @event_info["link"]
   end
 
-  # TODO
   def description
     @event_info["description"]
   end

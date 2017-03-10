@@ -4,6 +4,7 @@
 
 class Meetup
 
+
   def initialize(event_info)
     @event_info = event_info
     @id = @event_info["id"]  

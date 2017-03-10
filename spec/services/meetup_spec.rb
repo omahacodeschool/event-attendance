@@ -6,12 +6,6 @@ def stub_meetup_response
   end
 end
 
-RSpec.describe Meetup, '.groups' do
-
-  pending
-
-end
-
 RSpec.describe Meetup, '.events' do
   it "gets events for Women in Technology of the Heartland" do
     # Setup
@@ -23,23 +17,27 @@ RSpec.describe Meetup, '.events' do
     # Verify
     expect(events[0]).to be_a(Meetup)
   end
-end
 
-RSpec.describe Meetup, '#overwriteEntry' do
+  it "deletes the original listing of the meetup, and adds the new one" do
+    # Setup
+    stub_meetup_response
+    meetupEvent ="('238195771', 
+      'Women in Technology of the heartland', 
+      'How is Omaha is progressing on gender equality, diversity, and inclusion in tech', 
+      '2017-03-21', '05:15 PM', 'Do Space', '2120 S 72nd St # 1300', 
+      'https://www.meetup.com/witheartland/events/238195771/')"
+    DatabaseHelper.writeToTable('events', meetupEvent)
 
-  pending
+    # Exercise
+    events = Meetup.events("witheartland")
 
-  # it "deletes the event if it exists" do
-  #   # Setup
-  #   mockEvent ="('4', 'Cofee and Code', 'Why Ruby is fun', '2017-06-06', '11:00pm', 'Building', '1 Main St', 'http://.com')"
-  #   DatabaseHelper.writeToTable('events', mockEvent)
+    # Verify
+    expect($sql.exec("SELECT * FROM events WHERE location='Do Space'").to_a).to be_empty
+    expect($sql.exec("SELECT * FROM events WHERE location='Client Resources Inc'").to_s).to include('238195771')
 
-  #   # Exercise
-  #   Meetup.overwriteEntry
-
-  #   # Verify
-  #   expect($sql.exec("SELECT * FROM events WHERE id='4'").to_a).to be_empty
-  # end
+    #teardown
+    DatabaseHelper.empty('events')
+  end
 
 end
 

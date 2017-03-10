@@ -55,18 +55,6 @@ RSpec.describe Meetup, '#group_name' do
   end
 end
 
-RSpec.describe Meetup, '#id' do
-  it "returns the event's id" do
-    # Setup
-    stub_meetup_response
-    events = Meetup.events("coffeeandcode")
-    event = events[0]
-
-    # Exercise/Verify
-    expect(event.id).to eq("238195771")
-  end
-end
-
 RSpec.describe Meetup, '#time' do
   it "returns the event's time" do
     # Setup

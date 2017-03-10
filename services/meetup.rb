@@ -48,13 +48,9 @@ class Meetup
       :location => location,
       :link => link,
       :date => date,
-      # :description => description
+      :description => description
     })
   end
-
-  # def id
-    
-  # end
 
   def group_name
     name = @event_info["group"]["name"]
@@ -97,21 +93,22 @@ class Meetup
 
   def description
     cleanDescription
-
-
     return shorten(@event_info["description"])
-
   end
 
 private
 
   def cleanDescription
     # Replaces all html tags
-    @event_info["description"].gsub!(/<(.*?)>/, "")
-    # Replaces unicode
-    @event_info["description"].gsub!(/\\u\d{4}/, "")
-    # Replaces ' 
-    @event_info["description"].gsub!("'","") 
+    if @event_info['description']
+      @event_info["description"].gsub!(/<(.*?)>/, "")
+      # Replaces unicode
+      @event_info["description"].gsub!(/\\u\d{4}/, "")
+      # Replaces ' 
+      @event_info["description"].gsub!("'","") 
+    else
+      @event_info["description"] = "No description"
+    end
   end
 
   def shorten(string)

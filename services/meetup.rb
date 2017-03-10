@@ -3,8 +3,11 @@
 # database--handling transformation of data as needed.
 
 class Meetup
-
-
+  
+  # event_info - api result converted to json hash
+  # 
+  # itializing a meetup event will automatically add the event to the event table, 
+  # and delete the original entry if it already existed
   def initialize(event_info)
     @event_info = event_info
     @id = @event_info["id"]  
@@ -12,6 +15,11 @@ class Meetup
     save_to_events
   end
 
+  # this is called by the controller, ultimately runs all functions in this class
+  #
+  # main purpose of this function is to loop through each meetup group
+  # will access the api for each group and get the events
+  # ultimately loads all events into the event table in the database
   def Meetup.groups
     meetups = $database.all("meetups")
     meetups.each do |group|
@@ -19,6 +27,9 @@ class Meetup
     end
   end
 
+  # group is the 
+  #
+  #
   def Meetup.events(group)
     response_as_array = JSON.parse(Meetup.response(group))
     if response_as_array != []
@@ -93,8 +104,8 @@ class Meetup
   end
 
   def description
-    cleanDescription
-    return shorten(@event_info["description"])
+    cleanedDescription = cleanDescription
+    return shorten(cleanedDescription)
   end
 
 private
@@ -102,19 +113,19 @@ private
   def cleanDescription
     # Replaces all html tags
     if @event_info['description']
-      @event_info["description"].gsub!(/<(.*?)>/, "")
+      clean = @event_info["description"].gsub(/<(.*?)>/, "")
       # Replaces unicode
-      @event_info["description"].gsub!(/\\u\d{4}/, "")
+      cleaner = clean.gsub(/\\u\d{4}/, "")
       # Replaces ' 
-      @event_info["description"].gsub!("'","") 
+      cleanest = cleaner.gsub("'","") 
     else
       @event_info["description"] = "No description"
     end
   end
 
-  def shorten(string)
+  def shorten(cleanedDescription)
     # Gets the first two sentences
-    return string.slice!(/\A[^.||!||?]+[.||!||?][^.||!||?]+[.||!||?]/)
+    return cleanedDescription.slice!(/\A[^.||!||?]+[.||!||?][^.||!||?]+[.||!||?]/)
   end
 end
 

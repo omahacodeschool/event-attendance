@@ -7,6 +7,7 @@ def stub_meetup_response
 end
 
 RSpec.describe Meetup, '.events' do
+
   it "gets events for Women in Technology of the Heartland" do
     # Setup
     stub_meetup_response
@@ -25,7 +26,7 @@ RSpec.describe Meetup, '.events' do
       'Women in Technology of the heartland', 
       'How is Omaha is progressing on gender equality, diversity, and inclusion in tech', 
       '2017-03-21', '05:15 PM', 'Do Space', '2120 S 72nd St # 1300', 
-      'https://www.meetup.com/witheartland/events/238195771/')"
+      'https://www.meetup.com/witheartland/events/238195771/', 'This event will be about awesome stuff.')"
     DatabaseHelper.writeToTable('events', meetupEvent)
 
     # Exercise
@@ -33,7 +34,7 @@ RSpec.describe Meetup, '.events' do
 
     # Verify
     expect($sql.exec("SELECT * FROM events WHERE location='Do Space'").to_a).to be_empty
-    expect($sql.exec("SELECT * FROM events WHERE location='Client Resources Inc'").to_s).to include('238195771')
+    expect($sql.exec("SELECT * FROM events WHERE location='Client Resources Inc'").to_a[0].values).to include('238195771')
 
     #teardown
     DatabaseHelper.empty('events')

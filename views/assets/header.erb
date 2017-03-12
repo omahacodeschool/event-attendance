@@ -16,7 +16,7 @@
 			<p class="exitModal">Exit</p>
 			<p> Register for an account</p>
 			<input type="text" placeholder="name" name="fullname" required>
-			<input type="email" placeholder="email" name="email" required>
+			<input type="text" placeholder="github username" name="username" required>
 			<input type="password" placeholder="password" name="pass" required>
 			<button type='submit'>Register</button>
 		</form>
@@ -24,8 +24,11 @@
 	<!-- Login form -->
 	<div class="login dropDown">
 		<form action="/login" method="post">
-			<input type="text" placeholder="email" name="user">
+			<input type="text" placeholder="username" name="user">
 			<input type="password" placeholder="password" name="pass">
+			<% if @event %>
+			<input type="hidden" name="eventId" value=<%= @event.info["id"] %> readonly>
+			<% end %>
 			<button type='submit'>Login</button>
 		</form>
 	</div>	
@@ -35,7 +38,7 @@
 
 		<!-- log out form -->
 		<div class="userinfo">
-			<p>Hello, <%= session[:user]["fullname"] %></p>
+			<p>Hello, <%= session[:user]["username"] %></p>
 			<div class="controls">
 				<form class="Button" action="/logout" method="post">
 					<button type="submit">Log Out</button>

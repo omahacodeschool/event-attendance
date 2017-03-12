@@ -21,6 +21,20 @@ post "/login" do
   if !user.nil?
     session[:user] = user
   end
+  if params["eventId"]
+    redirect("/event?id=" + params["eventId"])
+  else
+    redirect("/")
+  end
+end
+
+post "/register" do
+  newUser = User.new(params["username"])
+  user = newUser.validate(params["fullname"], params["pass"])
+  if user
+    session[:user] = user
+  else 
+  end
   redirect("/")
 end
 
@@ -31,25 +45,17 @@ end
 
 post "/addAttendee" do
   event = Event.new(params["eventId"])
-  event.addAttendee(session[:user]["fullname"])
+  event.addAttendee(session[:user]["username"])
   redirect("/event?id=" + params["eventId"])
 end
 
 
 post "/deleteRsvp" do
   event = Event.new(params["eventId"])
-  event.deleteAttendee(session[:user]["fullname"])
+  event.deleteAttendee(session[:user]["username"])
   redirect("/event?id=" + params["eventId"])
 end
 
-post "/register" do
-  user = User.create(params["email"], params["pass"], params["fullname"])
-  if user
-    session[:user] = user
-  else 
-  end
-  redirect("/")
-end
 
 get "/updateMeetups" do
   Meetup.groups()
@@ -57,11 +63,11 @@ get "/updateMeetups" do
 end
 
 post "/comments" do
-  Comment.create(params, session[:user]["fullname"], params["eventId"])
+  Comment.create(params, session[:user]["username"], params["eventId"])
   redirect("/event?id=" + params["eventId"])
 end 
 
 post "/editComment" do
-  Comment.edit(params, session[:user]["fullname"])
+  Comment.edit(params, session[:user]["username"])
   redirect("/event?id=" + params["eventId"])
 end

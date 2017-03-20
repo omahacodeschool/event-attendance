@@ -27,6 +27,11 @@ class Database
     return @conn.exec("SELECT * FROM #{table} WHERE #{filter}").to_a
   end
 
+
+  def left_with_condition(values="*", table1, table2, condition, filter)
+    return @conn.exec("SELECT #{values} FROM #{table1} LEFT OUTER JOIN #{table2} ON #{condition} WHERE #{filter}").to_a
+  end
+
   # Updates a columns value with a condition.
   #
   # table    - Table name of String.

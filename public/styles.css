@@ -141,8 +141,9 @@ ul{
 }
 .attendees > ul{
 	list-style-type: none;
-	padding: 0px 10px;
+	padding: 0px;
 	line-height: 24px;
+	margin: 0;
 }
 .comments form{
 	width: 100%;
@@ -188,6 +189,8 @@ ul{
 
 	.page_body{
 		padding: 50px 0px;
+		width: 750px;
+		margin: 0 auto;
 	}
 	.header_title{
 		align-items: center;
@@ -198,8 +201,8 @@ ul{
 		margin: 0px;
 	}
 	.events{
-		width: 750px;
-		margin: 0 auto;
+/*		width: 750px;
+		margin: 0 auto;*/
 	}
 /*	.home_image{
 		height: 300px;
@@ -290,4 +293,22 @@ ul{
     right: 200px;
     z-index: 2;
     font-weight:200;
+}
+
+.attendees ul li{
+	display: flex;
+    align-items: center;
+    margin:15px;
+}
+
+.attendees ul li p{
+	margin:10px;
+}
+
+.rsvp-actions{
+	margin:15px;
+}
+
+.eachcomments {
+	margin:15px;
 }

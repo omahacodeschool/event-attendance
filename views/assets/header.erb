@@ -1,3 +1,5 @@
+<!-- 	<p class="message_login"> <% session[:message] %></p>
+	<p class="message_register"> <% session[:message] %></p> -->
 <div class="header">
 	<div class="header_title">
 		<h1>Events</h1>
@@ -21,10 +23,8 @@
 			<input type="password" placeholder="password" name="pass" required>
 			<button type='submit'>Register</button>
 		</form>
-		<p class=message_register> <%= session[:message] %> </p>
 	</div>
 	<!-- Login form -->
-		<p class=message_login> <%= session[:message] %> </p>
 	<div class="login dropDown">
 		<form action="/login" method="post">
 			<input type="text" placeholder="username" name="user">

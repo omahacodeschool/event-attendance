@@ -35,6 +35,13 @@
 		</div>
 		<div class="reservations info">
 			<h2>Attendees (<%= @event.getRSVPs.length %>)</h2>
+			<div class="attendees">
+				<ul>
+					<% @event.getRSVPs.each do |name| %>
+					<%= "<li><img class='profile' src='" + name["image"] + "'><p>" + name["username"] + "</p></li>"%> 
+					<% end %> 
+				</ul>
+			</div>
 			<!-- user is logged in -->
 			<% if session[:user] %>
 				<!-- prevents rsvp on past events -->
@@ -54,15 +61,8 @@
 				<% end %>
 			<!-- user is not logged in -->
 			<% else %>
-				<p> Please register or sign in to RSVP </p>
+				<p class="login-to-comment"> Please login to RSVP </p>
 			<% end %>
-			<div class="attendees">
-				<ul>
-					<% @event.getRSVPs.each do |name| %>
-					<%= "<img class='profile' src='" + name["image"] + "'>" + name["username"] + "<br></li>"%> 
-					<% end %> 
-				</ul>
-			</div>
 		</div>
 
 		<div class="comments">
@@ -85,7 +85,7 @@
 				<button type='submit'>post comment</button>
 			</form>
 			<% else %>
-			<p class="login-to-comment">please login to comment</p>
+			<p class="login-to-comment">Please login to comment</p>
 			<% end %>
 		</div>
 

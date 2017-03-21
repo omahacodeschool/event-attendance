@@ -39,7 +39,7 @@ post "/register" do
     session[:user] = user
     session[:message] = ""
   else 
-    session[:message] = "Check if inputs are valid. Or email already registered."
+    session[:message] = "Check if inputs are valid. Or user already exists."
   end
   redirect("/")
 end

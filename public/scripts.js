@@ -51,14 +51,16 @@ window.addEventListener("load", function (){
 			setNoUserDrops();
 		}
 		else if(numOfMenus == 1){
-			setAdminDrops();
+			setAdminFunctions();
 		};
 	};
 
 	// Adds eventlistener to show the admin's addevent drop menu
-	function setAdminDrops(){
+	function setAdminFunctions(){
 		var addEventButton = document.getElementsByClassName("addEvent Button")[0];
 		addEventButton.addEventListener("click", dropMenuDown);
+		var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
+		updateMeetupsButton.addEventListener("click", updateMeetups);
 	};
 
 	// Sets an eventlistener to show the login/signup menus
@@ -72,6 +74,7 @@ window.addEventListener("load", function (){
 	// Moves the drop menus all up then the active one down, closes all if
 	// same button is clicked twice
 	function dropMenuDown(){
+		debugger;
 		moveElementsToTop(allElementsOfClass("dropDown"));
 		if (lastButtonClicked == this.classList[0]){
 			lastButtonClicked = "";
@@ -122,6 +125,12 @@ window.addEventListener("load", function (){
 		}
 		return window.body.classList.contains(className);
 	};
+
+	function updateMeetups() {
+		ourRequest = new XMLHttpRequest();
+		ourRequest.open('GET', "/updateMeetups", true);
+		ourRequest.send();
+	}
 
 	// only run for indexpage
 	if (bodyHasClass("index_page")){
@@ -182,14 +191,6 @@ window.addEventListener("load", function (){
 		  return d;
 		}
 
-		var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
-		updateMeetupsButton.addEventListener("click", updateMeetups);
-
-		function updateMeetups() {
-			ourRequest = new XMLHttpRequest();
-			ourRequest.open('GET', "/updateMeetups", true);
-			ourRequest.send();
-		}
 	};
 
 	// only for single event page

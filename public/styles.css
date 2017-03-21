@@ -5,7 +5,6 @@
 	*, *:before, *:after {
 		box-sizing: inherit;
 	}
-/**/
 
 body{
 	margin: 0px;
@@ -74,11 +73,11 @@ ul{
 .signup input{
 	width: 85px;
 }
-/*.home_image{
+.home_image{
 	height: 200px;
 	background-image: url(https://c1.staticflickr.com/5/4058/4222627030_a1453b8d6b_b.jpg);
     background-position: center;
-}*/
+}
 .events-nav{
 	text-align: center;
 }
@@ -159,6 +158,60 @@ ul{
 	width: 45px;
 }
 
+.editText {
+
+	width: 290px;
+	height: 100px;
+	resize: none;
+
+}
+
+.editComment_modal{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.42);
+
+}
+.modal_body{
+	background-color: white;
+	width: 341px;
+	margin: 150px auto;
+	text-align: center;
+	padding: 26px;
+}
+
+.message_login, .message_register{
+	color: red;
+	font-size: 12px;
+	position: absolute;
+    top: 70px;
+    right: 35%;
+    z-index: 3;
+    font-weight:200;
+}
+
+.attendees ul li{
+	display: flex;
+    align-items: center;
+    margin:15px;
+}
+
+.attendees ul li p{
+	margin:10px;
+}
+
+.rsvp-actions{
+	margin:15px;
+}
+
+.eachcomments {
+	margin:15px;
+}
+
 @media screen and (max-width: 569px){
 	.header_title{
 		align-items: flex-end; 
@@ -200,14 +253,10 @@ ul{
 		font-size: 54px;
 		margin: 0px;
 	}
-	.events{
-/*		width: 750px;
-		margin: 0 auto;*/
-	}
-/*	.home_image{
+	.home_image{
 		height: 300px;
 		background-size: cover;
-	}*/
+	}
 	.modal{
 		background-color:  rgba(0, 0, 0, 0.5);
 		position: fixed;
@@ -257,58 +306,9 @@ ul{
 	.events-date{
 		text-align: center;
 	}
-}
 
-.editText {
-
-	width: 290px;
-	height: 100px;
-	resize: none;
-
-}
-
-.editComment_modal{
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.42);
-
-}
-.modal_body{
-	background-color: white;
-	width: 341px;
-	margin: 150px auto;
-	text-align: center;
-	padding: 26px;
-}
-
-.message_login, .message_register{
-	color: red;
-	font-size: 12px;
-	position: absolute;
+	.message_login, .message_register{
     top: 4px;
     right: 200px;
-    z-index: 3;
-    font-weight:200;
-}
-
-.attendees ul li{
-	display: flex;
-    align-items: center;
-    margin:15px;
-}
-
-.attendees ul li p{
-	margin:10px;
-}
-
-.rsvp-actions{
-	margin:15px;
-}
-
-.eachcomments {
-	margin:15px;
+	}
 }

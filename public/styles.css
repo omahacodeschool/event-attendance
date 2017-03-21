@@ -188,11 +188,12 @@ ul{
 	color: red;
 	font-size: 12px;
 	position: absolute;
-    top: 70px;
-    right: 35%;
     z-index: 3;
     font-weight:200;
+    top: 70px;
+    right: 32%;
 }
+
 
 .attendees ul li{
 	display: flex;
@@ -307,8 +308,12 @@ ul{
 		text-align: center;
 	}
 
-	.message_login, .message_register{
-    top: 4px;
-    right: 200px;
+	.message_login{
+    	top: 4px;
+    	right: 200px;
+	}
+	.message_register{
+    	top: 50px;
+    	left: 400px;
 	}
 }

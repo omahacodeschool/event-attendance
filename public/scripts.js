@@ -74,7 +74,6 @@ window.addEventListener("load", function (){
 	// Moves the drop menus all up then the active one down, closes all if
 	// same button is clicked twice
 	function dropMenuDown(){
-		debugger;
 		moveElementsToTop(allElementsOfClass("dropDown"));
 		if (lastButtonClicked == this.classList[0]){
 			lastButtonClicked = "";

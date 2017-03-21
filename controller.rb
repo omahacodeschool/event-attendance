@@ -4,12 +4,14 @@ end
 
 get "/event" do
   @event = Event.new(params["id"])
-  @message = session.delete(:message)
+  @loginMessage = session.delete(:login_message)
+  @registerMessage = session.delete(:register_message)
   erb :event
 end
 
 get "/" do 
-  @message = session.delete(:message)
+  @loginMessage = session.delete(:login_message)
+  @registerMessage = session.delete(:register_message)
   erb :index
 end
 
@@ -22,9 +24,9 @@ post "/login" do
   user = Login.valid(params["user"], params["pass"])
   if !user.nil?
     session[:user] = user
-    session[:message] = ""
+    session[:login_message] = ""
   else
-    session[:message] = "Incorrect email or password."
+    session[:login_message] = "Incorrect email or password."
   end
   if params["eventId"]
     redirect("/event?id=" + params["eventId"])
@@ -36,11 +38,12 @@ end
 post "/register" do
   newUser = User.new(params["username"])
   user = newUser.validate(params["fullname"], params["pass"])
+  binding.pry
   if user
     session[:user] = user
-    session[:message] = ""
+    session[:register_message] = ""
   else 
-    session[:message] = "Check if inputs are valid. Or user already exists."
+    session[:register_message] = "Check if inputs are valid. Or user already exists."
   end
   redirect("/")
 end

@@ -17,6 +17,11 @@
 			<h2><%= @event.info['title'] %></h2>
 	
 			<div class="event_details">
+				<p><%= @event.info['description'] %> 
+					<a href = <%= @event.info['link'].to_s %>>
+						Find out more.
+					</a>
+				</p>
 				<ul>
 					<li>Who: <%= @event.info['group_name'] %></li>
 
@@ -25,16 +30,10 @@
 					</li>	
 
 					<li>Where: <%= @event.info['location'] %> @ <%= @event.info['address'] %></li>
-					<li>
-						<a href = <%= @event.info['link'].to_s %>>
-							Original Page.
-						</a>
-					</li>
 				</ul>	
 			</div>
 		</div>
 		<div class="reservations info">
-
 			<h2>Attendees (<%= @event.getRSVPs.length %>)</h2>
 			<!-- user is logged in -->
 			<% if session[:user] %>
@@ -60,7 +59,7 @@
 			<div class="attendees">
 				<ul>
 					<% @event.getRSVPs.each do |name| %>
-					<%= "<li>" + name["fullname"] + "<br>" + "</li>"%> 
+					<%= "<img class='profile' src='" + name["image"] + "'>" + name["username"] + "<br></li>"%> 
 					<% end %> 
 				</ul>
 			</div>
@@ -69,11 +68,11 @@
 		<div class="comments">
 			<h2>Comments</h2><br>
 			<% @event.getComments.each do |comment| %>
-				<%= "<div class='eachcomments'><span class='comment-name'>" + comment["fullname"] + "</span> " + 
+				<%= "<div class='eachcomments'><span class='comment-name'>" + comment["username"] + "</span> " + 
 				"<span class='comment-text'>" + comment["comment"] + "</span> " %>
 
 				<% if session[:user] %>
-					<% if comment['fullname'] == session[:user]['fullname'] && (Time.now.to_i - comment['timestamp'].to_i) < 1800 %>
+					<% if comment['username'] == session[:user]['username'] && (Time.now.to_i - comment['timestamp'].to_i) < 1800 %>
 						<button class="editComment" id=<%= comment["id"] %>>edit</button>
 				    <% end %> 
 				<% end %>    

@@ -1,11 +1,11 @@
 RSpec.describe(Comment,".create") do 
 
-	it "checks to see if a new line was written to comments csv" do
+	it "checks to see if new comment is added" do
 		# Setup
 		DatabaseHelper.empty("comments")
 		columns = "(eventid, fullname, comment, timestamp)"
 		content = "('1','Rabbit','Hello Turtle','1488756156')"
-		DatabaseHelper.writeToTable("comments", content,  columns)
+		DatabaseHelper.writeToTable("comments", content, columns)
 
 		# Exercise
 		Comment.create({:comment=>"Hello Rabbit"},"Turtle","1")
@@ -41,7 +41,7 @@ end
 
 RSpec.describe(Comment,".edit") do
 
-	it "checks to see if last lines of comments contains proper information" do
+	it "checks to see if comment is edited" do
 		# Setup
 		DatabaseHelper.empty("comments")
 		columns = "(id, eventid, fullname, comment)"

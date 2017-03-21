@@ -27,6 +27,11 @@ class Database
     return @conn.exec("SELECT * FROM #{table} WHERE #{filter}").to_a
   end
 
+
+  def left_with_condition(values="*", table1, table2, condition, filter)
+    return @conn.exec("SELECT #{values} FROM #{table1} LEFT OUTER JOIN #{table2} ON #{condition} WHERE #{filter}").to_a
+  end
+
   # Updates a columns value with a condition.
   #
   # table    - Table name of String.
@@ -40,9 +45,9 @@ class Database
   # Adds a new row to the database
   #
   # array - an array containing strings
-  def newRow(array, table)
-    valuesString = array.join("','")  
-    @conn.exec("INSERT INTO #{table} VALUES ('#{valuesString}')")
+  def newRow(table, columns, values)
+    values = values.join("','")  
+    @conn.exec("INSERT INTO #{table}(#{columns}) VALUES ('#{values}')")
 
   end
 

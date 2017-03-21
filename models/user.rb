@@ -1,19 +1,38 @@
 class User
 
-  # Create a new user.
-  # 
-  # params - Hash of user info.
-  # 
-  # Returns user info as a Hash.
-  def User.create(email, pass, fullname, admin="false")
+  def initialize(username)
+    @user = username
+  end
 
-    # if email is not in database - then adds new user row
-    if $database.checkExistenceOf("users", "username", email)==false
-
-      userInfo = [email, pass, fullname, admin]
-      $database.newRow(userInfo, "users")
-
-      return {"username" => email, "fullname" => fullname, "admin" => admin}
+  def validate(fullname, password)
+    if (githubInfo and isUnique) then
+      register_user(password, fullname)
+    else
+      return false
     end
   end
+
+  def isUnique
+    $database.checkExistenceOf("users", "username", @user)==false
+  end
+
+  def response
+    uri = URI('https://api.github.com/users/' + @user)
+    Net::HTTP.get(uri)  
+  end
+ 
+  def info
+    response_as_array = JSON.parse(response)
+  end
+
+  def githubInfo
+    @image = info["avatar_url"]
+  end
+
+  def register_user(password, fullname, admin="false")
+    columns = "username, password, fullname, admin, image"
+    $database.newRow("users", columns, [@user, password, fullname, admin, @image])  
+    return {"username" =>@user, "admin" => admin, "image" => @image}    
+  end
 end
+

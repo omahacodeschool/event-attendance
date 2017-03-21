@@ -285,13 +285,13 @@ ul{
 	padding: 26px;
 }
 
-.message_login{
+.message_login, .message_register{
 	color: red;
 	font-size: 12px;
 	position: absolute;
-    top: 5px;
+    top: 4px;
     right: 200px;
-    z-index: 2;
+    z-index: 3;
     font-weight:200;
 }
 

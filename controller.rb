@@ -4,11 +4,12 @@ end
 
 get "/event" do
   @event = Event.new(params["id"])
+  @message = session.delete(:message)
   erb :event
 end
 
 get "/" do 
-  session[:message] = ""
+  @message = session.delete(:message)
   erb :index
 end
 

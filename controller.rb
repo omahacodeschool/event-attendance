@@ -38,7 +38,6 @@ end
 post "/register" do
   newUser = User.new(params["username"])
   user = newUser.validate(params["fullname"], params["pass"])
-  binding.pry
   if user
     session[:user] = user
     session[:register_message] = ""

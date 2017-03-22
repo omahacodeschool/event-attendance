@@ -12,10 +12,10 @@ require "pg"
 
 conn = PG.connect( dbname: 'postgres' )
 
-# app_name = "event_attendance"
+app_name = "event_attendance"
 
-# conn.exec("CREATE DATABASE #{app_name}_development")
-# conn.exec("CREATE DATABASE #{app_name}_test")
+conn.exec("CREATE DATABASE #{app_name}_development")
+conn.exec("CREATE DATABASE #{app_name}_test")
 
 
 #conn = PG.connect( dbname: 'event_attendance_test' )

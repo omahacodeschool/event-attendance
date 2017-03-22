@@ -4,8 +4,12 @@
 class Database
 
   def initialize(database_name="event_attendance_development")
-    @conn = PG.connect( dbname: database_name )
-
+    if ENV['DATABASE_URL']
+      uri = URI.parse(ENV['DATABASE_URL'])
+      @conn = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+    else
+      @conn = PG.connect( dbname: database_name )
+    end
   end
 
   # Get all rows from a table.

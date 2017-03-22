@@ -10,16 +10,20 @@ require "pg"
 # # When you need to set up the database, just UNCOMMENT the below.
 # # Remember to comment it back out when you're done.
 
-conn = PG.connect( dbname: 'postgres' )
+if ENV['DATABASE_URL']
+  uri = URI.parse(ENV['DATABASE_URL'])
+  conn = PG.connect(uri.hostname, uri.port, nil, nil, uri.path[1..-1], uri.user, uri.password)
+else
+  conn = PG.connect( dbname: 'postgres' )
 
-app_name = "event_attendance"
+  app_name = "event_attendance"
 
-conn.exec("CREATE DATABASE #{app_name}_development")
-conn.exec("CREATE DATABASE #{app_name}_test")
+  conn.exec("CREATE DATABASE #{app_name}_development")
+  conn.exec("CREATE DATABASE #{app_name}_test")
 
-
-#conn = PG.connect( dbname: 'event_attendance_test' )
-conn = PG.connect( dbname: 'event_attendance_development' )
+  #conn = PG.connect( dbname: 'event_attendance_test' )
+  conn = PG.connect( dbname: 'event_attendance_development' )
+end
 
 # And create tables...
 conn.exec("CREATE TABLE events (id VARCHAR(255), group_name VARCHAR(255), title VARCHAR(255), date DATE, time TIME, location VARCHAR(255), address VARCHAR(255), link TEXT)")

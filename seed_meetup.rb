@@ -28,5 +28,5 @@ else
 end
 
 meetups.each do |meetup|
-	conn.exec("")
+	conn.exec("INSERT INTO meetup(url) VALUES ('#{meetup}')")
 end

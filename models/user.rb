@@ -1,7 +1,7 @@
 class User
 
   def initialize(username)
-    @user = username
+    @user = username.downcase
   end
 
   def validate(fullname, password)

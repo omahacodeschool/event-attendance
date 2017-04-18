@@ -7,10 +7,10 @@ class Login
   # 
   # Returns Hash of user's information, or Nil.
   def Login.valid(username, password)
-    filter = "username = '#{username}'"
+    filter = "username = '#{username.downcase}'"
     userArr = $database.all_with_filter("users", filter)
-    hashed_password = BCrypt::Password.new(userArr[0]["password"])
-    if hashed_password == password
+    if userArr == [] then return nil end
+    if BCrypt::Password.new(userArr[0]["password"]) == password
       return userArr[0]
     else
       return nil

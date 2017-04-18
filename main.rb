@@ -7,6 +7,7 @@ require 'json'
 require 'net/http'
 require 'date'
 require 'time'
+require 'bcrypt'
 
 require_relative "services/login.rb"
 require_relative "models/event.rb"

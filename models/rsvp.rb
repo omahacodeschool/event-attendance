@@ -6,7 +6,7 @@ class RSVP
   #
   # Returns Array of Hashes
   def RSVP.for_event(eventId)
-    values = "rsvps.username, users.image"
+    values = "rsvps.username, users.image, users.fullname"
     condition = "rsvps.username = users.username"
     filter = "eventid = '#{eventId}'"
     $database.left_with_condition(values, "rsvps", "users", condition, filter)

@@ -38,7 +38,7 @@
 			<div class="attendees">
 				<ul>
 					<% @event.getRSVPs.each do |name| %>
-					<%= "<li><img class='profile' src='" + name["image"] + "'><p>" + name["username"] + "</p></li>"%> 
+					<%= "<li><img class='profile' src='" + name["image"] + "'><p>" + name["fullname"] + "</p></li>"%> 
 					<% end %> 
 				</ul>
 			</div>

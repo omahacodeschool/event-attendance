@@ -65,7 +65,6 @@ post "/deleteRsvp" do
 end
 
 get "/updateMeetups" do
-  binding.pry
   Meetup.groups()
   redirect("/")
 end

@@ -59,8 +59,6 @@ window.addEventListener("load", function (){
 	function setAdminFunctions(){
 		var addEventButton = document.getElementsByClassName("addEvent Button")[0];
 		addEventButton.addEventListener("click", dropMenuDown);
-		var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
-		updateMeetupsButton.addEventListener("click", updateMeetups);
 	};
 
 	// Sets an eventlistener to show the login/signup menus
@@ -124,6 +122,8 @@ window.addEventListener("load", function (){
 		}
 		return window.body.classList.contains(className);
 	};
+	var updateMeetupsButton = document.getElementsByClassName("button_update_meetups")[0];
+	updateMeetupsButton.addEventListener("click", updateMeetups);
 
 	function updateMeetups() {
 		ourRequest = new XMLHttpRequest();

@@ -31,7 +31,8 @@ class User
 
   def register_user(password, fullname, admin="false")
     columns = "username, password, fullname, admin, image"
-    $database.newRow("users", columns, [@user, password, fullname, admin, @image])  
+    hashed_password = BCrypt::Password.create(password)
+    $database.newRow("users", columns, [@user, hashed_password, fullname, admin, @image])  
     return {"username" =>@user, "admin" => admin, "image" => @image}    
   end
 end

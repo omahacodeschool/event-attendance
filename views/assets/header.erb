@@ -41,7 +41,7 @@
 
 		<!-- log out form -->
 		<div class="userinfo">
-			<p>Hello, <%= session[:user]["username"] %></p>
+			<p>Hello, <%= session[:user]["fullname"] %></p>
 			<div class="controls">
 				<form class="Button" action="/logout" method="post">
 					<button type="submit">Log Out</button>
